@@ -13,14 +13,13 @@
   <style>
     html, body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
 
-    /* Друк */
     @media print {
       .no-print { display: none !important; }
       body { background: #fff !important; color: #111827 !important; }
       #printArea { display: block !important; }
     }
 
-    /* Макет "друкованого" аркуша */
+    /* "Паперова" сторінка */
     .paper {
       background: #ffffff;
       color: #111827;
@@ -46,7 +45,7 @@
       font-size: 12px;
     }
 
-    /* "Зошитний" фон з лініями */
+    /* Лінійований фон */
     .lined {
       position: relative;
       background:
@@ -57,7 +56,6 @@
           #eef2ff 27px
         );
     }
-    /* Ліве поле, як у зошиті */
     .lined::before {
       content: "";
       position: absolute;
@@ -69,40 +67,59 @@
       pointer-events: none;
     }
 
-    /* Блоки як "поля для заповнення" */
-    .field-label {
-      font-size: 12px;
-      color: #6b7280;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-    }
-    .field {
-      background: rgba(255,255,255,.75);
-      border: 1px dashed #cbd5e1;
-      border-radius: 14px;
+    /* Секція зошита (не "бланк", а як у друкованому зошиті) */
+    .note-section {
+      background: rgba(255,255,255,.82);
+      border: 1px solid rgba(148,163,184,.55);
+      border-radius: 16px;
       padding: 12px;
     }
-
-    /* Поля вводу в стилі "бланку" */
-    .paper input, .paper textarea, .paper select {
-      background: rgba(255,255,255,.9) !important;
-      color: #111827 !important;
-      border: 1px solid #d1d5db !important;
-      border-radius: 12px !important;
+    .note-label {
+      font-size: 12px;
+      color: #334155;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .note-hint {
+      margin-top: 4px;
+      color: #64748b;
+      font-size: 12px;
+      line-height: 1.35;
     }
 
-    /* Кнопки в "паперовому" режимі */
+    /* Поля вводу – більш "зошитні": без штрих-пунктиру, без бланкових рамок */
+    .paper textarea, .paper input, .paper select {
+      background: rgba(255,255,255,.92) !important;
+      color: #111827 !important;
+      border: 1px solid rgba(148,163,184,.65) !important;
+      border-radius: 14px !important;
+      outline: none;
+    }
+    .paper textarea:focus, .paper input:focus, .paper select:focus {
+      box-shadow: 0 0 0 3px rgba(59,130,246,.18);
+      border-color: rgba(59,130,246,.65) !important;
+    }
+
     .btn-paper {
       background: #111827;
       color: #fff;
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 10px 14px;
-      font-weight: 700;
+      font-weight: 800;
     }
     .btn-paper:hover { background: #0b1220; }
 
-    /* Низ сторінки */
+    .btn-light {
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      color: #0f172a;
+      border-radius: 14px;
+      padding: 10px 14px;
+      font-weight: 800;
+    }
+    .btn-light:hover { background: #f8fafc; }
+
     .paper-footer {
       padding: 12px 18px;
       border-top: 1px solid #e5e7eb;
@@ -112,7 +129,11 @@
       gap: 12px;
       font-size: 12px;
       color: #6b7280;
+      flex-wrap: wrap;
     }
+
+    /* Трохи краща читабельність для textarea на мобільних */
+    textarea { font-size: 14px; line-height: 1.5; }
   </style>
 </head>
 
@@ -134,72 +155,19 @@
       "Ветеринарія"
     ];
 
-    // ВАЖЛИВО:
-    // - presentation: сюди підставиш реальні посилання (Google Slides/PDF)
-    // - notebook: лишаємо NotebookLM (або можеш ставити конкретні блокноти на модуль, якщо будуть)
     const NOTEBOOK_LM = "https://notebooklm.google.com/";
 
     const MODULES = [
-      {
-        id:"m1",
-        title:"Модуль 1. Вступ до біології. Властивості живого та методи дослідження",
-        presentation:"https://example.com/biology-smart-hub/presentations/m1",
-        notebook: NOTEBOOK_LM
-      },
-      {
-        id:"m2",
-        title:"Модуль 2. Клітина – структурно-функціональна одиниця живого. Поділ клітин",
-        presentation:"https://example.com/biology-smart-hub/presentations/m2",
-        notebook: NOTEBOOK_LM
-      },
-      {
-        id:"m3",
-        title:"Модуль 3. Хімічний склад клітини. Фотосинтез і клітинне дихання",
-        presentation:"https://example.com/biology-smart-hub/presentations/m3",
-        notebook: NOTEBOOK_LM
-      },
-      {
-        id:"m4",
-        title:"Модуль 4. Одноклітинні організми та перехід до багатоклітинності",
-        presentation:"https://example.com/biology-smart-hub/presentations/m4",
-        notebook: NOTEBOOK_LM
-      },
-      {
-        id:"m5",
-        title:"Модуль 5. Рослина як цілісний організм. Тканини рослин",
-        presentation:"https://example.com/biology-smart-hub/presentations/m5",
-        notebook: NOTEBOOK_LM
-      },
-      {
-        id:"m6",
-        title:"Модуль 6. Корінь – вегетативний орган рослини. Будова і видозміни",
-        presentation:"https://example.com/biology-smart-hub/presentations/m6",
-        notebook: NOTEBOOK_LM
-      },
-      {
-        id:"m7",
-        title:"Модуль 7. Пагін: будова, розвиток і видозміни",
-        presentation:"https://example.com/biology-smart-hub/presentations/m7",
-        notebook: NOTEBOOK_LM
-      },
-      {
-        id:"m8",
-        title:"Модуль 8. Листок. Транспорт речовин і рухи рослин",
-        presentation:"https://example.com/biology-smart-hub/presentations/m8",
-        notebook: NOTEBOOK_LM
-      },
-      {
-        id:"m9",
-        title:"Модуль 9. Генеративні органи рослин: квітка, насінина, плід. Запилення і запліднення",
-        presentation:"https://example.com/biology-smart-hub/presentations/m9",
-        notebook: NOTEBOOK_LM
-      },
-      {
-        id:"m10",
-        title:"Модуль 10. Розмноження рослин: статеве, нестатеве і вегетативне",
-        presentation:"https://example.com/biology-smart-hub/presentations/m10",
-        notebook: NOTEBOOK_LM
-      }
+      { id:"m1",  title:"Модуль 1. Вступ до біології. Властивості живого та методи дослідження", presentation:"https://example.com/biology-smart-hub/presentations/m1", notebook: NOTEBOOK_LM },
+      { id:"m2",  title:"Модуль 2. Клітина – структурно-функціональна одиниця живого. Поділ клітин", presentation:"https://example.com/biology-smart-hub/presentations/m2", notebook: NOTEBOOK_LM },
+      { id:"m3",  title:"Модуль 3. Хімічний склад клітини. Фотосинтез і клітинне дихання", presentation:"https://example.com/biology-smart-hub/presentations/m3", notebook: NOTEBOOK_LM },
+      { id:"m4",  title:"Модуль 4. Одноклітинні організми та перехід до багатоклітинності", presentation:"https://example.com/biology-smart-hub/presentations/m4", notebook: NOTEBOOK_LM },
+      { id:"m5",  title:"Модуль 5. Рослина як цілісний організм. Тканини рослин", presentation:"https://example.com/biology-smart-hub/presentations/m5", notebook: NOTEBOOK_LM },
+      { id:"m6",  title:"Модуль 6. Корінь – вегетативний орган рослини. Будова і видозміни", presentation:"https://example.com/biology-smart-hub/presentations/m6", notebook: NOTEBOOK_LM },
+      { id:"m7",  title:"Модуль 7. Пагін: будова, розвиток і видозміни", presentation:"https://example.com/biology-smart-hub/presentations/m7", notebook: NOTEBOOK_LM },
+      { id:"m8",  title:"Модуль 8. Листок. Транспорт речовин і рухи рослин", presentation:"https://example.com/biology-smart-hub/presentations/m8", notebook: NOTEBOOK_LM },
+      { id:"m9",  title:"Модуль 9. Генеративні органи рослин: квітка, насінина, плід. Запилення і запліднення", presentation:"https://example.com/biology-smart-hub/presentations/m9", notebook: NOTEBOOK_LM },
+      { id:"m10", title:"Модуль 10. Розмноження рослин: статеве, нестатеве і вегетативне", presentation:"https://example.com/biology-smart-hub/presentations/m10", notebook: NOTEBOOK_LM }
     ];
 
     // -------------------------
@@ -207,48 +175,62 @@
     // -------------------------
     const KEY = "biology_smart_hub_v2_state";
     const defaultState = () => ({
-      profile: { studentName:"", specialty:"", opp: OPP_LIST[0] },
+      profile: { studentName:"", group:"", opp: OPP_LIST[0] },
       progress: {},   // { m1: {done:true, date:"YYYY-MM-DD", score: 12} }
-      notes: {},      // { m1: "..." }
+      notes: {},      // { m1: {goal:"", equipment:"", steps:"", obs:"", concl:"", self:""} }
       promptNotes: {} // { "m1|ОПП": "..." }
     });
 
     function loadState() {
       try {
         const raw = localStorage.getItem(KEY);
-        return raw ? JSON.parse(raw) : defaultState();
+        const st = raw ? JSON.parse(raw) : defaultState();
+        // Міграція зі старого формату notes: string -> object
+        for (const m of MODULES) {
+          const v = st.notes?.[m.id];
+          if (typeof v === "string") {
+            st.notes[m.id] = {
+              goal: "",
+              equipment: "",
+              steps: "",
+              obs: v,
+              concl: "",
+              self: ""
+            };
+          }
+          if (!v) {
+            st.notes[m.id] = st.notes[m.id] || { goal:"", equipment:"", steps:"", obs:"", concl:"", self:"" };
+          }
+        }
+        return st;
       } catch {
-        return defaultState();
+        const st = defaultState();
+        return st;
       }
     }
-    function saveState() {
-      localStorage.setItem(KEY, JSON.stringify(state));
-    }
+    function saveState() { localStorage.setItem(KEY, JSON.stringify(state)); }
     let state = loadState();
 
     // -------------------------
     // 2) Промпти (Модуль × ОПП)
     // -------------------------
     function promptExplain(moduleTitle, opp) {
-      return `Поясни тему "${moduleTitle}" максимально прикладно для студента ОПП "${opp}".
-Дай 3 приклади саме з аграрної сфери/виробництва.
+      return `Поясни тему "${moduleTitle}" максимально прикладно для студента ОПП "${opp}". 
+Дай 3 приклади з аграрної сфери/виробництва. 
 Наприкінці - 5 контрольних запитань і короткі відповіді.`;
     }
-
     function promptPracticeCase(moduleTitle, opp) {
       return `Створи практичний кейс до теми "${moduleTitle}" для ОПП "${opp}".
-1) Ситуація (реальна або дуже правдоподібна для аграрної сфери)
-2) Вхідні дані (що відомо)
+1) Ситуація (реальна/правдоподібна для агросфери)
+2) Вхідні дані
 3) Завдання (5 пунктів)
-4) Критерії оцінювання на 12 балів (що на 4/8/12)
+4) Критерії оцінювання на 12 балів (4/8/12)
 5) Зразок відповіді.`;
     }
-
     function promptFlashcards(moduleTitle, opp) {
-      return `Зроби 20 карток до теми "${moduleTitle}" для ОПП "${opp}":
+      return `Зроби 20 карток до теми "${moduleTitle}" для ОПП "${opp}": 
 термін - просте визначення - приклад (1 рядок). Без води.`;
     }
-
     function getPrompts(moduleId, opp) {
       const m = MODULES.find(x => x.id === moduleId);
       const title = m ? m.title : moduleId;
@@ -275,12 +257,8 @@
     function todayISO() { return new Date().toISOString().slice(0,10); }
 
     async function copyText(text) {
-      try {
-        await navigator.clipboard.writeText(text);
-        alert("Скопійовано.");
-      } catch {
-        alert("Не вдалося скопіювати. Спробуйте вручну.");
-      }
+      try { await navigator.clipboard.writeText(text); alert("Скопійовано."); }
+      catch { alert("Не вдалося скопіювати. Спробуйте вручну."); }
     }
 
     // -------------------------
@@ -339,10 +317,12 @@
           <input id="studentName" class="mt-1 w-full rounded-lg bg-slate-950 border border-slate-800 p-2"
                  value="${escapeHtml(state.profile.studentName)}" placeholder="Напр., Іваненко Іван" />
         </label>
-        <label class="block mt-3">Моя спеціальність
-          <input id="specialty" class="mt-1 w-full rounded-lg bg-slate-950 border border-slate-800 p-2"
-                 value="${escapeHtml(state.profile.specialty)}" placeholder="За потреби" />
+
+        <label class="block mt-3">Група
+          <input id="group" class="mt-1 w-full rounded-lg bg-slate-950 border border-slate-800 p-2"
+                 value="${escapeHtml(state.profile.group)}" placeholder="Напр., 21а / 11з / 31ф" />
         </label>
+
         <label class="block mt-3">ОПП
           <select id="opp" class="mt-1 w-full rounded-lg bg-slate-950 border border-slate-800 p-2">
             ${OPP_LIST.map(o => `<option ${state.profile.opp===o?"selected":""}>${escapeHtml(o)}</option>`).join("")}
@@ -359,8 +339,8 @@
       `;
 
       const ideaBody = `
-        У кожному модулі зібрано: презентацію, NotebookLM, цифровий зошит у "друкованому" форматі та промпти ШІ в розрізі ОПП.
-        Дані зберігаються локально в браузері - без серверів і без ризику "зникло десь у хмарі".
+        У кожному модулі: презентація, NotebookLM, зошит (як друкований) і промпти ШІ в розрізі ОПП.
+        Дані зберігаються локально в браузері - працює і без “хмар”.
       `;
 
       const html = layout("BIOLOGY SMART-HUB 2.0", `
@@ -369,7 +349,7 @@
           ${card("Прогрес", progBody, `<a class="underline" href="#/modules">Перейти до модулів</a>`)}
         </div>
         <div class="mt-4">
-          ${card("Про екосистему (коротко)", ideaBody)}
+          ${card("Коротко про логіку хабу", ideaBody)}
         </div>
       `);
 
@@ -377,7 +357,7 @@
 
       document.getElementById("saveProfile").addEventListener("click", () => {
         state.profile.studentName = document.getElementById("studentName").value.trim();
-        state.profile.specialty = document.getElementById("specialty").value.trim();
+        state.profile.group = document.getElementById("group").value.trim();
         state.profile.opp = document.getElementById("opp").value;
         saveState();
         alert("Збережено.");
@@ -391,15 +371,6 @@
           ? `<span class="text-xs px-2 py-1 rounded bg-emerald-700">виконано</span>`
           : `<span class="text-xs px-2 py-1 rounded bg-slate-700">у роботі</span>`;
 
-        const links = `
-          <div class="flex flex-wrap items-center gap-2 mt-2">
-            <a class="underline" href="#/workbook?m=${m.id}">Зошит</a>
-            <a class="underline" href="#/prompts?m=${m.id}">Промпти</a>
-            <a class="underline" href="${m.presentation}" target="_blank" rel="noopener">Презентація</a>
-            <a class="underline" href="${m.notebook}" target="_blank" rel="noopener">NotebookLM</a>
-          </div>
-        `;
-
         return card(
           m.title,
           `
@@ -407,11 +378,17 @@
             ${badge}
             <span class="text-slate-300 text-xs">Дата: ${escapeHtml(prog.date || "—")} · Оцінка: ${prog.score ?? "—"}</span>
           </div>
-          ${links}
+
+          <div class="flex flex-wrap items-center gap-3 mt-2">
+            <a class="underline" href="#/workbook?m=${m.id}">Зошит</a>
+            <a class="underline" href="#/prompts?m=${m.id}">Промпти</a>
+            <a class="underline" href="${m.presentation}" target="_blank" rel="noopener">Презентація</a>
+            <a class="underline" href="${m.notebook}" target="_blank" rel="noopener">NotebookLM</a>
+          </div>
           `,
           `
           <div class="flex flex-wrap items-center gap-2">
-            <button data-done="${m.id}" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700">
+            <button data-done="${m.id}" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700">
               Позначити виконання
             </button>
           </div>
@@ -435,81 +412,147 @@
       });
     }
 
+    // ---- helper: швидкий шаблон запису (як у друкованому зошиті)
+    function templateText(type) {
+      if (type === "steps") {
+        return `1) Підготував(ла) матеріали/об’єкти.\n2) Виконав(ла) спостереження/дію.\n3) Зафіксував(ла) результати.\n4) Порівняв(ла) з очікуваним.\n5) Зробив(ла) висновок.`;
+      }
+      if (type === "obs") {
+        return `Спостереження:\n- ...\n- ...\nВимірювання/факти:\n- ...\n- ...`;
+      }
+      if (type === "concl") {
+        return `Висновок (1-2 речення):\n...`;
+      }
+      return "";
+    }
+
     function workbookPage() {
       const params = new URLSearchParams((location.hash.split("?")[1] || ""));
       const mid = params.get("m") || MODULES[0].id;
       const module = MODULES.find(x => x.id === mid) || MODULES[0];
 
       const prog = state.progress[module.id] || { done:false, score:null, date:"" };
-      const note = state.notes[module.id] || "";
+      const note = state.notes[module.id] || { goal:"", equipment:"", steps:"", obs:"", concl:"", self:"" };
+
+      const headerInfo = `
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <div class="text-sm text-slate-700">
+            <b>ПІБ:</b> ${escapeHtml(state.profile.studentName || "—")}
+            &nbsp; · &nbsp; <b>Група:</b> ${escapeHtml(state.profile.group || "—")}
+            &nbsp; · &nbsp; <b>ОПП:</b> ${escapeHtml(state.profile.opp || "—")}
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <a href="${module.presentation}" target="_blank" rel="noopener"
+              class="px-3 py-2 rounded-xl bg-blue-700 hover:bg-blue-600 text-white text-sm font-semibold">
+              📑 Презентація
+            </a>
+            <a href="${module.notebook}" target="_blank" rel="noopener"
+              class="px-3 py-2 rounded-xl bg-purple-700 hover:bg-purple-600 text-white text-sm font-semibold">
+              🧠 NotebookLM
+            </a>
+          </div>
+        </div>
+      `;
 
       const body = `
         <div class="paper">
           <div class="paper-header">
-            <div class="paper-title">Цифровий робочий зошит (формат друкованого)</div>
+            <div class="paper-title">Сторінка робочого зошита</div>
             <div class="paper-sub">${escapeHtml(module.title)}</div>
+            <div class="mt-3">${headerInfo}</div>
           </div>
 
-          <div class="lined p-5 sm:p-6">
-            <div class="grid lg:grid-cols-2 gap-4">
-              <div class="field">
-                <div class="field-label">Матеріали до модуля</div>
-                <div class="mt-2 flex flex-wrap gap-2">
-                  <a href="${module.presentation}" target="_blank" rel="noopener"
-                    class="px-3 py-2 rounded-lg bg-blue-700 hover:bg-blue-600 text-white text-sm">
-                    📑 Презентація
-                  </a>
-                  <a href="${module.notebook}" target="_blank" rel="noopener"
-                    class="px-3 py-2 rounded-lg bg-purple-700 hover:bg-purple-600 text-white text-sm">
-                    🧠 NotebookLM
-                  </a>
-                </div>
-
-                <div class="mt-3 text-sm text-slate-700">
-                  Записуйте результат як у паперовому зошиті: факт - спостереження - висновок.
-                </div>
-              </div>
-
-              <div class="field">
-                <div class="field-label">Дані виконання</div>
-                <label class="block mt-2 text-sm">
+          <div class="lined p-4 sm:p-6 space-y-4">
+            <!-- Дані виконання -->
+            <div class="note-section">
+              <div class="note-label">Дані виконання</div>
+              <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <label class="block text-sm">
                   Дата виконання
-                  <input id="dateDone" type="date" class="mt-1 w-full p-2"
+                  <input id="dateDone" type="date" class="mt-1 w-full p-2.5"
                     value="${escapeHtml(prog.date || "")}">
                 </label>
 
-                <label class="block mt-3 text-sm">
+                <label class="block text-sm">
                   Оцінка (1-12)
-                  <input id="score" type="number" min="1" max="12" class="mt-1 w-full p-2"
+                  <input id="score" type="number" min="1" max="12" class="mt-1 w-full p-2.5"
                     value="${prog.score ?? ""}" placeholder="1-12">
                 </label>
+              </div>
+              <div class="note-hint">Порада: якщо працювали з ШІ - занотуйте головні висновки, а не “всю відповідь”.</div>
+            </div>
 
-                <div class="mt-3 text-sm text-slate-700">
-                  За потреби: відкрийте “Промпти” - і сформуйте відповіді під свою ОПП.
+            <!-- Зошитні секції -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div class="note-section">
+                <div class="note-label">Мета роботи</div>
+                <div class="note-hint">Одним реченням: що саме хотіли з’ясувати/навчитись робити.</div>
+                <textarea id="goal" rows="4" class="mt-2 w-full p-3"
+                  placeholder="Напр.: Визначити ... / Пояснити ... / Навчитись ...">${escapeHtml(note.goal)}</textarea>
+              </div>
+
+              <div class="note-section">
+                <div class="note-label">Обладнання / матеріали</div>
+                <div class="note-hint">Список через кому або маркерами.</div>
+                <textarea id="equipment" rows="4" class="mt-2 w-full p-3"
+                  placeholder="Лупа, мікроскоп (за наявності), зразок листка...">${escapeHtml(note.equipment)}</textarea>
+              </div>
+            </div>
+
+            <div class="note-section">
+              <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div>
+                  <div class="note-label">Хід роботи</div>
+                  <div class="note-hint">Кроки 1-5. Коротко, як у друкованому зошиті.</div>
                 </div>
+                <button id="tplSteps" class="btn-light">Вставити шаблон</button>
+              </div>
+              <textarea id="steps" rows="7" class="mt-2 w-full p-3"
+                placeholder="1) ...&#10;2) ...&#10;3) ...">${escapeHtml(note.steps)}</textarea>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div class="note-section">
+                <div class="flex items-center justify-between gap-2">
+                  <div>
+                    <div class="note-label">Спостереження / результати</div>
+                    <div class="note-hint">Факти, ознаки, вимірювання.</div>
+                  </div>
+                  <button id="tplObs" class="btn-light">Шаблон</button>
+                </div>
+                <textarea id="obs" rows="7" class="mt-2 w-full p-3"
+                  placeholder="Спостереження: ...">${escapeHtml(note.obs)}</textarea>
+              </div>
+
+              <div class="note-section">
+                <div class="flex items-center justify-between gap-2">
+                  <div>
+                    <div class="note-label">Висновок</div>
+                    <div class="note-hint">1-2 речення. Без “води”.</div>
+                  </div>
+                  <button id="tplConcl" class="btn-light">Шаблон</button>
+                </div>
+                <textarea id="concl" rows="7" class="mt-2 w-full p-3"
+                  placeholder="Висновок: ...">${escapeHtml(note.concl)}</textarea>
               </div>
             </div>
 
-            <div class="field mt-4">
-              <div class="field-label">Мої записи / результати / висновки</div>
-              <textarea id="note" rows="10" class="mt-2 w-full p-3"
-                placeholder="1) Що зроблено (практична дія)\n2) Що спостерігали/виміряли\n3) Висновок (1-2 речення)">${escapeHtml(note)}</textarea>
+            <div class="note-section">
+              <div class="note-label">Самооцінка / що було складно</div>
+              <div class="note-hint">Коротко: що вийшло, що перевірити, що повторити.</div>
+              <textarea id="self" rows="4" class="mt-2 w-full p-3"
+                placeholder="Напр.: важко було..., потрібно повторити..., зрозумів(ла), що...">${escapeHtml(note.self)}</textarea>
+            </div>
 
-              <div class="mt-3 flex flex-wrap gap-2">
+            <!-- Кнопки -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div class="flex flex-wrap gap-2">
                 <button id="saveNote" class="btn-paper">Зберегти</button>
-                <button id="markDone" class="px-3 py-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-900 font-semibold">
-                  Позначити виконано
-                </button>
-                <a class="px-3 py-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-900 font-semibold"
-                   href="#/prompts?m=${module.id}">
-                  Промпти
-                </a>
+                <button id="markDone" class="btn-light">Позначити виконано</button>
+                <a class="btn-light" href="#/prompts?m=${module.id}">Промпти</a>
               </div>
-            </div>
 
-            <div class="field mt-4">
-              <div class="field-label">Перемикання модулів</div>
-              <div class="mt-2 flex flex-wrap gap-2">
+              <div class="flex flex-wrap gap-2">
                 ${MODULES.map(m => `
                   <a class="px-3 py-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-900 font-semibold ${m.id===module.id ? "ring-2 ring-slate-900" : ""}"
                      href="#/workbook?m=${m.id}">
@@ -520,25 +563,51 @@
           </div>
 
           <div class="paper-footer">
-            <div>BIOLOGY SMART-HUB 2.0 - формат друкованого зошита</div>
+            <div>BIOLOGY SMART-HUB 2.0 - сторінка зошита</div>
             <div>Модуль: ${escapeHtml(module.id.toUpperCase())}</div>
           </div>
         </div>
       `;
 
-      mount(layout("Цифровий зошит", body));
+      mount(layout("Зошит (як друкований)", body));
 
+      // шаблони
+      document.getElementById("tplSteps").addEventListener("click", () => {
+        const el = document.getElementById("steps");
+        if (!el.value.trim()) el.value = templateText("steps");
+        else el.value = el.value + "\n\n" + templateText("steps");
+      });
+      document.getElementById("tplObs").addEventListener("click", () => {
+        const el = document.getElementById("obs");
+        if (!el.value.trim()) el.value = templateText("obs");
+        else el.value = el.value + "\n\n" + templateText("obs");
+      });
+      document.getElementById("tplConcl").addEventListener("click", () => {
+        const el = document.getElementById("concl");
+        if (!el.value.trim()) el.value = templateText("concl");
+        else el.value = el.value + "\n\n" + templateText("concl");
+      });
+
+      // збереження
       document.getElementById("saveNote").addEventListener("click", () => {
         const date = document.getElementById("dateDone").value;
         const scoreRaw = document.getElementById("score").value.trim();
-        const noteText = document.getElementById("note").value;
 
-        state.notes[module.id] = noteText;
+        state.notes[module.id] = {
+          goal: document.getElementById("goal").value,
+          equipment: document.getElementById("equipment").value,
+          steps: document.getElementById("steps").value,
+          obs: document.getElementById("obs").value,
+          concl: document.getElementById("concl").value,
+          self: document.getElementById("self").value
+        };
+
         state.progress[module.id] = {
           ...(state.progress[module.id] || {}),
           date: date || (state.progress[module.id]?.date || ""),
           score: scoreRaw ? clampInt(scoreRaw, 1, 12) : null
         };
+
         saveState();
         alert("Збережено.");
       });
@@ -580,7 +649,7 @@
             </label>
           </div>
           <div class="mt-3 text-xs text-slate-300">
-            Промпти формуються автоматично під тему та ОПП. Далі - копіюєте й працюєте.
+            Копіюєте промпт - працюєте - коротко занотовуєте результат.
           </div>
         `)}
 
@@ -591,11 +660,11 @@
           )).join("")}
         </div>
 
-        ${card("Мої нотатки після роботи з ШІ", `
+        ${card("Нотатки після роботи з ШІ", `
           <textarea id="promptNote" rows="6" class="mt-1 w-full rounded-lg bg-slate-950 border border-slate-800 p-2"
-            placeholder="Що корисного отримали? Що перенести у зошит?">${escapeHtml(pn)}</textarea>
+            placeholder="Що корисного? Що перенести в зошит?">${escapeHtml(pn)}</textarea>
           <div class="mt-3 flex gap-2">
-            <button id="savePromptNote" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700">Зберегти нотатку</button>
+            <button id="savePromptNote" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700">Зберегти</button>
           </div>
         `)}
       `;
@@ -658,10 +727,10 @@
         const printArea = document.getElementById("printArea");
         printArea.innerHTML = `
           <div class="p-8 text-slate-900">
-            <h2 class="text-2xl font-bold">BIOLOGY SMART-HUB 2.0 – Звіт (цифровий зошит)</h2>
+            <h2 class="text-2xl font-bold">BIOLOGY SMART-HUB 2.0 – Звіт</h2>
             <div class="mt-3">
               <div><b>ПІБ:</b> ${escapeHtml(profile.studentName || "—")}</div>
-              <div><b>Спеціальність:</b> ${escapeHtml(profile.specialty || "—")}</div>
+              <div><b>Група:</b> ${escapeHtml(profile.group || "—")}</div>
               <div><b>ОПП:</b> ${escapeHtml(profile.opp || "—")}</div>
             </div>
 
@@ -679,7 +748,7 @@
             </table>
 
             <div class="mt-6 text-xs text-slate-600">
-              Дані сформовано з локального сховища браузера (без серверів).
+              Дані сформовано з локального сховища браузера.
             </div>
           </div>
         `;
@@ -690,12 +759,7 @@
       });
     }
 
-    // -------------------------
-    // 6) Router (hash)
-    // -------------------------
-    function mount(html) {
-      document.getElementById("app").innerHTML = html;
-    }
+    function mount(html) { document.getElementById("app").innerHTML = html; }
 
     function route() {
       const hash = location.hash || "#/dashboard";
