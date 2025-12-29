@@ -1,410 +1,717 @@
 <!doctype html>
 <html lang="uk">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BIOLOGY SMART-HUB 2.0</title>
-  <link rel="stylesheet" href="./assets/style.css">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* Локальні стилі тільки для головної */
-    .grid{display:grid;gap:14px}
-    @media (min-width: 900px){
-      .grid.cols2{grid-template-columns:1fr 1fr;}
-      .grid.cols3{grid-template-columns:1fr 1fr 1fr;}
+    html, body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+
+    /* Друк */
+    @media print {
+      .no-print { display: none !important; }
+      body { background: #fff !important; color: #111827 !important; }
+      #printArea { display: block !important; }
     }
 
-    .module{
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(148,163,184,.18);
+    /* Макет "друкованого" аркуша */
+    .paper {
+      background: #ffffff;
+      color: #111827;
+      border: 1px solid #e5e7eb;
       border-radius: 18px;
-      padding: 14px;
-      color: #e2e8f0;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      overflow: hidden;
     }
-    .module h3{margin:0;font-size:14px;line-height:1.25}
-    .module p{margin:8px 0 0 0;color:#cbd5e1;font-size:12px;line-height:1.35}
-    .module .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .module a{
-      text-decoration:none;
-      padding:10px 12px;
-      border-radius:14px;
-      font-weight:900;
-      border:1px solid rgba(148,163,184,.7);
-      background:#fff;
-      color:#0f172a;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
+    .paper-header {
+      padding: 18px 18px 10px 18px;
+      border-bottom: 1px solid #e5e7eb;
+      background: linear-gradient(180deg, #fff 0%, #fafafa 100%);
     }
-    .module a:hover{background:#f8fafc}
-    .module a.primary{
-      background:#2563eb;
-      border-color:#2563eb;
-      color:#fff;
+    .paper-title {
+      font-weight: 800;
+      letter-spacing: .2px;
+      font-size: 18px;
+      line-height: 1.2;
     }
-    .module a.primary:hover{filter:brightness(.96)}
-    .module a.ghost{
-      background:transparent;
-      color:#e2e8f0;
-      border-color:rgba(148,163,184,.35);
+    .paper-sub {
+      margin-top: 6px;
+      color: #6b7280;
+      font-size: 12px;
     }
-    .module a.ghost:hover{background:rgba(148,163,184,.10)}
 
-    .kpi{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-    .kpi .box{
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(148,163,184,.18);
-      border-radius: 16px;
+    /* "Зошитний" фон з лініями */
+    .lined {
+      position: relative;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          #ffffff 0px,
+          #ffffff 26px,
+          #eef2ff 27px
+        );
+    }
+    /* Ліве поле, як у зошиті */
+    .lined::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 46px;
+      height: 100%;
+      background: linear-gradient(90deg, rgba(244,63,94,.10), rgba(244,63,94,0));
+      border-right: 2px solid rgba(244,63,94,.35);
+      pointer-events: none;
+    }
+
+    /* Блоки як "поля для заповнення" */
+    .field-label {
+      font-size: 12px;
+      color: #6b7280;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .field {
+      background: rgba(255,255,255,.75);
+      border: 1px dashed #cbd5e1;
+      border-radius: 14px;
       padding: 12px;
-      min-width: 170px;
-      color:#e2e8f0;
     }
-    .kpi .n{font-weight:900;font-size:22px}
-    .kpi .t{color:#cbd5e1;font-size:12px;margin-top:4px}
 
-    .inputRow{display:grid;gap:12px}
-    @media (min-width: 900px){.inputRow{grid-template-columns: 1fr 1fr 1fr;}}
-    .help{color:#cbd5e1;font-size:12px;line-height:1.4;margin-top:10px}
+    /* Поля вводу в стилі "бланку" */
+    .paper input, .paper textarea, .paper select {
+      background: rgba(255,255,255,.9) !important;
+      color: #111827 !important;
+      border: 1px solid #d1d5db !important;
+      border-radius: 12px !important;
+    }
 
-    .toast{
-      display:none;
-      position:fixed;
-      right:14px;
-      bottom:14px;
-      background: rgba(15,23,42,.92);
-      border: 1px solid rgba(148,163,184,.25);
-      color:#e2e8f0;
-      padding:10px 12px;
-      border-radius:14px;
-      z-index:999;
-      max-width: 340px;
-      font-size: 13px;
+    /* Кнопки в "паперовому" режимі */
+    .btn-paper {
+      background: #111827;
+      color: #fff;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-weight: 700;
     }
-    .toast.show{display:block}
+    .btn-paper:hover { background: #0b1220; }
 
-    .hero{
-      padding:14px;
-      border-radius:18px;
-      border:1px solid rgba(148,163,184,.18);
-      background: radial-gradient(900px 240px at 10% 0%, rgba(37,99,235,.25), transparent 60%),
-                  radial-gradient(800px 240px at 90% 0%, rgba(124,58,237,.22), transparent 55%),
-                  rgba(255,255,255,.05);
+    /* Низ сторінки */
+    .paper-footer {
+      padding: 12px 18px;
+      border-top: 1px solid #e5e7eb;
+      background: #fafafa;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 12px;
+      color: #6b7280;
     }
-    .heroTitle{font-weight:900;font-size:18px}
-    .heroSub{color:#cbd5e1;font-size:12px;margin-top:6px;line-height:1.35}
-    .heroBtns{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .heroBtns a{
-      text-decoration:none;
-      padding:10px 12px;
-      border-radius:14px;
-      font-weight:900;
-      border:1px solid rgba(148,163,184,.45);
-      background:rgba(255,255,255,.10);
-      color:#e2e8f0;
-      display:inline-flex;align-items:center;gap:8px;
-    }
-    .heroBtns a:hover{background:rgba(255,255,255,.14)}
-    .heroBtns a.primary{
-      background:#2563eb;border-color:#2563eb;color:#fff;
-    }
-    .heroBtns a.primary:hover{filter:brightness(.96)}
   </style>
 </head>
 
-<body>
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div>
-        <div class="brand">BIOLOGY SMART-HUB 2.0</div>
-        <div style="font-size:12px;color:#cbd5e1;margin-top:2px">
-          Практична підготовка - компетентності - аграрний сектор
-        </div>
-      </div>
-      <div class="nav">
-        <a href="./index.html">Головна</a>
-        <a href="./workbook.html">Зошити</a>
-        <a href="./prompts.html">Промпти</a>
-        <a href="./pdf/workbook.pdf" target="_blank" rel="noopener">PDF зошит</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="shell">
-    <!-- HERO -->
-    <div class="hero">
-      <div class="heroTitle">Інноваційна цифрова екосистема “BIOLOGY SMART-HUB 2.0”</div>
-      <div class="heroSub">
-        Онлайн-зошити по модулях, промпти для ШІ в розрізі ОПП, і друкована PDF-версія.
-        Працює на GitHub Pages - без серверу.
-      </div>
-      <div class="heroBtns">
-        <a class="primary" href="./workbook.html">📘 Відкрити зошити</a>
-        <a href="./prompts.html">🤖 Відкрити промпти</a>
-        <a href="./pdf/workbook.pdf" target="_blank" rel="noopener">📄 PDF зошит</a>
-        <a href="https://notebooklm.google.com/" target="_blank" rel="noopener">🧠 NotebookLM</a>
-      </div>
-    </div>
-
-    <div class="grid cols2" style="margin-top:14px">
-      <!-- Профіль -->
-      <div class="card">
-        <div style="font-weight:900;font-size:16px">Профіль студента</div>
-        <div class="help">Ці дані підставляються у сторінки зошитів і промптів (зберігаються у браузері).</div>
-
-        <div class="inputRow" style="margin-top:12px">
-          <div>
-            <div style="font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#e2e8f0">ПІБ</div>
-            <input id="student" placeholder="Іваненко Іван">
-          </div>
-
-          <div>
-            <div style="font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#e2e8f0">Група</div>
-            <input id="group" placeholder="21а / 11з / 31ф">
-          </div>
-
-          <div>
-            <div style="font-weight:800;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#e2e8f0">ОПП</div>
-            <select id="opp">
-              <option>Виробництво і переробка продукції рослинництва</option>
-              <option>Землевпорядкування</option>
-              <option>Зелене будівництво і садово-паркове господарство</option>
-              <option>Фінанси і кредит</option>
-              <option>Бухгалтерський облік</option>
-              <option>Організація виробництва</option>
-              <option>Ветеринарія</option>
-            </select>
-          </div>
-        </div>
-
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-          <button class="btn primary" id="saveProfile">Зберегти профіль</button>
-          <button class="btn" id="resetAll" title="Очистить дані у цьому браузері">Скинути дані</button>
-        </div>
-
-        <div class="kpi" id="kpi"></div>
-      </div>
-
-      <!-- Швидкі дії -->
-      <div class="card">
-        <div style="font-weight:900;font-size:16px">Швидкі дії</div>
-        <div class="help">
-          Для старту вистачить: профіль - модуль - збереження - друк/PDF.  
-          Окремо є сторінка промптів (в розрізі ОПП).
-        </div>
-
-        <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-          <a class="btn blue" href="./workbook/m1.html" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px">📘 Модуль 1</a>
-          <a class="btn purple" href="./workbook/m4.html" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px">🧪 Модуль 4</a>
-          <a class="btn" href="./workbook/m10.html" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px">🌱 Модуль 10</a>
-        </div>
-
-        <hr class="sep">
-
-        <div style="font-weight:900;font-size:14px;color:#e2e8f0">PDF-версія</div>
-        <div class="help">
-          Якщо PDF ще не завантажено - посилання відкриє 404. Це нормально на старті.
-          Просто покладіть файл у <b>pdf/workbook.pdf</b>.
-        </div>
-
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
-          <a class="btn" href="./pdf/workbook.pdf" target="_blank" rel="noopener"
-             style="text-decoration:none;display:inline-flex;align-items:center;gap:8px">
-            📄 Відкрити PDF зошит
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Модулі -->
-    <div style="margin-top:14px">
-      <div class="card">
-        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap">
-          <div>
-            <div style="font-weight:900;font-size:16px">Модулі (онлайн-зошити)</div>
-            <div class="help">Кожен модуль - окремий файл у папці <b>workbook/</b>. Оскільки зошити різні - це найрозумніша структура.</div>
-          </div>
-          <div class="tag">✅ 10 окремих зошитів - спільний стиль - спільне збереження</div>
-        </div>
-
-        <div class="grid cols2" style="margin-top:12px">
-          <div class="module">
-            <h3>Модуль 1. Вступ до біології. Властивості живого та методи дослідження</h3>
-            <p>workbook/m1.html</p>
-            <div class="actions">
-              <a class="primary" href="./workbook/m1.html">Відкрити зошит</a>
-              <a class="ghost" href="./prompts.html#module-1">Промпти</a>
-            </div>
-          </div>
-
-          <div class="module">
-            <h3>Модуль 2. Клітина - структурно-функціональна одиниця живого. Поділ клітин</h3>
-            <p>workbook/m2.html</p>
-            <div class="actions">
-              <a class="primary" href="./workbook/m2.html">Відкрити зошит</a>
-              <a class="ghost" href="./prompts.html#module-2">Промпти</a>
-            </div>
-          </div>
-
-          <div class="module">
-            <h3>Модуль 3. Хімічний склад клітини. Фотосинтез і клітинне дихання</h3>
-            <p>workbook/m3.html</p>
-            <div class="actions">
-              <a class="primary" href="./workbook/m3.html">Відкрити зошит</a>
-              <a class="ghost" href="./prompts.html#module-3">Промпти</a>
-            </div>
-          </div>
-
-          <div class="module">
-            <h3>Модуль 4. Одноклітинні організми та перехід до багатоклітинності</h3>
-            <p>workbook/m4.html</p>
-            <div class="actions">
-              <a class="primary" href="./workbook/m4.html">Відкрити зошит</a>
-              <a class="ghost" href="./prompts.html#module-4">Промпти</a>
-            </div>
-          </div>
-
-          <div class="module">
-            <h3>Модуль 5. Рослина як цілісний організм. Тканини рослин</h3>
-            <p>workbook/m5.html</p>
-            <div class="actions">
-              <a class="primary" href="./workbook/m5.html">Відкрити зошит</a>
-              <a class="ghost" href="./prompts.html#module-5">Промпти</a>
-            </div>
-          </div>
-
-          <div class="module">
-            <h3>Модуль 6. Корінь - вегетативний орган рослини. Будова і видозміни</h3>
-            <p>workbook/m6.html</p>
-            <div class="actions">
-              <a class="primary" href="./workbook/m6.html">Відкрити зошит</a>
-              <a class="ghost" href="./prompts.html#module-6">Промпти</a>
-            </div>
-          </div>
-
-          <div class="module">
-            <h3>Модуль 7. Пагін: будова, розвиток і видозміни</h3>
-            <p>workbook/m7.html</p>
-            <div class="actions">
-              <a class="primary" href="./workbook/m7.html">Відкрити зошит</a>
-              <a class="ghost" href="./prompts.html#module-7">Промпти</a>
-            </div>
-          </div>
-
-          <div class="module">
-            <h3>Модуль 8. Листок. Транспорт речовин і рухи рослин</h3>
-            <p>workbook/m8.html</p>
-            <div class="actions">
-              <a class="primary" href="./workbook/m8.html">Відкрити зошит</a>
-              <a class="ghost" href="./prompts.html#module-8">Промпти</a>
-            </div>
-          </div>
-
-          <div class="module">
-            <h3>Модуль 9. Генеративні органи рослин: квітка, насінина, плід. Запилення і запліднення</h3>
-            <p>workbook/m9.html</p>
-            <div class="actions">
-              <a class="primary" href="./workbook/m9.html">Відкрити зошит</a>
-              <a class="ghost" href="./prompts.html#module-9">Промпти</a>
-            </div>
-          </div>
-
-          <div class="module">
-            <h3>Модуль 10. Розмноження рослин: статеве, нестатеве і вегетативне</h3>
-            <p>workbook/m10.html</p>
-            <div class="actions">
-              <a class="primary" href="./workbook/m10.html">Відкрити зошит</a>
-              <a class="ghost" href="./prompts.html#module-10">Промпти</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="help" style="margin-top:12px">
-          Якщо якогось файлу ще нема - буде 404. Це нормально: створюйте модулі поступово.
-        </div>
-      </div>
-    </div>
-
-    <!-- Підвал -->
-    <div style="margin-top:14px" class="card">
-      <div style="font-weight:900">Технічна нотатка</div>
-      <div class="help">
-        • Збереження: локально у браузері (localStorage).<br>
-        • PDF: покладіть файл у <b>pdf/workbook.pdf</b> і посилання запрацює.<br>
-        • “Промпти” - окрема сторінка, щоб не змішувати зошити й інструкції для ШІ в кашу.
-      </div>
-    </div>
-  </div>
-
-  <div class="toast" id="toast"></div>
+<body class="bg-slate-950 text-slate-100">
+  <div id="app" class="min-h-screen"></div>
+  <section id="printArea" class="hidden"></section>
 
   <script>
-    const HUB_KEY = "biology_smart_hub_v2";
+    // -------------------------
+    // 0) Дані
+    // -------------------------
+    const OPP_LIST = [
+      "Виробництво і переробка продукції рослинництва",
+      "Землевпорядкування",
+      "Зелене будівництво і садово-паркове господарство",
+      "Фінанси і кредит",
+      "Бухгалтерський облік",
+      "Організація виробництва",
+      "Ветеринарія"
+    ];
 
-    function loadHub(){
-      try{
-        const raw = localStorage.getItem(HUB_KEY);
-        return raw ? JSON.parse(raw) : { profile:{ student:"", group:"", opp:"" }, workbooks:{} };
-      }catch{
-        return { profile:{ student:"", group:"", opp:"" }, workbooks:{} };
+    // ВАЖЛИВО:
+    // - presentation: сюди підставиш реальні посилання (Google Slides/PDF)
+    // - notebook: лишаємо NotebookLM (або можеш ставити конкретні блокноти на модуль, якщо будуть)
+    const NOTEBOOK_LM = "https://notebooklm.google.com/";
+
+    const MODULES = [
+      {
+        id:"m1",
+        title:"Модуль 1. Вступ до біології. Властивості живого та методи дослідження",
+        presentation:"https://example.com/biology-smart-hub/presentations/m1",
+        notebook: NOTEBOOK_LM
+      },
+      {
+        id:"m2",
+        title:"Модуль 2. Клітина – структурно-функціональна одиниця живого. Поділ клітин",
+        presentation:"https://example.com/biology-smart-hub/presentations/m2",
+        notebook: NOTEBOOK_LM
+      },
+      {
+        id:"m3",
+        title:"Модуль 3. Хімічний склад клітини. Фотосинтез і клітинне дихання",
+        presentation:"https://example.com/biology-smart-hub/presentations/m3",
+        notebook: NOTEBOOK_LM
+      },
+      {
+        id:"m4",
+        title:"Модуль 4. Одноклітинні організми та перехід до багатоклітинності",
+        presentation:"https://example.com/biology-smart-hub/presentations/m4",
+        notebook: NOTEBOOK_LM
+      },
+      {
+        id:"m5",
+        title:"Модуль 5. Рослина як цілісний організм. Тканини рослин",
+        presentation:"https://example.com/biology-smart-hub/presentations/m5",
+        notebook: NOTEBOOK_LM
+      },
+      {
+        id:"m6",
+        title:"Модуль 6. Корінь – вегетативний орган рослини. Будова і видозміни",
+        presentation:"https://example.com/biology-smart-hub/presentations/m6",
+        notebook: NOTEBOOK_LM
+      },
+      {
+        id:"m7",
+        title:"Модуль 7. Пагін: будова, розвиток і видозміни",
+        presentation:"https://example.com/biology-smart-hub/presentations/m7",
+        notebook: NOTEBOOK_LM
+      },
+      {
+        id:"m8",
+        title:"Модуль 8. Листок. Транспорт речовин і рухи рослин",
+        presentation:"https://example.com/biology-smart-hub/presentations/m8",
+        notebook: NOTEBOOK_LM
+      },
+      {
+        id:"m9",
+        title:"Модуль 9. Генеративні органи рослин: квітка, насінина, плід. Запилення і запліднення",
+        presentation:"https://example.com/biology-smart-hub/presentations/m9",
+        notebook: NOTEBOOK_LM
+      },
+      {
+        id:"m10",
+        title:"Модуль 10. Розмноження рослин: статеве, нестатеве і вегетативне",
+        presentation:"https://example.com/biology-smart-hub/presentations/m10",
+        notebook: NOTEBOOK_LM
       }
-    }
-    function saveHub(data){
-      localStorage.setItem(HUB_KEY, JSON.stringify(data));
-    }
-    function toast(msg){
-      const t = document.getElementById("toast");
-      t.textContent = msg;
-      t.classList.add("show");
-      setTimeout(()=>t.classList.remove("show"), 2200);
-    }
-    function calcProgress(hub){
-      const ids = ["m1","m2","m3","m4","m5","m6","m7","m8","m9","m10"];
-      let touched = 0;
-      let scored = 0;
-      for (const id of ids){
-        const w = hub.workbooks?.[id];
-        if (w && Object.keys(w).length) touched++;
-        if (w && (w.score || w.date)) scored++;
-      }
-      return { touched, scored, total: ids.length };
-    }
+    ];
 
-    const hub = loadHub();
-
-    const student = document.getElementById("student");
-    const group = document.getElementById("group");
-    const opp = document.getElementById("opp");
-
-    student.value = hub.profile.student || "";
-    group.value = hub.profile.group || "";
-    if (hub.profile.opp) opp.value = hub.profile.opp;
-
-    const p = calcProgress(hub);
-    document.getElementById("kpi").innerHTML = `
-      <div class="box">
-        <div class="n">${p.touched}/${p.total}</div>
-        <div class="t">модулів мають записи</div>
-      </div>
-      <div class="box">
-        <div class="n">${p.scored}/${p.total}</div>
-        <div class="t">модулів мають дату/оцінку</div>
-      </div>
-    `;
-
-    document.getElementById("saveProfile").addEventListener("click", ()=>{
-      hub.profile.student = student.value.trim();
-      hub.profile.group = group.value.trim();
-      hub.profile.opp = opp.value;
-      saveHub(hub);
-      toast("Профіль збережено.");
+    // -------------------------
+    // 1) Стан (localStorage)
+    // -------------------------
+    const KEY = "biology_smart_hub_v2_state";
+    const defaultState = () => ({
+      profile: { studentName:"", specialty:"", opp: OPP_LIST[0] },
+      progress: {},   // { m1: {done:true, date:"YYYY-MM-DD", score: 12} }
+      notes: {},      // { m1: "..." }
+      promptNotes: {} // { "m1|ОПП": "..." }
     });
 
-    document.getElementById("resetAll").addEventListener("click", ()=>{
-      const ok = confirm("Скинути ВСІ дані цього хабу в цьому браузері? Це не відновлюється.");
-      if (!ok) return;
-      localStorage.removeItem(HUB_KEY);
-      location.reload();
-    });
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(KEY);
+        return raw ? JSON.parse(raw) : defaultState();
+      } catch {
+        return defaultState();
+      }
+    }
+    function saveState() {
+      localStorage.setItem(KEY, JSON.stringify(state));
+    }
+    let state = loadState();
+
+    // -------------------------
+    // 2) Промпти (Модуль × ОПП)
+    // -------------------------
+    function promptExplain(moduleTitle, opp) {
+      return `Поясни тему "${moduleTitle}" максимально прикладно для студента ОПП "${opp}".
+Дай 3 приклади саме з аграрної сфери/виробництва.
+Наприкінці - 5 контрольних запитань і короткі відповіді.`;
+    }
+
+    function promptPracticeCase(moduleTitle, opp) {
+      return `Створи практичний кейс до теми "${moduleTitle}" для ОПП "${opp}".
+1) Ситуація (реальна або дуже правдоподібна для аграрної сфери)
+2) Вхідні дані (що відомо)
+3) Завдання (5 пунктів)
+4) Критерії оцінювання на 12 балів (що на 4/8/12)
+5) Зразок відповіді.`;
+    }
+
+    function promptFlashcards(moduleTitle, opp) {
+      return `Зроби 20 карток до теми "${moduleTitle}" для ОПП "${opp}":
+термін - просте визначення - приклад (1 рядок). Без води.`;
+    }
+
+    function getPrompts(moduleId, opp) {
+      const m = MODULES.find(x => x.id === moduleId);
+      const title = m ? m.title : moduleId;
+      return [
+        { id:"p1", title:"Пояснення з прикладами під ОПП", text: promptExplain(title, opp) },
+        { id:"p2", title:"Практичний кейс для практичної підготовки", text: promptPracticeCase(title, opp) },
+        { id:"p3", title:"Картки термінів (глосарій)", text: promptFlashcards(title, opp) }
+      ];
+    }
+
+    // -------------------------
+    // 3) Утиліти
+    // -------------------------
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+    }
+    function clampInt(v, min, max) {
+      const n = parseInt(v, 10);
+      if (Number.isNaN(n)) return null;
+      return Math.max(min, Math.min(max, n));
+    }
+    function todayISO() { return new Date().toISOString().slice(0,10); }
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        alert("Скопійовано.");
+      } catch {
+        alert("Не вдалося скопіювати. Спробуйте вручну.");
+      }
+    }
+
+    // -------------------------
+    // 4) UI helpers
+    // -------------------------
+    function layout(title, content) {
+      return `
+      <div class="no-print">
+        <header class="border-b border-slate-800 bg-slate-950/70 backdrop-blur sticky top-0 z-50">
+          <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-3">
+            <div>
+              <div class="text-xs text-slate-300">Інноваційна цифрова екосистема</div>
+              <h1 class="text-lg sm:text-xl font-bold">${escapeHtml(title)}</h1>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <a href="#/dashboard" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-sm">Панель</a>
+              <a href="#/modules" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-sm">Модулі</a>
+              <a href="#/workbook" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-sm">Зошит</a>
+              <a href="#/prompts" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-sm">Промпти</a>
+              <a href="#/export" class="px-3 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-sm font-semibold">Експорт</a>
+            </div>
+          </div>
+        </header>
+      </div>
+
+      <main class="max-w-6xl mx-auto px-4 py-6">
+        ${content}
+      </main>
+      `;
+    }
+
+    function card(title, body, footer="") {
+      return `
+      <section class="rounded-2xl border border-slate-800 bg-slate-900/40 p-4 shadow">
+        <h3 class="font-semibold text-base">${escapeHtml(title)}</h3>
+        <div class="mt-2 text-slate-200 text-sm leading-relaxed">${body}</div>
+        ${footer ? `<div class="mt-3 pt-3 border-t border-slate-800 text-sm">${footer}</div>` : ""}
+      </section>`;
+    }
+
+    function progressSummary() {
+      const total = MODULES.length;
+      const done = MODULES.filter(m => state.progress[m.id]?.done).length;
+      const pct = Math.round((done / Math.max(total,1)) * 100);
+      return { total, done, pct };
+    }
+
+    // -------------------------
+    // 5) Pages
+    // -------------------------
+    function dashboardPage() {
+      const p = progressSummary();
+
+      const profileBody = `
+        <label class="block mt-2">ПІБ
+          <input id="studentName" class="mt-1 w-full rounded-lg bg-slate-950 border border-slate-800 p-2"
+                 value="${escapeHtml(state.profile.studentName)}" placeholder="Напр., Іваненко Іван" />
+        </label>
+        <label class="block mt-3">Моя спеціальність
+          <input id="specialty" class="mt-1 w-full rounded-lg bg-slate-950 border border-slate-800 p-2"
+                 value="${escapeHtml(state.profile.specialty)}" placeholder="За потреби" />
+        </label>
+        <label class="block mt-3">ОПП
+          <select id="opp" class="mt-1 w-full rounded-lg bg-slate-950 border border-slate-800 p-2">
+            ${OPP_LIST.map(o => `<option ${state.profile.opp===o?"selected":""}>${escapeHtml(o)}</option>`).join("")}
+          </select>
+        </label>
+      `;
+
+      const progBody = `
+        <div class="text-3xl font-bold">${p.pct}%</div>
+        <div class="mt-2 text-slate-300">Виконано модулів: <b>${p.done}</b> з <b>${p.total}</b></div>
+        <div class="mt-3 h-3 rounded-full bg-slate-800 overflow-hidden">
+          <div class="h-3 bg-emerald-600" style="width:${p.pct}%"></div>
+        </div>
+      `;
+
+      const ideaBody = `
+        У кожному модулі зібрано: презентацію, NotebookLM, цифровий зошит у "друкованому" форматі та промпти ШІ в розрізі ОПП.
+        Дані зберігаються локально в браузері - без серверів і без ризику "зникло десь у хмарі".
+      `;
+
+      const html = layout("BIOLOGY SMART-HUB 2.0", `
+        <div class="grid md:grid-cols-2 gap-4">
+          ${card("Профіль", profileBody, `<button id="saveProfile" class="px-3 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 font-semibold">Зберегти</button>`)}
+          ${card("Прогрес", progBody, `<a class="underline" href="#/modules">Перейти до модулів</a>`)}
+        </div>
+        <div class="mt-4">
+          ${card("Про екосистему (коротко)", ideaBody)}
+        </div>
+      `);
+
+      mount(html);
+
+      document.getElementById("saveProfile").addEventListener("click", () => {
+        state.profile.studentName = document.getElementById("studentName").value.trim();
+        state.profile.specialty = document.getElementById("specialty").value.trim();
+        state.profile.opp = document.getElementById("opp").value;
+        saveState();
+        alert("Збережено.");
+      });
+    }
+
+    function modulesPage() {
+      const list = MODULES.map(m => {
+        const prog = state.progress[m.id] || { done:false, score:null, date:"" };
+        const badge = prog.done
+          ? `<span class="text-xs px-2 py-1 rounded bg-emerald-700">виконано</span>`
+          : `<span class="text-xs px-2 py-1 rounded bg-slate-700">у роботі</span>`;
+
+        const links = `
+          <div class="flex flex-wrap items-center gap-2 mt-2">
+            <a class="underline" href="#/workbook?m=${m.id}">Зошит</a>
+            <a class="underline" href="#/prompts?m=${m.id}">Промпти</a>
+            <a class="underline" href="${m.presentation}" target="_blank" rel="noopener">Презентація</a>
+            <a class="underline" href="${m.notebook}" target="_blank" rel="noopener">NotebookLM</a>
+          </div>
+        `;
+
+        return card(
+          m.title,
+          `
+          <div class="flex flex-wrap items-center gap-2 mt-2">
+            ${badge}
+            <span class="text-slate-300 text-xs">Дата: ${escapeHtml(prog.date || "—")} · Оцінка: ${prog.score ?? "—"}</span>
+          </div>
+          ${links}
+          `,
+          `
+          <div class="flex flex-wrap items-center gap-2">
+            <button data-done="${m.id}" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700">
+              Позначити виконання
+            </button>
+          </div>
+          `
+        );
+      }).join("");
+
+      mount(layout("Модулі", `<div class="space-y-4">${list}</div>`));
+
+      document.querySelectorAll("button[data-done]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-done");
+          const date = prompt("Дата виконання (YYYY-MM-DD):", state.progress[id]?.date || todayISO()) || "";
+          const scoreRaw = prompt("Оцінка (1-12), можна порожньо:", state.progress[id]?.score ?? "") || "";
+          const score = scoreRaw.trim() ? clampInt(scoreRaw, 1, 12) : null;
+
+          state.progress[id] = { done:true, date: date.trim(), score };
+          saveState();
+          modulesPage();
+        });
+      });
+    }
+
+    function workbookPage() {
+      const params = new URLSearchParams((location.hash.split("?")[1] || ""));
+      const mid = params.get("m") || MODULES[0].id;
+      const module = MODULES.find(x => x.id === mid) || MODULES[0];
+
+      const prog = state.progress[module.id] || { done:false, score:null, date:"" };
+      const note = state.notes[module.id] || "";
+
+      const body = `
+        <div class="paper">
+          <div class="paper-header">
+            <div class="paper-title">Цифровий робочий зошит (формат друкованого)</div>
+            <div class="paper-sub">${escapeHtml(module.title)}</div>
+          </div>
+
+          <div class="lined p-5 sm:p-6">
+            <div class="grid lg:grid-cols-2 gap-4">
+              <div class="field">
+                <div class="field-label">Матеріали до модуля</div>
+                <div class="mt-2 flex flex-wrap gap-2">
+                  <a href="${module.presentation}" target="_blank" rel="noopener"
+                    class="px-3 py-2 rounded-lg bg-blue-700 hover:bg-blue-600 text-white text-sm">
+                    📑 Презентація
+                  </a>
+                  <a href="${module.notebook}" target="_blank" rel="noopener"
+                    class="px-3 py-2 rounded-lg bg-purple-700 hover:bg-purple-600 text-white text-sm">
+                    🧠 NotebookLM
+                  </a>
+                </div>
+
+                <div class="mt-3 text-sm text-slate-700">
+                  Записуйте результат як у паперовому зошиті: факт - спостереження - висновок.
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="field-label">Дані виконання</div>
+                <label class="block mt-2 text-sm">
+                  Дата виконання
+                  <input id="dateDone" type="date" class="mt-1 w-full p-2"
+                    value="${escapeHtml(prog.date || "")}">
+                </label>
+
+                <label class="block mt-3 text-sm">
+                  Оцінка (1-12)
+                  <input id="score" type="number" min="1" max="12" class="mt-1 w-full p-2"
+                    value="${prog.score ?? ""}" placeholder="1-12">
+                </label>
+
+                <div class="mt-3 text-sm text-slate-700">
+                  За потреби: відкрийте “Промпти” - і сформуйте відповіді під свою ОПП.
+                </div>
+              </div>
+            </div>
+
+            <div class="field mt-4">
+              <div class="field-label">Мої записи / результати / висновки</div>
+              <textarea id="note" rows="10" class="mt-2 w-full p-3"
+                placeholder="1) Що зроблено (практична дія)\n2) Що спостерігали/виміряли\n3) Висновок (1-2 речення)">${escapeHtml(note)}</textarea>
+
+              <div class="mt-3 flex flex-wrap gap-2">
+                <button id="saveNote" class="btn-paper">Зберегти</button>
+                <button id="markDone" class="px-3 py-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-900 font-semibold">
+                  Позначити виконано
+                </button>
+                <a class="px-3 py-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-900 font-semibold"
+                   href="#/prompts?m=${module.id}">
+                  Промпти
+                </a>
+              </div>
+            </div>
+
+            <div class="field mt-4">
+              <div class="field-label">Перемикання модулів</div>
+              <div class="mt-2 flex flex-wrap gap-2">
+                ${MODULES.map(m => `
+                  <a class="px-3 py-2 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-900 font-semibold ${m.id===module.id ? "ring-2 ring-slate-900" : ""}"
+                     href="#/workbook?m=${m.id}">
+                    ${escapeHtml(m.id.toUpperCase())}
+                  </a>`).join("")}
+              </div>
+            </div>
+          </div>
+
+          <div class="paper-footer">
+            <div>BIOLOGY SMART-HUB 2.0 - формат друкованого зошита</div>
+            <div>Модуль: ${escapeHtml(module.id.toUpperCase())}</div>
+          </div>
+        </div>
+      `;
+
+      mount(layout("Цифровий зошит", body));
+
+      document.getElementById("saveNote").addEventListener("click", () => {
+        const date = document.getElementById("dateDone").value;
+        const scoreRaw = document.getElementById("score").value.trim();
+        const noteText = document.getElementById("note").value;
+
+        state.notes[module.id] = noteText;
+        state.progress[module.id] = {
+          ...(state.progress[module.id] || {}),
+          date: date || (state.progress[module.id]?.date || ""),
+          score: scoreRaw ? clampInt(scoreRaw, 1, 12) : null
+        };
+        saveState();
+        alert("Збережено.");
+      });
+
+      document.getElementById("markDone").addEventListener("click", () => {
+        state.progress[module.id] = {
+          ...(state.progress[module.id] || {}),
+          done: true,
+          date: state.progress[module.id]?.date || todayISO()
+        };
+        saveState();
+        alert("Позначено як виконано.");
+      });
+    }
+
+    function promptsPage() {
+      const params = new URLSearchParams((location.hash.split("?")[1] || ""));
+      const mid = params.get("m") || MODULES[0].id;
+
+      const moduleOptions = MODULES.map(m => `<option value="${m.id}" ${m.id===mid?"selected":""}>${escapeHtml(m.title)}</option>`).join("");
+      const oppOptions = OPP_LIST.map(o => `<option ${state.profile.opp===o?"selected":""}>${escapeHtml(o)}</option>`).join("");
+
+      const prompts = getPrompts(mid, state.profile.opp);
+      const key = `${mid}|${state.profile.opp}`;
+      const pn = state.promptNotes[key] || "";
+
+      const body = `
+        ${card("Вибір (Модуль × ОПП)", `
+          <div class="grid md:grid-cols-2 gap-3">
+            <label class="block">Модуль
+              <select id="promptModule" class="mt-1 w-full rounded-lg bg-slate-950 border border-slate-800 p-2">
+                ${moduleOptions}
+              </select>
+            </label>
+            <label class="block">ОПП
+              <select id="promptOpp" class="mt-1 w-full rounded-lg bg-slate-950 border border-slate-800 p-2">
+                ${oppOptions}
+              </select>
+            </label>
+          </div>
+          <div class="mt-3 text-xs text-slate-300">
+            Промпти формуються автоматично під тему та ОПП. Далі - копіюєте й працюєте.
+          </div>
+        `)}
+
+        <div class="space-y-4">
+          ${prompts.map(p => card(p.title,
+            `<pre class="whitespace-pre-wrap text-sm leading-relaxed">${escapeHtml(p.text)}</pre>`,
+            `<button data-copy="${escapeHtml(p.id)}" class="px-3 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 font-semibold">Копіювати промпт</button>`
+          )).join("")}
+        </div>
+
+        ${card("Мої нотатки після роботи з ШІ", `
+          <textarea id="promptNote" rows="6" class="mt-1 w-full rounded-lg bg-slate-950 border border-slate-800 p-2"
+            placeholder="Що корисного отримали? Що перенести у зошит?">${escapeHtml(pn)}</textarea>
+          <div class="mt-3 flex gap-2">
+            <button id="savePromptNote" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700">Зберегти нотатку</button>
+          </div>
+        `)}
+      `;
+
+      mount(layout("Промпти", body));
+
+      document.getElementById("promptModule").addEventListener("change", (e) => {
+        location.hash = `#/prompts?m=${e.target.value}`;
+      });
+
+      document.getElementById("promptOpp").addEventListener("change", (e) => {
+        state.profile.opp = e.target.value;
+        saveState();
+        promptsPage();
+      });
+
+      document.querySelectorAll("button[data-copy]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const id = btn.getAttribute("data-copy");
+          const p = prompts.find(x => x.id === id);
+          if (p) copyText(p.text);
+        });
+      });
+
+      document.getElementById("savePromptNote").addEventListener("click", () => {
+        state.promptNotes[key] = document.getElementById("promptNote").value;
+        saveState();
+        alert("Збережено.");
+      });
+    }
+
+    function exportPage() {
+      const profile = state.profile;
+
+      const rows = MODULES.map(m => {
+        const p = state.progress[m.id] || {};
+        return `
+          <tr class="border-b">
+            <td class="py-2 pr-3">${escapeHtml(m.title)}</td>
+            <td class="py-2 pr-3">${escapeHtml(p.date || "")}</td>
+            <td class="py-2 pr-3">${p.score ?? ""}</td>
+            <td class="py-2 pr-3">${p.done ? "Так" : "Ні"}</td>
+          </tr>`;
+      }).join("");
+
+      const body = `
+        ${card("Експорт у PDF (Ctrl+P → Зберегти як PDF)", `
+          Натисніть кнопку - сформується "чистий" звіт.
+          <div class="mt-3">
+            <button id="btnPrint" class="px-3 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 font-semibold">
+              Сформувати звіт і друкувати (PDF)
+            </button>
+          </div>
+        `)}
+      `;
+
+      mount(layout("Експорт / Звіт", body));
+
+      document.getElementById("btnPrint").addEventListener("click", () => {
+        const printArea = document.getElementById("printArea");
+        printArea.innerHTML = `
+          <div class="p-8 text-slate-900">
+            <h2 class="text-2xl font-bold">BIOLOGY SMART-HUB 2.0 – Звіт (цифровий зошит)</h2>
+            <div class="mt-3">
+              <div><b>ПІБ:</b> ${escapeHtml(profile.studentName || "—")}</div>
+              <div><b>Спеціальність:</b> ${escapeHtml(profile.specialty || "—")}</div>
+              <div><b>ОПП:</b> ${escapeHtml(profile.opp || "—")}</div>
+            </div>
+
+            <h3 class="mt-6 text-lg font-semibold">Зведені оцінки по модулях</h3>
+            <table class="mt-2 w-full text-sm border-t">
+              <thead>
+                <tr class="border-b">
+                  <th class="text-left py-2 pr-3">Модуль</th>
+                  <th class="text-left py-2 pr-3">Дата</th>
+                  <th class="text-left py-2 pr-3">Оцінка (1-12)</th>
+                  <th class="text-left py-2 pr-3">Виконано</th>
+                </tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+
+            <div class="mt-6 text-xs text-slate-600">
+              Дані сформовано з локального сховища браузера (без серверів).
+            </div>
+          </div>
+        `;
+        printArea.classList.remove("hidden");
+        window.print();
+        printArea.classList.add("hidden");
+        printArea.innerHTML = "";
+      });
+    }
+
+    // -------------------------
+    // 6) Router (hash)
+    // -------------------------
+    function mount(html) {
+      document.getElementById("app").innerHTML = html;
+    }
+
+    function route() {
+      const hash = location.hash || "#/dashboard";
+      const path = hash.replace("#","").split("?")[0];
+
+      if (path === "/dashboard") return dashboardPage();
+      if (path === "/modules") return modulesPage();
+      if (path === "/workbook") return workbookPage();
+      if (path === "/prompts") return promptsPage();
+      if (path === "/export") return exportPage();
+
+      return dashboardPage();
+    }
+
+    window.addEventListener("hashchange", route);
+    route();
   </script>
 </body>
 </html>
