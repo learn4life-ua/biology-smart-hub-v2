@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Модуль 1: Вступ до біології</title>
+    <!-- Підключаємо глобальні стилі -->
+    <link rel="stylesheet" href="../../style.css">
+    <!-- Підключаємо стилі модуля -->
+    <link rel="stylesheet" href="module.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Навігація "Назад" -->
+    <nav class="module-nav">
+        <div class="container">
+            <a href="../../index.html" class="back-link">← На Головну</a>
+            <span class="module-title-mobile">Модуль 1</span>
+        </div>
+    </nav>
+
+    <header class="module-header">
+        <div class="container">
+            <span class="tag">Модуль 1</span>
+            <h1>Вступ до біології. Властивості живого та методи дослідження</h1>
+            <p>Дослідимо, що робить живе живим, та як науковці вивчають цей світ.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <!-- Вкладки навігації -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab('theory')">📖 Конспект</button>
+            <button class="tab-btn" onclick="openTab('notebook')">✍️ Робочий Зошит</button>
+            <button class="tab-btn" onclick="openTab('ai')">🤖 AI-Тьютор</button>
+        </div>
+
+        <!-- ВМІСТ: ТЕОРІЯ -->
+        <div id="theory" class="tab-content active">
+            <div class="content-block">
+                <h2>1. Біологія – наука про життя</h2>
+                <details>
+                    <summary>🧬 Визначення та Галузі</summary>
+                    <p><strong>Біологія</strong> (від грец. bios – життя, logos – вчення) – система наук, що вивчає життя в усіх його проявах.</p>
+                    <p>Основні галузі:</p>
+                    <ul>
+                        <li><strong>Ботаніка</strong> – вивчає рослини.</li>
+                        <li><strong>Зоологія</strong> – вивчає тварин.</li>
+                        <li><strong>Мікологія</strong> – вивчає гриби.</li>
+                        <li><strong>Мікробіологія</strong> – вивчає віруси та бактерії.</li>
+                    </ul>
+                </details>
+                
+                <details>
+                    <summary>🌱 Основні властивості живого</summary>
+                    <p>Живі організми відрізняються від неживих сукупністю ознак:</p>
+                    <ul>
+                        <li><strong>Хімічний склад:</strong> Наявність білків, ліпідів, вуглеводів, нуклеїнових кислот.</li>
+                        <li><strong>Обмін речовин:</strong> Живлення, дихання, виділення.</li>
+                        <li><strong>Ріст та розвиток.</strong></li>
+                        <li><strong>Розмноження:</strong> Здатність відтворювати собі подібних.</li>
+                        <li><strong>Подразливість:</strong> Реакція на зміни середовища.</li>
+                    </ul>
+                </details>
+
+                <details>
+                    <summary>🔬 Методи дослідження</summary>
+                    <ul>
+                        <li><strong>Описовий:</strong> Спостереження та опис об'єкта.</li>
+                        <li><strong>Порівняльний:</strong> Порівняння організмів для виявлення спорідненості.</li>
+                        <li><strong>Експериментальний:</strong> Дослідження в контрольованих умовах.</li>
+                        <li><strong>Моніторинг:</strong> Тривале спостереження за станом біосфери.</li>
+                    </ul>
+                </details>
+
+                <div class="presentation-placeholder">
+                    <h3>🖼️ Презентація до теми</h3>
+                    <p>Тут буде вбудовано слайди (Google Slides або PDF Viewer)</p>
+                    <button class="download-btn">Завантажити PDF</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ВМІСТ: РОБОЧИЙ ЗОШИТ -->
+        <div id="notebook" class="tab-content">
+            <div class="notebook-paper">
+                <div class="notebook-header">
+                    <label>Студент:</label>
+                    <input type="text" id="studentName" placeholder="Введіть Прізвище та Ім'я" oninput="saveData('m1_name', this.value)">
+                </div>
+
+                <!-- Energy Check-in -->
+                <div class="section-box">
+                    <h3>🔋 Energy Check-in</h3>
+                    <p>Оціни свій рівень енергії перед навчанням:</p>
+                    <div class="energy-selector">
+                        <button class="energy-btn" onclick="setEnergy(this, 'sleep')">😴 Sleep</button>
+                        <button class="energy-btn" onclick="setEnergy(this, 'eco')">😐 Eco</button>
+                        <button class="energy-btn" onclick="setEnergy(this, 'normal')">🙂 Normal</button>
+                        <button class="energy-btn" onclick="setEnergy(this, 'turbo')">🚀 Turbo</button>
+                    </div>
+                </div>
+
+                <!-- Завдання 1 -->
+                <div class="section-box">
+                    <h3>🔬 Практикум: Рівні організації</h3>
+                    <p>Визначте рівень організації та елементарну одиницю:</p>
+                    <div class="table-responsive">
+                        <table>
+                            <tr>
+                                <th>Об'єкт / Процес</th>
+                                <th>Рівень організації</th>
+                                <th>Елементарна одиниця</th>
+                            </tr>
+                            <tr>
+                                <td>🧬 Реплікація ДНК</td>
+                                <td><input type="text" oninput="saveData('m1_t1_r1_c1', this.value)" id="m1_t1_r1_c1"></td>
+                                <td><input type="text" oninput="saveData('m1_t1_r1_c2', this.value)" id="m1_t1_r1_c2"></td>
+                            </tr>
+                            <tr>
+                                <td>🌿 Транспірація у рослин</td>
+                                <td><input type="text" oninput="saveData('m1_t1_r2_c1', this.value)" id="m1_t1_r2_c1"></td>
+                                <td><input type="text" oninput="saveData('m1_t1_r2_c2', this.value)" id="m1_t1_r2_c2"></td>
+                            </tr>
+                            <tr>
+                                <td>💧 Евтрофікація водойм</td>
+                                <td><input type="text" oninput="saveData('m1_t1_r3_c1', this.value)" id="m1_t1_r3_c1"></td>
+                                <td><input type="text" oninput="saveData('m1_t1_r3_c2', this.value)" id="m1_t1_r3_c2"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Самоперевірка -->
+                <div class="section-box">
+                    <h3>✅ Самоперевірка</h3>
+                    <div class="question-block">
+                        <label>1. Назвіть 5 основних ознак живого:</label>
+                        <textarea rows="3" oninput="saveData('m1_q1', this.value)" id="m1_q1"></textarea>
+                    </div>
+                    <div class="question-block">
+                        <label>2. У чому різниця між експериментом і моніторингом?</label>
+                        <textarea rows="3" oninput="saveData('m1_q2', this.value)" id="m1_q2"></textarea>
+                    </div>
+                </div>
+
+                <!-- Рефлексія -->
+                <div class="section-box highlight">
+                    <h3>💭 Рефлексія</h3>
+                    <label>Що сьогодні було найважливішим?</label>
+                    <textarea rows="2" oninput="saveData('m1_ref1', this.value)" id="m1_ref1"></textarea>
+                    
+                    <label>Що залишилося незрозумілим?</label>
+                    <textarea rows="2" oninput="saveData('m1_ref2', this.value)" id="m1_ref2"></textarea>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ВМІСТ: AI ТЬЮТОР -->
+        <div id="ai" class="tab-content">
+            <div class="ai-box">
+                <div class="ai-header">
+                    <span class="ai-icon">🤖</span>
+                    <h3>Персональний AI-Асистент</h3>
+                </div>
+                <p>Не знаєш відповідь? Скопіюй готовий промт і запитай у штучного інтелекту (ChatGPT/Gemini).</p>
+                
+                <div class="prompt-card">
+                    <h4>💡 Пояснити складну тему</h4>
+                    <p class="prompt-text">"Поясни мені тему 'Рівні організації живого' простими словами, використовуючи аналогії з реального життя (наприклад, будівництво будинку)."</p>
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Скопіювати</button>
+                </div>
+
+                <div class="prompt-card">
+                    <h4>🧪 Перевірка знань</h4>
+                    <p class="prompt-text">"Створи для мене тест із 5 запитань з варіантами відповідей по темі 'Методи біологічних досліджень'. Не показуй відповіді одразу."</p>
+                    <button class="copy-btn" onclick="copyToClipboard(this)">📋 Скопіювати</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
