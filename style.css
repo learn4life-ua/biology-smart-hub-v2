@@ -1,0 +1,116 @@
+:root {
+    --primary-color: #2e7d32; /* Зелений лісовий */
+    --secondary-color: #e8f5e9; /* Світло-зелений фон */
+    --accent-color: #b388ff; /* Фіолетовий для AI */
+    --text-color: #333;
+    --card-bg: #ffffff;
+}
+
+body {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f4f7f6;
+    color: var(--text-color);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+.main-header {
+    background: var(--primary-color);
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.logo {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+/* Welcome Section */
+.welcome-section {
+    text-align: center;
+    margin: 40px 0;
+}
+
+/* Grid Layout */
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding-bottom: 40px;
+}
+
+/* Cards */
+.module-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 20px;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border-left: 5px solid var(--primary-color);
+}
+
+.module-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    background: var(--secondary-color);
+    padding: 15px;
+    border-radius: 50%;
+}
+
+.card-content h3 {
+    margin: 5px 0 10px 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
+}
+
+.module-tag {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #666;
+    font-weight: 600;
+}
+
+.card-footer {
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+/* Locked Modules Style */
+.module-card.locked {
+    opacity: 0.7;
+    border-left-color: #ccc;
+    cursor: default;
+}
+.module-card.locked:hover {
+    transform: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #333;
+    color: white;
+    margin-top: auto;
+}
