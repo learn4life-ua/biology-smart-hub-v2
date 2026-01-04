@@ -1,273 +1,29 @@
-/* Специфічні стилі для модуля */
-:root {
-    --paper-bg: #fffdf7; /* Колір паперу */
-    --line-color: #e0e0e0;
-}
+# Цей файл містить лише логіку класу TaskManager
 
-/* Навігація модуля */
-.module-nav {
-    background: #fff;
-    border-bottom: 1px solid #ddd;
-    padding: 10px 0;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-.module-nav .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.back-link {
-    text-decoration: none;
-    color: var(--primary-color);
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-.module-title-mobile {
-    font-weight: bold;
-    font-size: 0.9rem;
-    color: #333;
-    display: none; /* Показуємо тільки на скролі/мобільному при потребі */
-}
+class TaskManager:
+    def __init__(self):
+        self.tasks = []
 
-/* Заголовок */
-.module-header {
-    background: linear-gradient(135deg, var(--primary-color), #43a047);
-    color: white;
-    padding: 30px 0;
-    border-radius: 0 0 20px 20px;
-    margin-bottom: 20px;
-}
-.module-header h1 {
-    font-size: 1.8rem;
-    margin: 10px 0;
-}
-.tag {
-    background: rgba(255,255,255,0.2);
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-}
+    def add_task(self, title):
+        """Додає нове завдання до списку."""
+        self.tasks.append({"title": title, "completed": False})
+        print(f"Завдання '{title}' додано.")
 
-/* Вкладки (Tabs) */
-.tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    overflow-x: auto; /* Дозволяє скролити вкладки на дуже малих екранах */
-    padding-bottom: 5px;
-}
-.tab-btn {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    background: #e0e0e0;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 600;
-    color: #555;
-    white-space: nowrap;
-    transition: all 0.3s ease;
-}
-.tab-btn.active {
-    background: var(--primary-color);
-    color: white;
-    box-shadow: 0 4px 10px rgba(46, 125, 50, 0.3);
-}
+    def complete_task(self, title):
+        """Позначає завдання як виконане."""
+        for task in self.tasks:
+            if task["title"] == title:
+                task["completed"] = True
+                print(f"Завдання '{title}' виконано!")
+                return
+        print(f"Завдання '{title}' не знайдено.")
 
-/* Контент вкладок */
-.tab-content {
-    display: none;
-    animation: fadeIn 0.3s ease;
-}
-.tab-content.active {
-    display: block;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Стилі для Теорії (Accordion) */
-details {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    overflow: hidden;
-}
-details summary {
-    padding: 15px;
-    background: #f9f9f9;
-    cursor: pointer;
-    font-weight: bold;
-    list-style: none; /* Прибирає стандартний трикутник */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-details summary::after {
-    content: '+';
-    font-size: 1.2rem;
-}
-details[open] summary::after {
-    content: '-';
-}
-details p, details ul {
-    padding: 15px;
-    margin: 0;
-    line-height: 1.6;
-    border-top: 1px solid #eee;
-}
-.presentation-placeholder {
-    background: #e3f2fd;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    border: 2px dashed #2196f3;
-}
-
-/* Стилі для Зошита */
-.notebook-paper {
-    background: var(--paper-bg);
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-}
-.section-box {
-    margin-bottom: 25px;
-    border-bottom: 1px dashed var(--line-color);
-    padding-bottom: 20px;
-}
-.section-box.highlight {
-    background: #fff8e1; /* Жовтуватий для рефлексії */
-    padding: 15px;
-    border-radius: 8px;
-    border-bottom: none;
-}
-.notebook-header {
-    margin-bottom: 20px;
-}
-.notebook-header input {
-    font-size: 1.1rem;
-    border: none;
-    border-bottom: 2px solid var(--primary-color);
-    background: transparent;
-    padding: 5px;
-    width: 60%;
-    outline: none;
-}
-
-/* Energy Check-in */
-.energy-selector {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin-top: 10px;
-}
-.energy-btn {
-    padding: 8px;
-    border: 1px solid #ccc;
-    background: white;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9rem;
-}
-.energy-btn.active {
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
-}
-
-/* Таблиці (Адаптивні) */
-.table-responsive {
-    overflow-x: auto;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 500px; /* Щоб не стискалася занадто сильно */
-}
-th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-}
-th {
-    background: #f0f0f0;
-    font-size: 0.9rem;
-}
-td input {
-    width: 100%;
-    border: none;
-    background: transparent;
-    padding: 5px;
-    font-family: inherit;
-}
-td input:focus {
-    background: #f0f8ff;
-    outline: none;
-}
-
-/* Текстові поля */
-textarea {
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    margin-top: 5px;
-    resize: vertical;
-    font-family: inherit;
-    background: #fff;
-}
-textarea:focus {
-    border-color: var(--primary-color);
-    outline: none;
-}
-
-/* Стилі AI Тьютора */
-.ai-box {
-    max-width: 600px;
-    margin: 0 auto;
-}
-.prompt-card {
-    background: #f3e5f5; /* Світло-фіолетовий */
-    padding: 15px;
-    border-radius: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #e1bee7;
-}
-.prompt-text {
-    font-family: monospace;
-    background: white;
-    padding: 10px;
-    border-radius: 6px;
-    font-size: 0.9rem;
-}
-.copy-btn {
-    background: #8e24aa;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    margin-top: 5px;
-}
-
-/* Адаптивність для мобільних */
-@media (max-width: 600px) {
-    .module-header h1 {
-        font-size: 1.4rem;
-    }
-    .energy-selector {
-        grid-template-columns: repeat(2, 1fr); /* 2 кнопки в ряд */
-    }
-    .notebook-header input {
-        width: 100%;
-        margin-top: 5px;
-    }
-}
+    def show_tasks(self):
+        """Виводить список усіх завдань."""
+        print("\n--- Список завдань ---")
+        if not self.tasks:
+            print("Список порожній.")
+        for task in self.tasks:
+            status = "[x]" if task["completed"] else "[ ]"
+            print(f"{status} {task['title']}")
+        print("----------------------\n")
