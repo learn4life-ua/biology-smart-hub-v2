@@ -3,129 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biology Smart-Hub 2.0</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Підключимо шрифт (Google Fonts) -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <title>Biology Smart-Hub 2.0 — Головна</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
+        
+        body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+        .bg-bio { background-color: #f7faf8; }
+        .card-shadow { box-shadow: 0 10px 40px -15px rgba(0, 68, 34, 0.12); }
+        .accent-emerald { background-color: #059669; }
+        
+        .module-card {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(5, 150, 105, 0.1);
+        }
+        
+        .module-card:hover:not(.locked) {
+            transform: translateY(-8px);
+            border-color: #059669;
+            box-shadow: 0 20px 40px -20px rgba(0, 68, 34, 0.2);
+        }
+
+        .locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+            filter: grayscale(0.5);
+        }
+    </style>
 </head>
-<body>
+<body class="bg-bio text-slate-800">
 
-    <header class="main-header">
-        <div class="container">
-            <div class="logo">🧬 Biology Smart-Hub 2.0</div>
-            <p>Інтерактивний освітній простір для студентів-біологів</p>
+    <!-- Навігація -->
+    <nav class="bg-white/95 backdrop-blur-md border-b border-emerald-100 p-4 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 accent-emerald rounded-xl flex items-center justify-center text-white font-black shadow-lg">🧬</div>
+                <div>
+                    <h1 class="font-black text-emerald-950 tracking-tighter leading-none text-lg">BIOLOGY <span class="text-emerald-500">SMART-HUB 2.0</span></h1>
+                    <p class="text-[9px] font-black text-emerald-600 uppercase mt-1 tracking-widest leading-none">АЕФК ПДАУ &bull; 2025</p>
+                </div>
+            </div>
+            <div class="hidden md:flex gap-6 items-center">
+                <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-emerald-900 border-b-2 border-emerald-500">Головна</a>
+                <a href="generator.html" class="text-[10px] font-black uppercase tracking-widest text-emerald-800 hover:text-emerald-500 transition">🤖 Генератор промтів</a>
+                <a href="#" class="text-[10px] font-black uppercase tracking-widest text-emerald-800 hover:text-emerald-500 transition">Ресурси</a>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="container">
-        <div class="welcome-section">
-            <h2>👋 Вітаємо на курсі!</h2>
-            <p>Оберіть навчальний модуль для початку роботи.</p>
-        </div>
+    <main class="max-w-6xl mx-auto px-6 py-12 space-y-16">
+        
+        <section class="text-center space-y-4">
+            <div class="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-2">
+                🌿 Ласкаво просимо
+            </div>
+            <h2 class="text-4xl md:text-5xl font-black text-emerald-950 tracking-tighter leading-tight">Ваш інтерактивний шлях <br> у світ біології</h2>
+            <p class="text-slate-500 max-w-2xl mx-auto text-sm md:text-base font-medium">
+                Обирайте модуль, заповнюйте робочий зошит та використовуйте штучний інтелект для персоналізованого навчання.
+            </p>
+            <div class="flex justify-center gap-4 pt-4">
+                <a href="generator.html" class="bg-emerald-600 text-white px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-emerald-200 hover:bg-emerald-700 transition">Спробувати AI Генератор</a>
+            </div>
+        </section>
 
-        <div class="modules-grid">
+        <!-- Modules Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
             <!-- Модуль 1 -->
-            <a href="modules/module1/index.html" class="module-card">
-                <div class="card-icon">🔬</div>
-                <div class="card-content">
-                    <span class="module-tag">Модуль 1</span>
-                    <h3>Вступ до біології. Властивості живого та методи дослідження</h3>
-                    <div class="card-footer">
-                        <span>Статус: Відкрито</span>
-                        <span>🔓</span>
+            <a href="module1.html" class="module-card bg-white p-8 rounded-[2.5rem] card-shadow flex flex-col group relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-150"></div>
+                <div class="relative z-10">
+                    <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-3xl mb-6 shadow-sm">🔬</div>
+                    <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest block mb-2">Модуль 1</span>
+                    <h3 class="text-xl font-black text-emerald-950 leading-tight mb-4">Вступ до біології. Властивості живого та методи дослідження</h3>
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-emerald-50">
+                        <span class="text-[10px] font-black text-emerald-500 uppercase tracking-widest italic">Доступно</span>
+                        <span class="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white text-xs">🔓</span>
                     </div>
                 </div>
             </a>
 
-            <!-- Модуль 2 -->
-            <a href="#" class="module-card locked">
-                <div class="card-icon">🦠</div>
-                <div class="card-content">
-                    <span class="module-tag">Модуль 2</span>
-                    <h3>Клітина – структурно-функціональна одиниця живого. Поділ клітин</h3>
-                    <div class="card-footer">
-                        <span>У розробці</span>
-                        <span>🔒</span>
+            <!-- Модуль 2 (Placeholder) -->
+            <div class="module-card locked bg-white p-8 rounded-[2.5rem] card-shadow flex flex-col group relative overflow-hidden">
+                <div class="relative z-10">
+                    <div class="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center text-3xl mb-6">🦠</div>
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Модуль 2</span>
+                    <h3 class="text-xl font-black text-slate-800 leading-tight mb-4">Клітина – структурно-функціональна одиниця живого</h3>
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-slate-50">
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Незабаром</span>
+                        <span class="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center text-slate-500 text-xs">🔒</span>
                     </div>
                 </div>
-            </a>
+            </div>
 
-            <!-- Модуль 3 -->
-            <a href="#" class="module-card locked">
-                <div class="card-icon">🧪</div>
-                <div class="card-content">
-                    <span class="module-tag">Модуль 3</span>
-                    <h3>Хімічний склад клітини. Фотосинтез і клітинне дихання</h3>
-                </div>
-            </a>
-
-            <!-- Модуль 4 -->
-            <a href="#" class="module-card locked">
-                <div class="card-icon">🦠</div>
-                <div class="card-content">
-                    <span class="module-tag">Модуль 4</span>
-                    <h3>Одноклітинні організми та перехід до багатоклітинності</h3>
-                </div>
-            </a>
-
-             <!-- Модуль 5 -->
-             <a href="#" class="module-card locked">
-                <div class="card-icon">🌿</div>
-                <div class="card-content">
-                    <span class="module-tag">Модуль 5</span>
-                    <h3>Рослина як цілісний організм. Тканини рослин</h3>
-                </div>
-            </a>
-
-             <!-- Модуль 6 -->
-             <a href="#" class="module-card locked">
-                <div class="card-icon">🥕</div>
-                <div class="card-content">
-                    <span class="module-tag">Модуль 6</span>
-                    <h3>Корінь – вегетативний орган рослини. Будова і видозміни</h3>
-                </div>
-            </a>
-
-             <!-- Модуль 7 -->
-             <a href="#" class="module-card locked">
-                <div class="card-icon">🎋</div>
-                <div class="card-content">
-                    <span class="module-tag">Модуль 7</span>
-                    <h3>Пагін: будова, розвиток і видозміни</h3>
-                </div>
-            </a>
-
-             <!-- Модуль 8 -->
-             <a href="#" class="module-card locked">
-                <div class="card-icon">🍃</div>
-                <div class="card-content">
-                    <span class="module-tag">Модуль 8</span>
-                    <h3>Листок. Транспорт речовин і рухи рослин</h3>
-                </div>
-            </a>
-
-             <!-- Модуль 9 -->
-             <a href="#" class="module-card locked">
-                <div class="card-icon">🌸</div>
-                <div class="card-content">
-                    <span class="module-tag">Модуль 9</span>
-                    <h3>Генеративні органи рослин: квітка, насінина, плід. Запилення і запліднення</h3>
-                </div>
-            </a>
-
-             <!-- Модуль 10 -->
-             <a href="#" class="module-card locked">
-                <div class="card-icon">🌱</div>
-                <div class="card-content">
-                    <span class="module-tag">Модуль 10</span>
-                    <h3>Розмноження рослин: статеве, нестатеве і вегетативне</h3>
-                </div>
-            </a>
+            <!-- Додайте інші модулі за потреби... -->
         </div>
     </main>
 
-    <footer>
-        <p>© 2026 Learn4Life-UA. Всі права захищені.</p>
+    <footer class="bg-emerald-950 text-white py-12">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left">
+                <div class="text-xl font-black tracking-tighter mb-2 italic">BIOLOGY <span class="text-emerald-400">SMART-HUB</span></div>
+                <p class="text-emerald-200/50 text-[10px] uppercase tracking-widest">Аграрно-економічний фаховий коледж &bull; 2026</p>
+            </div>
+            <p class="text-[10px] font-black uppercase text-emerald-200/30 tracking-widest italic">© Всі права захищені. Learn4Life-UA</p>
+        </div>
     </footer>
 
 </body>
