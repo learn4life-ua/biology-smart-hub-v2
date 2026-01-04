@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Master — Biology Smart-Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .bg-bio { background-color: #f7faf8; }
+        .accent-emerald { background-color: #059669; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d1fae5; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-bio text-slate-800 min-h-screen">
+
+    <nav class="bg-white/95 backdrop-blur-md border-b border-emerald-100 p-4 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="w-10 h-10 accent-emerald rounded-xl flex items-center justify-center text-white font-black shadow-lg hover:scale-105 transition">🏠</a>
+                <h1 class="font-black text-emerald-950 tracking-tighter leading-none text-lg">AI <span class="text-emerald-500">PROMPT MASTER</span></h1>
+            </div>
+            <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-emerald-800 hover:text-emerald-500 transition">Повернутися до модулів</a>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-6 py-12">
+        <div class="bg-white rounded-[3.5rem] shadow-2xl border border-emerald-100 overflow-hidden">
+            <div class="bg-emerald-950 p-12 text-white relative">
+                <div class="absolute inset-0 bg-emerald-500/5 bg-[radial-gradient(#ffffff11_1px,transparent_1px)] [background-size:20px_20px]"></div>
+                <div class="relative z-10 text-center">
+                    <h2 class="text-4xl font-black tracking-tighter uppercase leading-none mb-4">Генератор промтів</h2>
+                    <p class="text-emerald-400 text-xs font-black uppercase tracking-[0.4em] italic leading-relaxed">Персоналізація навчання через NotebookLM</p>
+                </div>
+            </div>
+
+            <div class="p-12 space-y-10">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <!-- Модуль -->
+                    <div class="space-y-4">
+                        <label class="text-[11px] font-black text-emerald-800 uppercase tracking-widest ml-4">1. Тема Модуля:</label>
+                        <select id="sel-module" class="w-full p-5 bg-emerald-50 border border-emerald-100 rounded-[1.8rem] font-black text-emerald-950 outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all appearance-none cursor-pointer text-xs">
+                            <option value="1">Модуль 1. Вступ до біології. Властивості живого та методи дослідження</option>
+                            <option value="2">Модуль 2. Клітина — структурно-функціональна одиниця живого. Поділ клітин</option>
+                            <option value="3">Модуль 3. Хімічний склад клітини. Фотосинтез і клітинне дихання</option>
+                            <option value="4">Модуль 4. Одноклітинні організми та перехід до багатоклітинності</option>
+                            <option value="5">Модуль 5. Рослина як цілісний організм. Тканини рослин</option>
+                            <option value="6">Модуль 6. Корінь — вегетативний орган рослини. Будова і видозміни</option>
+                            <option value="7">Модуль 7. Пагін: будова, розвиток і видозміни</option>
+                            <option value="8">Модуль 8. Листок. Транспорт речовин і рухи рослин</option>
+                            <option value="9">Модуль 9. Генеративні органи рослин: квітка, насінина, плід</option>
+                            <option value="10">Модуль 10. Розмноження рослин: статеве, нестатеве і вегетативне</option>
+                        </select>
+                    </div>
+
+                    <!-- ОПП -->
+                    <div class="space-y-4">
+                        <label class="text-[11px] font-black text-emerald-800 uppercase tracking-widest ml-4">2. Ваша ОПП:</label>
+                        <select id="sel-opp" class="w-full p-5 bg-emerald-50 border border-emerald-100 rounded-[1.8rem] font-black text-emerald-950 outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all appearance-none cursor-pointer text-xs">
+                            <option value="Виробництво і переробка продукції рослинництва">Виробництво і переробка продукції рослинництва</option>
+                            <option value="Землевпорядкування">Землевпорядкування</option>
+                            <option value="Зелене будівництво і садово-паркове господарство">Зелене будівництво і садово-паркове господарство</option>
+                            <option value="Фінанси і кредит">Фінанси і кредит</option>
+                            <option value="Бухгалтерський облік">Бухгалтерський облік</option>
+                            <option value="Організація виробництва">Організація виробництва</option>
+                            <option value="Ветеринарія">Ветеринарія</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button onclick="generateAIPrompt()" class="w-full bg-emerald-600 hover:bg-emerald-950 text-white font-black py-7 rounded-[2rem] shadow-2xl transition-all uppercase tracking-[0.3em] text-sm flex items-center justify-center gap-4 active:scale-95">
+                    <span>⚡</span> СФОРМУВАТИ ПРОМПТ ДЛЯ AI
+                </button>
+
+                <div id="prompt-result" class="hidden space-y-6 animate-in fade-in zoom-in duration-500">
+                    <div class="bg-slate-950 rounded-[2.5rem] p-10 border border-emerald-500/30 shadow-2xl relative group">
+                        <div class="absolute top-6 right-10 text-[9px] font-black text-emerald-500 uppercase tracking-[0.4em] opacity-30">NotebookLM Prompt</div>
+                        <p id="prompt-content" class="text-sm font-mono text-emerald-400 leading-relaxed italic"></p>
+                    </div>
+                    <div class="flex gap-6">
+                        <button onclick="copyPromptText(this)" class="flex-1 bg-white border-4 border-slate-900 py-6 rounded-[2rem] font-black text-xs uppercase hover:bg-slate-900 hover:text-white transition-all shadow-xl active:scale-95">Копіювати текст</button>
+                        <a href="https://notebooklm.google.com" target="_blank" class="flex-1 bg-emerald-600 text-white py-6 rounded-[2rem] font-black text-xs uppercase text-center hover:bg-emerald-700 transition-all shadow-xl flex items-center justify-center gap-2">NotebookLM ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const promptTemplates = {
+            "1": "Привіт, NotebookLM! Я навчаюсь на ОПП «{OPP}». Проаналізуй Модуль 1 (Вступ до біології) та поясни, як властивості живого (метаболізм, саморегуляція, подразливість) безпосередньо впливають на ефективність роботи фахівця моєї галузі. Наведи 3 професійні кейси.",
+            "default": "Я студент ОПП «{OPP}». Будь ласка, розкрий основні тези теми: {MOD_NAME}. Поясни на прикладах з моєї галузі. Дай 3 короткі практичні кейси + 5 контрольних запитань для самоперевірки."
+        };
+
+        function generateAIPrompt() {
+            const selModule = document.getElementById('sel-module');
+            const selOpp = document.getElementById('sel-opp');
+            const modId = selModule.value;
+            const modName = selModule.options[selModule.selectedIndex].text;
+            const opp = selOpp.value;
+            const res = document.getElementById('prompt-result');
+            const cont = document.getElementById('prompt-content');
+
+            const template = promptTemplates[modId] || promptTemplates.default;
+            cont.textContent = template.replace(/{OPP}/g, opp).replace(/{MOD_NAME}/g, modName);
+            res.classList.remove('hidden');
+        }
+
+        async function copyPromptText(btnEl) {
+            const text = document.getElementById('prompt-content')?.innerText?.trim() || "";
+            try {
+                await navigator.clipboard.writeText(text);
+                btnEl.innerText = "СКОПІЙОВАНО!";
+                btnEl.classList.add('bg-emerald-600', 'text-white');
+                setTimeout(() => {
+                    btnEl.innerText = "КОПІЮВАТИ ТЕКСТ";
+                    btnEl.classList.remove('bg-emerald-600', 'text-white');
+                }, 1500);
+            } catch (err) {
+                console.error("Copy failed");
+            }
+        }
+    </script>
+</body>
+</html>
