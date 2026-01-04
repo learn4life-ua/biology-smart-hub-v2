@@ -3,304 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧬 Повний Робочий Зошит: Біологія 2025</title>
-    <style>
-        :root {
-            --primary: #2e7d32;
-            --secondary: #e8f5e9;
-            --accent: #ff9800;
-            --text: #333;
-            --bg: #f4f4f9;
-            --sidebar-width: 280px;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            display: flex;
-        }
-        
-        /* Бокова панель навігації */
-        nav {
-            width: var(--sidebar-width);
-            background: #fff;
-            height: 100vh;
-            position: fixed;
-            overflow-y: auto;
-            border-right: 1px solid #ddd;
-            padding: 20px;
-            box-sizing: border-box;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
-        }
-        nav h3 { color: var(--primary); margin-top: 0; }
-        nav a {
-            display: block;
-            padding: 10px;
-            color: var(--text);
-            text-decoration: none;
-            border-radius: 5px;
-            margin-bottom: 5px;
-            transition: background 0.3s;
-            font-size: 14px;
-        }
-        nav a:hover, nav a.active {
-            background-color: var(--secondary);
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        /* Основний контент */
-        main {
-            margin-left: var(--sidebar-width);
-            padding: 40px;
-            width: calc(100% - var(--sidebar-width));
-            max-width: 900px;
-            box-sizing: border-box;
-        }
-
-        /* Стилі карток */
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-            border-top: 4px solid var(--primary);
-        }
-        
-        h1, h2, h3 { color: var(--primary); }
-        h2 { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 0; }
-        
-        .section-icon { margin-right: 8px; }
-        
-        /* Елементи форми */
-        label { font-weight: 600; display: block; margin-bottom: 8px; margin-top: 15px; }
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-            box-sizing: border-box;
-        }
-        textarea { height: 100px; resize: vertical; }
-        
-        /* Таблиці */
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
-        th, td { border: 1px solid #ddd; padding: 12px; }
-        th { background-color: var(--secondary); text-align: left; }
-
-        /* Energy Check & Checkboxes */
-        .energy-options { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; }
-        .energy-option {
-            background: #fff; border: 1px solid #ddd; padding: 10px 15px;
-            border-radius: 20px; cursor: pointer; display: flex; align-items: center;
-        }
-        .energy-option:hover { background: var(--secondary); }
-        .energy-option input { margin-right: 8px; }
-
-        /* Floating Controls */
-        .fab-container {
-            position: fixed; bottom: 30px; right: 30px; display: flex; gap: 10px; z-index: 100;
-        }
-        .btn {
-            padding: 15px 25px; border: none; border-radius: 50px;
-            cursor: pointer; font-weight: bold; color: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: transform 0.2s;
-        }
-        .btn:hover { transform: translateY(-3px); }
-        .btn-save { background: var(--primary); }
-        .btn-print { background: var(--accent); }
-
-        /* Адаптивність для друку */
-        @media print {
-            nav, .fab-container { display: none; }
-            main { margin: 0; width: 100%; padding: 0; }
-            .card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
-            body { background: white; }
-        }
-    </style>
+    <title>Biology Smart-Hub 2.0</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<nav>
-    <h3>🧬 Зміст</h3>
-    <a href="#header">📋 Про студента</a>
-    <a href="#mod1">Модуль 1. Вступ</a>
-    <a href="#mod2">Модуль 2. Клітина</a>
-    <a href="#mod3">Модуль 3. Хім. склад</a>
-    <a href="#mod4">Модуль 4. Одноклітинні</a>
-    <a href="#mod5">Модуль 5. Рослина</a>
-    <a href="#mod6">Модуль 6. Корінь</a>
-    <a href="#mod7">Модуль 7. Пагін</a>
-    <a href="#mod8">Модуль 8. Листок</a>
-    <a href="#mod9">Модуль 9. Генеративні органи</a>
-    <a href="#mod10">Модуль 10. Розмноження</a>
-    <a href="#summary">📊 Зведена таблиця</a>
-</nav>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">🧬 Biology Smart-Hub 2.0</div>
+            <p>Інтерактивний освітній простір для студентів-біологів</p>
+        </div>
+    </header>
 
-<main>
-    <div id="header" class="card">
-        <h1>🧬 Робочий Зошит 2025</h1>
-        <p>Для здобувачів фахової передвищої освіти</p>
-        <label>ПІБ Студента:</label>
-        <input type="text" id="student_name" placeholder="Введіть ваше ім'я">
-        <label>Група:</label>
-        <input type="text" id="student_group" placeholder="Наприклад, А-11">
-    </div>
-
-    <div id="mod1" class="card">
-        <h2>Модуль 1. Вступ до біології. Властивості живого</h2>
-        
-        <h3>🔋 Energy Check-in</h3>
-        <div class="energy-options">
-            <label class="energy-option"><input type="radio" name="m1_energy" value="sleep"> 😴 Sleep Mode</label>
-            <label class="energy-option"><input type="radio" name="m1_energy" value="normal"> 🙂 Normal</label>
-            <label class="energy-option"><input type="radio" name="m1_energy" value="turbo"> 🚀 Turbo Mode</label>
+    <main class="container">
+        <div class="welcome-section">
+            <h2>👋 Вітаємо на курсі!</h2>
+            <p>Оберіть навчальний модуль для початку роботи.</p>
         </div>
 
-        <h3>🔬 Практикум: Рівні організації</h3>
-        <table>
-            <tr><th>Об'єкт / Процес</th><th>Рівень організації</th><th>Елементарна одиниця</th></tr>
-            <tr><td>🧬 Реплікація ДНК</td><td><input type="text" id="m1_t1_1"></td><td><input type="text" id="m1_t1_2"></td></tr>
-            <tr><td>🌿 Транспірація</td><td><input type="text" id="m1_t2_1"></td><td><input type="text" id="m1_t2_2"></td></tr>
-            <tr><td>💧 Евтрофікація</td><td><input type="text" id="m1_t3_1"></td><td><input type="text" id="m1_t3_2"></td></tr>
-        </table>
+        <div class="modules-grid">
+            <a href="modules/module1/index.html" class="module-card">
+                <div class="card-icon">🔬</div>
+                <div class="card-content">
+                    <span class="module-tag">Модуль 1</span>
+                    <h3>Вступ до біології. Методи дослідження</h3>
+                    <div class="card-footer">
+                        <span>Статус: Відкрито</span>
+                        <span>🔓</span>
+                    </div>
+                </div>
+            </a>
 
-        <h3>✅ Самоперевірка</h3>
-        <label>1. Що таке біологія?</label><input type="text" id="m1_q1">
-        <label>2. 5 ознак живого:</label><input type="text" id="m1_q2">
-        
-        <h3>🤖 AI-Тьютор</h3>
-        <textarea id="m1_ai" placeholder="Ваші інсайти від роботи з ШІ..."></textarea>
-    </div>
+            <a href="#" class="module-card locked">
+                <div class="card-icon">🦠</div>
+                <div class="card-content">
+                    <span class="module-tag">Модуль 2</span>
+                    <h3>Клітина – структурно-функціональна одиниця</h3>
+                    <div class="card-footer">
+                        <span>У розробці</span>
+                        <span>🔒</span>
+                    </div>
+                </div>
+            </a>
 
-    <div id="mod2" class="card">
-        <h2>Модуль 2. Клітина та поділ</h2>
-        
-        <h3>🔬 Практикум: Органели</h3>
-        <label>Функція мітохондрії:</label><input type="text" id="m2_q1">
-        <label>Функція рибосоми:</label><input type="text" id="m2_q2">
-        <label>Різниця між мітозом і мейозом:</label><textarea id="m2_q3"></textarea>
-    </div>
+            <a href="#" class="module-card locked">
+                <div class="card-icon">🧪</div>
+                <div class="card-content">
+                    <span class="module-tag">Модуль 3</span>
+                    <h3>Хімічний склад. Фотосинтез і дихання</h3>
+                </div>
+            </a>
 
-    <div id="mod3" class="card">
-        <h2>Модуль 3. Хімічний склад клітини. Фотосинтез</h2>
-        <p><i>Опрацюйте тему хімічних елементів та енергетичного обміну.</i></p>
-        
-        <h3>🔬 Практична частина</h3>
-        <label>Опишіть етапи фотосинтезу (Світлова/Темнова фаза):</label>
-        <textarea id="m3_notes"></textarea>
-        
-        <h3>✅ Основні терміни</h3>
-        <label>АТФ, вуглеводи, білки, ліпіди - дайте визначення:</label>
-        <textarea id="m3_terms"></textarea>
-    </div>
+            <a href="#" class="module-card locked">
+                <div class="card-icon">🦠</div>
+                <div class="card-content">
+                    <span class="module-tag">Модуль 4</span>
+                    <h3>Одноклітинні та перехід до багатоклітинності</h3>
+                </div>
+            </a>
 
-    <div id="mod4" class="card">
-        <h2>Модуль 4. Одноклітинні організми</h2>
-        <h3>🔬 Лабораторне дослідження</h3>
-        <label>Будова амеби / інфузорії (опишіть основні частини):</label>
-        <textarea id="m4_lab"></textarea>
-    </div>
+             <a href="#" class="module-card locked">
+                <div class="card-icon">🌿</div>
+                <div class="card-content">
+                    <span class="module-tag">Модуль 5</span>
+                    <h3>Рослина як цілісний організм. Тканини</h3>
+                </div>
+            </a>
 
-    <div id="mod5" class="card">
-        <h2>Модуль 5. Рослина як цілісний організм. Тканини</h2>
-        
-        <h3>🔬 Практикум: Тканини</h3>
-        <table>
-            <tr><th>Вид тканини</th><th>Функція</th><th>Приклад розміщення</th></tr>
-            <tr><td>Твірна (меристема)</td><td><input type="text" id="m5_t1"></td><td><input type="text" id="m5_t2"></td></tr>
-            <tr><td>Покривна</td><td><input type="text" id="m5_t3"></td><td><input type="text" id="m5_t4"></td></tr>
-            <tr><td>Провідна (ксилема/флоема)</td><td><input type="text" id="m5_t5"></td><td><input type="text" id="m5_t6"></td></tr>
-        </table>
-    </div>
+             <a href="#" class="module-card locked">
+                <div class="card-icon">🥕</div>
+                <div class="card-content">
+                    <span class="module-tag">Модуль 6</span>
+                    <h3>Корінь: будова і видозміни</h3>
+                </div>
+            </a>
 
-    <div id="mod6" class="card">
-        <h2>Модуль 6. Корінь – вегетативний орган</h2>
-        <label>Зони кореня (опишіть функції):</label>
-        <textarea id="m6_zones"></textarea>
-        <label>Видозміни кореня (приклади):</label>
-        <input type="text" id="m6_modifications">
-    </div>
+             <a href="#" class="module-card locked">
+                <div class="card-icon">🎋</div>
+                <div class="card-content">
+                    <span class="module-tag">Модуль 7</span>
+                    <h3>Пагін: будова, розвиток і видозміни</h3>
+                </div>
+            </a>
 
-    <div id="mod7" class="card">
-        <h2>Модуль 7. Пагін: будова та розвиток</h2>
-        <label>Брунька це:</label><input type="text" id="m7_bud">
-        <label>Стебло (функції):</label><textarea id="m7_stem"></textarea>
-    </div>
+             <a href="#" class="module-card locked">
+                <div class="card-icon">🍃</div>
+                <div class="card-content">
+                    <span class="module-tag">Модуль 8</span>
+                    <h3>Листок. Транспорт речовин і рухи</h3>
+                </div>
+            </a>
 
-    <div id="mod8" class="card">
-        <h2>Модуль 8. Листок. Транспорт речовин</h2>
-        <h3>🔬 Практикум</h3>
-        <label>Будова продиху та його роль:</label>
-        <textarea id="m8_stomata"></textarea>
-        <label>Листопад (причини та значення):</label>
-        <input type="text" id="m8_fall">
-    </div>
+             <a href="#" class="module-card locked">
+                <div class="card-icon">🌸</div>
+                <div class="card-content">
+                    <span class="module-tag">Модуль 9</span>
+                    <h3>Генеративні органи: квітка, плід, насіння</h3>
+                </div>
+            </a>
 
-    <div id="mod9" class="card">
-        <h2>Модуль 9. Генеративні органи: Квітка, Плід</h2>
-        
-        <h3>🔬 Будова квітки</h3>
-        <table>
-            <tr><th>Частина квітки</th><th>Функція</th></tr>
-            <tr><td>Маточка</td><td><input type="text" id="m9_t1"></td></tr>
-            <tr><td>Тичинки</td><td><input type="text" id="m9_t2"></td></tr>
-            <tr><td>Оцвітина</td><td><input type="text" id="m9_t3"></td></tr>
-        </table>
-    </div>
+             <a href="#" class="module-card locked">
+                <div class="card-icon">🌱</div>
+                <div class="card-content">
+                    <span class="module-tag">Модуль 10</span>
+                    <h3>Розмноження рослин</h3>
+                </div>
+            </a>
+        </div>
+    </main>
 
-    <div id="mod10" class="card">
-        <h2>Модуль 10. Розмноження рослин</h2>
-        <label>Способи вегетативного розмноження:</label>
-        <textarea id="m10_veg" placeholder="Живцювання, щеплення тощо..."></textarea>
-        <label>Подвійне запліднення (суть):</label>
-        <textarea id="m10_fert"></textarea>
-    </div>
-
-    <div id="summary" class="card" style="border-top-color: var(--accent);">
-        <h2>📊 Підсумки курсу</h2>
-        <p>Оцініть свій прогрес за весь курс.</p>
-        <label>Що було найцікавішим?</label>
-        <textarea id="final_reflection"></textarea>
-    </div>
-
-</main>
-
-<div class="fab-container">
-    <button class="btn btn-save" onclick="saveAll()">💾 Зберегти все</button>
-    <button class="btn btn-print" onclick="window.print()">🖨️ PDF</button>
-</div>
-
-<script>
-    function saveAll() {
-        const inputs = document.querySelectorAll('input, textarea');
-        inputs.forEach(el => {
-            if(el.type === 'radio') {
-                if(el.checked) localStorage.setItem(el.name, el.value);
-            } else {
-                localStorage.setItem(el.id, el.value);
-            }
-        });
-        alert('✅ Всі дані успішно збережено!');
-    }
-
-    window.onload = function() {
-        const inputs = document.querySelectorAll('input, textarea');
-        inputs.forEach(el => {
-            if(el.type === 'radio') {
-                const saved = localStorage.getItem(el.name);
-                if(saved === el.value) el.checked = true;
-            } else {
-                const val = localStorage.getItem(el.id);
-                if(val) el.value = val;
-            }
-        });
-    }
-</script>
+    <footer>
+        <p>© 2026 Learn4Life-UA. Всі права захищені.</p>
+    </footer>
 
 </body>
 </html>
