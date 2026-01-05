@@ -1,1 +1,333 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Модуль 1 — Biology Smart-Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
+        
+        body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+        .bg-bio { background-color: #f7faf8; }
+        .card-shadow { box-shadow: 0 10px 40px -15px rgba(0, 68, 34, 0.12); }
+        .accent-emerald { background-color: #059669; }
+        
+        /* Interactive Lines for Workbook */
+        .bio-line { border-bottom: 2px solid #d1fae5; width: 100%; padding: 4px 8px; transition: all 0.3s; background: transparent; font-weight: 600; color: #064e3b; }
+        .bio-line:focus { outline: none; border-color: #059669; background: #f0fdf4; }
+        
+        .bio-area { border: 1px solid #d1fae5; border-radius: 16px; width: 100%; padding: 14px; transition: all 0.3s; resize: none; background: #fafdfc; }
+        .bio-area:focus { outline: none; border-color: #059669; background: white; box-shadow: 0 0 0 5px rgba(5, 150, 105, 0.08); }
 
+        /* Energy Status Buttons */
+        .energy-btn { border: 1px solid #d1fae5; padding: 12px; border-radius: 16px; font-size: 11px; font-weight: 800; transition: all 0.2s; background: white; color: #065f46; }
+        .energy-btn.active { background: #059669; color: white; border-color: #059669; transform: scale(1.05); box-shadow: 0 5px 15px rgba(5, 150, 105, 0.2); }
+
+        /* Print Settings */
+        @media print {
+            nav, footer, .no-print, button, #theory-block { display: none !important; }
+            body { background: white; padding: 0; }
+            .card-shadow { box-shadow: none !important; border: none !important; }
+            #workbook { padding: 0 !important; margin: 0 !important; border: none !important; width: 100% !important; max-width: 100% !important; }
+            .bio-line { border-bottom: 1px solid #ccc !important; }
+            .bio-area { border: 1px solid #ccc !important; }
+            .workbook-section { page-break-inside: avoid; margin-bottom: 2rem; }
+        }
+    </style>
+</head>
+<body class="bg-bio text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Навігація -->
+    <nav class="bg-white/95 backdrop-blur-md border-b border-emerald-100 p-4 sticky top-0 z-50 shadow-sm no-print">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <a href="../index.html" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 accent-emerald rounded-xl flex items-center justify-center text-white font-black shadow-lg group-hover:scale-110 transition-transform">🏠</div>
+                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-900 hidden sm:block">Головна</span>
+                </a>
+                <div class="h-8 w-[1px] bg-emerald-100 hidden sm:block"></div>
+                <div>
+                    <h1 class="font-black text-emerald-950 tracking-tighter leading-none text-lg">BIOLOGY <span class="text-emerald-500">SMART-HUB</span></h1>
+                    <p class="text-[9px] font-black text-emerald-600 uppercase mt-1 tracking-widest leading-none">АЕФК ПДАУ &bull; 2025</p>
+                </div>
+            </div>
+            <div class="flex gap-2 sm:gap-3">
+                <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 sm:px-5 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2">
+                    🖨️ <span class="hidden xs:inline">ДРУК</span>
+                </button>
+                <a href="../generator.html" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 sm:px-7 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl shadow-emerald-200/50 flex items-center gap-3 active:scale-95">
+                    <span class="text-lg">🤖</span> <span class="hidden xs:inline">AI ГЕНЕРАТОР</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-6 py-12 space-y-16 flex-grow">
+        
+        <!-- БЛОК МАТЕРІАЛІВ -->
+        <section id="theory-block" class="no-print">
+            <h2 class="text-2xl font-black text-emerald-950 mb-8 flex items-center gap-3">
+                <span class="w-3 h-8 accent-emerald rounded-full"></span>
+                Опрацюйте матеріали з Модуля 1
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Картка: Опорний конспект -->
+                <a href="https://drive.google.com/file/d/1I8ewvgoovuACvPtDogWYOUP6O1C0ig1_/view?usp=drive_link" target="_blank" class="bg-white p-6 rounded-[2rem] border border-emerald-50 card-shadow flex flex-col items-center text-center hover:border-emerald-500 transition-colors group">
+                    <div class="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">📄</div>
+                    <h3 class="font-black text-emerald-900 mb-1 uppercase text-[10px] tracking-widest">Опорний конспект</h3>
+                    <p class="text-[11px] text-slate-400">Відкрити PDF-версію матеріалу</p>
+                </a>
+                <!-- Картка: Презентації -->
+                <a href="https://drive.google.com/drive/folders/19TdnzTHzD4TGdWxdXw_ZXwMfazK2HQqp?usp=drive_link" target="_blank" class="bg-white p-6 rounded-[2rem] border border-emerald-50 card-shadow flex flex-col items-center text-center hover:border-emerald-500 transition-colors group">
+                    <div class="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">🖼️</div>
+                    <h3 class="font-black text-emerald-900 mb-1 uppercase text-[10px] tracking-widest">Презентації</h3>
+                    <p class="text-[11px] text-slate-400">Візуальні схеми та ілюстрації</p>
+                </a>
+                <!-- Картка: AI Тютор -->
+                <a href="https://notebooklm.google.com/notebook/2062d90b-1122-42e9-a4df-c00eba22a6d3" target="_blank" class="bg-emerald-900 p-6 rounded-[2rem] text-white card-shadow flex flex-col items-center text-center hover:bg-emerald-950 transition-colors group shadow-xl shadow-emerald-100">
+                    <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">🤖</div>
+                    <h3 class="font-black text-emerald-400 mb-1 uppercase text-[10px] tracking-widest">AI Тютор</h3>
+                    <p class="text-[11px] text-emerald-200/60">Ваш персональний помічник ШІ</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- РОБОЧИЙ ЗОШИТ -->
+        <section id="workbook" class="bg-white rounded-[3.5rem] p-8 md:p-16 border-2 border-emerald-100 card-shadow">
+            
+            <header class="text-center mb-16">
+                <h2 class="text-5xl font-black text-emerald-950 mb-2 tracking-tighter uppercase leading-none text-center">Робочий Зошит</h2>
+                <div class="h-1.5 w-24 bg-emerald-500 mx-auto rounded-full mb-6"></div>
+                <p class="text-emerald-700 font-extrabold uppercase tracking-[0.2em] text-xs leading-relaxed text-center">
+                    Модуль 1. Вступ до біології. <br> Властивості живого та методи дослідження
+                </p>
+            </header>
+
+            <!-- Metadata -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <div><label class="text-[10px] font-black text-emerald-800 uppercase tracking-widest mb-1 block">Студент:</label><input type="text" class="bio-line"></div>
+                <div><label class="text-[10px] font-black text-emerald-800 uppercase tracking-widest mb-1 block">Група:</label><input type="text" class="bio-line"></div>
+                <div><label class="text-[10px] font-black text-emerald-800 uppercase tracking-widest mb-1 block">Дата:</label><input type="text" class="bio-line"></div>
+                <div><label class="text-[10px] font-black text-emerald-800 uppercase tracking-widest mb-1 block">Спеціальність:</label><input type="text" class="bio-line"></div>
+            </div>
+
+            <!-- Energy Check-in -->
+            <div class="workbook-section mb-16 bg-emerald-50/40 p-8 rounded-[2.5rem] border border-emerald-100/50 no-print">
+                <h3 class="font-black text-emerald-950 mb-6 flex items-center gap-3 text-base">🔋 Energy Check-in:</h3>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <button onclick="setEnergy(this)" class="energy-btn">😴 Sleep Mode</button>
+                    <button onclick="setEnergy(this)" class="energy-btn">😐 Eco Mode</button>
+                    <button onclick="setEnergy(this)" class="energy-btn">🙂 Normal</button>
+                    <button onclick="setEnergy(this)" class="energy-btn active">🚀 Turbo Mode</button>
+                </div>
+            </div>
+
+            <!-- 1. МОТИВАЦІЯ ТА ПРОФЕСІЯ -->
+            <div class="workbook-section mb-16 space-y-8">
+                <h3 class="text-xl font-black text-emerald-900 uppercase tracking-tight flex items-center gap-4 border-l-8 border-emerald-500 pl-6">
+                    1. МОТИВАЦІЯ ТА ПРОФЕСІЯ
+                </h3>
+                <p class="text-[11px] font-black text-slate-400 uppercase tracking-widest">Позначте компетенції, які ви плануєте розвинути (☐):</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <label class="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-transparent hover:border-emerald-100">
+                        <input type="checkbox" class="w-5 h-5 accent-emerald-600 rounded mt-0.5 shadow-sm">
+                        <span class="text-xs font-semibold leading-snug">Розуміти живі системи як цілісні об’єкти та прогнозувати наслідки</span>
+                    </label>
+                    <label class="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-transparent hover:border-emerald-100">
+                        <input type="checkbox" class="w-5 h-5 accent-emerald-600 rounded mt-0.5 shadow-sm">
+                        <span class="text-xs font-semibold leading-snug">Пояснювати процеси в організмах на основі наукових законів</span>
+                    </label>
+                    <label class="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-transparent hover:border-emerald-100">
+                        <input type="checkbox" class="w-5 h-5 accent-emerald-600 rounded mt-0.5 shadow-sm">
+                        <span class="text-xs font-semibold leading-snug">Приймати обґрунтовані рішення щодо використання ресурсів</span>
+                    </label>
+                    <label class="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-transparent hover:border-emerald-100">
+                        <input type="checkbox" class="w-5 h-5 accent-emerald-600 rounded mt-0.5 shadow-sm">
+                        <span class="text-xs font-semibold leading-snug">Оцінювати вплив діяльності людини на довкілля та біобезпеку</span>
+                    </label>
+                    <label class="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-transparent hover:border-emerald-100">
+                        <input type="checkbox" class="w-5 h-5 accent-emerald-600 rounded mt-0.5 shadow-sm">
+                        <span class="text-xs font-semibold leading-snug">Працювати з даними, схемами, моделями та цифровими інструментами</span>
+                    </label>
+                    <label class="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-transparent hover:border-emerald-100">
+                        <input type="checkbox" class="w-5 h-5 accent-emerald-600 rounded mt-0.5 shadow-sm">
+                        <span class="text-xs font-semibold leading-snug">Застосовувати біологічні знання у виробничих задачах</span>
+                    </label>
+                    <label class="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-transparent hover:border-emerald-100">
+                        <input type="checkbox" class="w-5 h-5 accent-emerald-600 rounded mt-0.5 shadow-sm">
+                        <span class="text-xs font-semibold leading-snug">Дотримуватися принципів сталого розвитку</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 2. ГЛОСАРІЙ -->
+            <div class="workbook-section mb-16">
+                <h3 class="text-xl font-black text-emerald-900 mb-6 uppercase tracking-tight italic">📚 2. РЕСУРСИ ТА ГЛОСАРІЙ</h3>
+                <div class="bg-slate-50 p-8 rounded-[2.5rem] border border-slate-200">
+                    <p class="text-[9px] font-black text-emerald-600 uppercase mb-4 tracking-[0.2em]">Ключові терміни теми:</p>
+                    <div class="flex flex-wrap gap-2 text-[10px] font-bold">
+                        <span class="bg-white border border-emerald-100 px-3 py-1.5 rounded-lg text-emerald-900 shadow-sm">Біологія</span>
+                        <span class="bg-white border border-emerald-100 px-3 py-1.5 rounded-lg text-emerald-900 shadow-sm">Метаболізм</span>
+                        <span class="bg-white border border-emerald-100 px-3 py-1.5 rounded-lg text-emerald-900 shadow-sm">Гомеостаз</span>
+                        <span class="bg-white border border-emerald-100 px-3 py-1.5 rounded-lg text-emerald-900 shadow-sm">Спадковість</span>
+                        <span class="bg-white border border-emerald-100 px-3 py-1.5 rounded-lg text-emerald-900 shadow-sm">Подразливість</span>
+                        <span class="bg-white border border-emerald-100 px-3 py-1.5 rounded-lg text-emerald-900 shadow-sm">Моніторинг</span>
+                        <span class="bg-white border border-emerald-100 px-3 py-1.5 rounded-lg text-emerald-900 shadow-sm">Експеримент</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. ПРАКТИКУМ -->
+            <div class="workbook-section mb-16">
+                <h3 class="text-xl font-black text-emerald-900 mb-6 uppercase tracking-tight flex items-center gap-4">🔬 3. ПРАКТИКУМ: РІВНІ ОРГАНІЗАЦІЇ</h3>
+                <div class="rounded-[2rem] border-2 border-emerald-50 overflow-hidden shadow-sm">
+                    <table class="w-full text-xs">
+                        <thead class="bg-emerald-600 text-white font-black">
+                            <tr>
+                                <th class="p-5 text-left">Об'єкт / Процес</th>
+                                <th class="p-5 text-left">Рівень організації</th>
+                                <th class="p-5 text-left">Елементарна одиниця</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-emerald-50 font-semibold">
+                            <tr>
+                                <td class="p-5 text-emerald-950 bg-slate-50/50 font-bold italic text-center xs:text-left">🧬 Реплікація ДНК</td>
+                                <td class="p-5"><input type="text" class="bio-line" placeholder="..."></td>
+                                <td class="p-5"><input type="text" class="bio-line" placeholder="..."></td>
+                            </tr>
+                            <tr>
+                                <td class="p-5 text-emerald-950 bg-slate-50/50 font-bold italic text-center xs:text-left">🌿 Транспірація у рослин</td>
+                                <td class="p-5"><input type="text" class="bio-line" placeholder="..."></td>
+                                <td class="p-5"><input type="text" class="bio-line" placeholder="..."></td>
+                            </tr>
+                            <tr>
+                                <td class="p-5 text-emerald-950 bg-slate-50/50 font-bold italic text-center xs:text-left">💧 Евтрофікація водойм</td>
+                                <td class="p-5"><input type="text" class="bio-line" placeholder="..."></td>
+                                <td class="p-5"><input type="text" class="bio-line" placeholder="..."></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 4. РОБОТА З ШІ-ТЬЮТОРОМ -->
+            <div class="workbook-section mb-16">
+                <h3 class="text-xl font-black text-emerald-900 mb-6 uppercase tracking-tight flex items-center gap-4 border-l-8 border-indigo-500 pl-6">
+                    🤖 4. РОБОТА З ШІ-ТЬЮТОРОМ
+                </h3>
+                <div class="bg-slate-900 p-8 rounded-[2.5rem] text-white space-y-6">
+                    <div class="p-4 bg-white/5 border border-white/10 rounded-2xl">
+                        <p class="text-[10px] uppercase font-black text-indigo-400 mb-2">Завдання:</p>
+                        <p class="text-sm italic text-indigo-100">Скористайтеся зовнішнім AI Генератором для створення промпту та опрацюйте результати в NotebookLM.</p>
+                    </div>
+                    <div class="space-y-3">
+                        <p class="text-[10px] uppercase font-black text-emerald-400 tracking-widest leading-none mb-4">📝 Ваші нотатки та інсайти:</p>
+                        <textarea class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-xs h-32 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="Запишіть отримані знання тут..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. КОНТРОЛЬНІ ПИТАННЯ -->
+            <div class="workbook-section mb-16 space-y-8">
+                <h3 class="text-xl font-black text-emerald-900 uppercase tracking-tight">✅ 5. КОНТРОЛЬНІ ПИТАННЯ</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-emerald-700 uppercase ml-2 tracking-wider">1. Що таке біологія? Галузі?</label>
+                        <textarea class="bio-area text-xs" rows="3" placeholder="Введіть відповідь..."></textarea>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-emerald-700 uppercase ml-2 tracking-wider">2. 5 ознак живого? Ріст vs Розвиток?</label>
+                        <textarea class="bio-area text-xs" rows="3" placeholder="Введіть відповідь..."></textarea>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-emerald-700 uppercase ml-2 tracking-wider">3. Експеримент vs Моніторинг?</label>
+                        <textarea class="bio-area text-xs" rows="3" placeholder="Введіть відповідь..."></textarea>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-emerald-700 uppercase ml-2 tracking-wider">4. Збільшення мікроскопа? (Формула)</label>
+                        <textarea class="bio-area text-xs" rows="3" placeholder="Введіть відповідь..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5A. БІОЕТИКА -->
+            <div class="workbook-section mb-16 bg-rose-50 rounded-[3rem] p-10 border border-rose-100">
+                <h3 class="text-xl font-black mb-6 uppercase tracking-tight text-rose-900 italic">⚖️ 5A. БІОЕТИКА</h3>
+                <p class="font-bold mb-8 text-slate-800 text-sm italic text-center leading-relaxed">"Чи етично використовувати тварин для тестування косметики, якщо це гарантує безпеку людини?"</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-[9px] font-black text-green-700 uppercase block ml-4 tracking-widest">👍 Аргументи ЗА</label>
+                        <textarea class="w-full bg-white border border-green-100 rounded-2xl p-5 text-[11px] shadow-sm" rows="4"></textarea>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[9px] font-black text-rose-700 uppercase block ml-4 tracking-widest">👎 Аргументи ПРОТИ</label>
+                        <textarea class="w-full bg-white border border-rose-100 rounded-2xl p-5 text-[11px] shadow-sm" rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. INNOVATION CORNER -->
+            <div class="workbook-section mb-16">
+                <h3 class="text-xl font-black text-emerald-950 mb-8 uppercase tracking-tight flex items-center gap-4">🚀 6. INNOVATION CORNER</h3>
+                <div class="bg-gradient-to-br from-emerald-600 to-green-900 p-10 rounded-[3rem] text-white shadow-xl">
+                    <p class="text-sm font-semibold mb-6 italic leading-relaxed text-center">Завдання: Ви працюєте в лабораторії біоінформатики. Запропонуйте ідею, як за допомогою моніторингу та ШІ запобігти зникненню рідкісної рослини.</p>
+                    <div class="space-y-4">
+                        <input type="text" class="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-xs placeholder:text-emerald-200 outline-none focus:border-emerald-400 font-bold" placeholder="Назва вашої інноваційної ідеї">
+                        <textarea class="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-xs placeholder:text-emerald-200 outline-none focus:border-emerald-400" rows="3" placeholder="Опис проекту та роль ШІ..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. РЕФЛЕКСІЯ -->
+            <div class="pt-16 border-t-4 border-emerald-50 flex flex-wrap justify-between items-end gap-12">
+                <div class="flex-1 min-w-[320px] space-y-6">
+                    <h3 class="font-black text-emerald-900 uppercase text-[10px] tracking-[0.4em] ml-2">💭 7. РЕФЛЕКСІЯ</h3>
+                    <div class="grid grid-cols-1 gap-4">
+                        <textarea class="bio-area text-[11px]" placeholder="Що сьогодні було найважливішим?" rows="2"></textarea>
+                        <textarea class="bio-area text-[11px]" placeholder="Що залишилося незрозумілим?" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="text-right flex flex-col items-end">
+                    <div class="text-7xl font-black text-emerald-600 mb-4 tracking-tighter">___ / 12</div>
+                    <div class="flex gap-2 justify-end mb-4 no-print">
+                        <div class="w-5 h-5 rounded border-2 border-emerald-100"></div>
+                        <div class="w-5 h-5 rounded border-2 border-emerald-100"></div>
+                        <div class="w-5 h-5 rounded border-2 border-emerald-100"></div>
+                        <div class="w-5 h-5 rounded border-2 border-emerald-100"></div>
+                        <div class="w-5 h-5 rounded border-2 border-emerald-100"></div>
+                    </div>
+                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-[0.5em]">XP LEVEL TRACKER</span>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Підвал (Footer) -->
+    <footer class="bg-emerald-950 text-white py-12 no-print">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left">
+                <div class="text-xl font-black tracking-tighter mb-2 italic">BIOLOGY <span class="text-emerald-400">SMART-HUB</span></div>
+                <p class="text-emerald-200/50 text-[10px] uppercase tracking-widest">Аграрно-економічний фаховий коледж ПДАУ &bull; 2026</p>
+            </div>
+            <div class="flex flex-col items-center md:items-end gap-2">
+                <p class="text-[10px] font-black uppercase text-emerald-200/30 tracking-widest italic text-center md:text-right">© Всі права захищені. Learn4Life-UA</p>
+                <div class="flex gap-4 mt-2">
+                    <a href="../index.html" class="text-xs font-bold text-emerald-400 hover:text-white transition uppercase tracking-widest">Головна</a>
+                    <a href="../generator.html" class="text-xs font-bold text-emerald-400 hover:text-white transition uppercase tracking-widest">AI Генератор</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Energy Status Tracker ---
+        function setEnergy(btn) {
+            document.querySelectorAll('.energy-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
