@@ -3,46 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Prompt Master — Biology Smart-Hub</title>
+    <title>AI Prompt Master — Biology Smart-Hub 2.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
         .bg-bio { background-color: #f7faf8; }
+        .card-shadow { box-shadow: 0 10px 40px -15px rgba(0, 68, 34, 0.12); }
         .accent-emerald { background-color: #059669; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d1fae5; border-radius: 10px; }
+        
+        /* Mobile menu animation */
+        #mobile-menu {
+            transition: all 0.4s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #mobile-menu.open {
+            max-height: 500px;
+            opacity: 1;
+            padding: 1rem 0;
+        }
+
+        .section-title {
+            letter-spacing: 0.02em;
+            word-spacing: 0.1em;
+        }
+
+        @media (max-width: 640px) {
+            .section-title {
+                letter-spacing: normal;
+                word-spacing: normal;
+            }
+        }
+        
+        /* Custom select styling for long names */
+        select {
+            text-overflow: ellipsis;
+        }
     </style>
 </head>
-<body class="bg-bio text-slate-800 min-h-screen">
+<body class="bg-bio text-slate-800 flex flex-col min-h-screen">
 
-    <nav class="bg-white/95 backdrop-blur-md border-b border-emerald-100 p-4 sticky top-0 z-50 shadow-sm">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
+    <!-- Навігація -->
+    <nav class="bg-white/95 backdrop-blur-md border-b border-emerald-100 p-4 sticky top-0 z-50 shadow-sm no-print">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo Block -->
             <div class="flex items-center gap-3">
-                <a href="index.html" class="w-10 h-10 accent-emerald rounded-xl flex items-center justify-center text-white font-black shadow-lg hover:scale-105 transition">🏠</a>
-                <h1 class="font-black text-emerald-950 tracking-tighter leading-none text-lg">AI <span class="text-emerald-500">PROMPT MASTER</span></h1>
-            </div>
-            <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-emerald-800 hover:text-emerald-500 transition">Повернутися до модулів</a>
-        </div>
-    </nav>
-
-    <main class="max-w-4xl mx-auto px-6 py-12">
-        <div class="bg-white rounded-[3.5rem] shadow-2xl border border-emerald-100 overflow-hidden">
-            <div class="bg-emerald-950 p-12 text-white relative">
-                <div class="absolute inset-0 bg-emerald-500/5 bg-[radial-gradient(#ffffff11_1px,transparent_1px)] [background-size:20px_20px]"></div>
-                <div class="relative z-10 text-center">
-                    <h2 class="text-4xl font-black tracking-tighter uppercase leading-none mb-4">Генератор промтів</h2>
-                    <p class="text-emerald-400 text-xs font-black uppercase tracking-[0.4em] italic leading-relaxed">Персоналізація навчання через NotebookLM</p>
+                <div class="w-10 h-10 accent-emerald rounded-xl flex items-center justify-center text-white font-black shadow-lg">🧬</div>
+                <div class="flex flex-col">
+                    <h1 class="font-black text-emerald-950 tracking-normal leading-none text-base md:text-lg uppercase">BIOLOGY <span class="text-emerald-500">SMART-HUB 2.0</span></h1>
+                    <p class="text-[7px] md:text-[8px] font-bold text-emerald-600 uppercase mt-1 tracking-wider leading-none">POWERED BY ВСП "АЕФК ПДАУ"</p>
                 </div>
             </div>
 
-            <div class="p-12 space-y-10">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex items-center gap-6">
+                <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-emerald-800 hover:text-emerald-500 transition">🏠 Головна</a>
+                <a href="resources.html" class="text-[10px] font-black uppercase tracking-widest text-emerald-800 hover:text-emerald-500 transition">📚 Ресурси</a>
+                <a href="#" class="text-[10px] font-black uppercase tracking-widest text-emerald-800 hover:text-emerald-500 transition">💬 Підтримка</a>
+                <a href="generator.html" class="bg-emerald-600 text-white px-5 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl shadow-emerald-200/50 flex items-center gap-2">
+                    <span>🤖</span> AI ГЕНЕРАТОР
+                </a>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <button onclick="toggleMobileMenu()" class="lg:hidden flex items-center p-2 text-emerald-900 focus:outline-none">
+                <svg id="menu-icon" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-menu" class="lg:hidden bg-white px-4 border-t border-emerald-50">
+            <div class="flex flex-col gap-2 py-4 font-black text-[10px] tracking-widest uppercase">
+                <a href="index.html" class="text-emerald-800 px-4 py-3 hover:bg-emerald-50 rounded-xl transition">🏠 Головна</a>
+                <a href="resources.html" class="text-emerald-800 px-4 py-3 hover:bg-emerald-50 rounded-xl transition">📚 Ресурси</a>
+                <a href="#" class="text-emerald-800 px-4 py-3 hover:bg-emerald-50 rounded-xl transition">💬 Підтримка</a>
+                <a href="generator.html" class="text-white px-4 py-4 bg-emerald-600 rounded-xl flex items-center gap-3 shadow-lg mt-2">🤖 AI Генератор</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-16 flex-grow">
+        <div class="bg-white rounded-[2.5rem] md:rounded-[3.5rem] shadow-2xl border border-emerald-100 overflow-hidden card-shadow">
+            <!-- Header Section -->
+            <div class="bg-emerald-950 p-8 md:p-14 text-white relative">
+                <div class="absolute inset-0 bg-emerald-500/5 bg-[radial-gradient(#ffffff11_1px,transparent_1px)] [background-size:20px_20px]"></div>
+                <div class="relative z-10 text-center space-y-4">
+                    <div class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-[9px] font-black uppercase tracking-widest border border-emerald-500/30">
+                        Smart AI Tool
+                    </div>
+                    <h2 class="text-2xl md:text-3xl font-black tracking-normal uppercase leading-tight">Генератор промтів</h2>
+                    <p class="text-emerald-400/80 text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] italic leading-relaxed">Персоналізація навчання через NotebookLM</p>
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="p-6 md:p-14 space-y-8 md:space-y-12">
+                <div class="grid grid-cols-1 gap-8">
+                    
                     <!-- Модуль -->
-                    <div class="space-y-4">
-                        <label class="text-[11px] font-black text-emerald-800 uppercase tracking-widest ml-4">1. Тема Модуля:</label>
-                        <select id="sel-module" class="w-full p-5 bg-emerald-50 border border-emerald-100 rounded-[1.8rem] font-black text-emerald-950 outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all appearance-none cursor-pointer text-xs">
+                    <div class="space-y-3">
+                        <label class="text-[10px] md:text-[11px] font-black text-emerald-800 uppercase tracking-widest ml-4">1. Оберіть навчальний модуль:</label>
+                        <select id="sel-module" class="w-full p-4 md:p-5 bg-emerald-50 border border-emerald-100 rounded-[1.5rem] md:rounded-[2rem] font-bold text-emerald-950 outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all appearance-none cursor-pointer text-xs md:text-sm leading-relaxed">
                             <option value="1">Модуль 1. Вступ до біології. Властивості живого та методи дослідження</option>
                             <option value="2">Модуль 2. Клітина — структурно-функціональна одиниця живого. Поділ клітин</option>
                             <option value="3">Модуль 3. Хімічний склад клітини. Фотосинтез і клітинне дихання</option>
@@ -57,42 +123,68 @@
                     </div>
 
                     <!-- ОПП -->
-                    <div class="space-y-4">
-                        <label class="text-[11px] font-black text-emerald-800 uppercase tracking-widest ml-4">2. Ваша ОПП:</label>
-                        <select id="sel-opp" class="w-full p-5 bg-emerald-50 border border-emerald-100 rounded-[1.8rem] font-black text-emerald-950 outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all appearance-none cursor-pointer text-xs">
+                    <div class="space-y-3">
+                        <label class="text-[10px] md:text-[11px] font-black text-emerald-800 uppercase tracking-widest ml-4">2. Оберіть ОПП, за якою ви навчаєтесь:</label>
+                        <select id="sel-opp" class="w-full p-4 md:p-5 bg-emerald-50 border border-emerald-100 rounded-[1.5rem] md:rounded-[2rem] font-bold text-emerald-950 outline-none focus:ring-4 focus:ring-emerald-500/10 transition-all appearance-none cursor-pointer text-xs md:text-sm">
                             <option value="Виробництво і переробка продукції рослинництва">Виробництво і переробка продукції рослинництва</option>
                             <option value="Землевпорядкування">Землевпорядкування</option>
                             <option value="Зелене будівництво і садово-паркове господарство">Зелене будівництво і садово-паркове господарство</option>
                             <option value="Фінанси і кредит">Фінанси і кредит</option>
                             <option value="Бухгалтерський облік">Бухгалтерський облік</option>
                             <option value="Організація виробництва">Організація виробництва</option>
-                            <option value="Ветеринарія">Ветеринарія</option>
+                            <option value="Ветеринарна медицина">Ветеринарна медицина</option>
                         </select>
                     </div>
                 </div>
 
-                <button onclick="generateAIPrompt()" class="w-full bg-emerald-600 hover:bg-emerald-950 text-white font-black py-7 rounded-[2rem] shadow-2xl transition-all uppercase tracking-[0.3em] text-sm flex items-center justify-center gap-4 active:scale-95">
-                    <span>⚡</span> СФОРМУВАТИ ПРОМПТ ДЛЯ AI
+                <button onclick="generateAIPrompt()" class="w-full bg-emerald-600 hover:bg-emerald-950 text-white font-black py-5 md:py-7 rounded-[1.5rem] md:rounded-[2rem] shadow-xl transition-all uppercase tracking-[0.2em] text-[11px] md:text-xs flex items-center justify-center gap-4 active:scale-95">
+                    <span>⚡</span> Сформувати промпт для AI
                 </button>
 
-                <div id="prompt-result" class="hidden space-y-6 animate-in fade-in zoom-in duration-500">
-                    <div class="bg-slate-950 rounded-[2.5rem] p-10 border border-emerald-500/30 shadow-2xl relative group">
-                        <div class="absolute top-6 right-10 text-[9px] font-black text-emerald-500 uppercase tracking-[0.4em] opacity-30">NotebookLM Prompt</div>
-                        <p id="prompt-content" class="text-sm font-mono text-emerald-400 leading-relaxed italic"></p>
+                <!-- Result Section -->
+                <div id="prompt-result" class="hidden space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <div class="bg-slate-950 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 border border-emerald-500/30 shadow-2xl relative">
+                        <div class="absolute top-4 right-8 text-[8px] font-black text-emerald-500/40 uppercase tracking-[0.3em]">NotebookLM Prompt</div>
+                        <p id="prompt-content" class="text-xs md:text-sm font-mono text-emerald-400 leading-relaxed italic"></p>
                     </div>
-                    <div class="flex gap-6">
-                        <button onclick="copyPromptText(this)" class="flex-1 bg-white border-4 border-slate-900 py-6 rounded-[2rem] font-black text-xs uppercase hover:bg-slate-900 hover:text-white transition-all shadow-xl active:scale-95">Копіювати текст</button>
-                        <a href="https://notebooklm.google.com" target="_blank" class="flex-1 bg-emerald-600 text-white py-6 rounded-[2rem] font-black text-xs uppercase text-center hover:bg-emerald-700 transition-all shadow-xl flex items-center justify-center gap-2">NotebookLM ↗</a>
+                    
+                    <!-- Колонки для кнопок: 1 на мобайлі, 2 на десктопі -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <button onclick="copyPromptText(this)" class="bg-white border-2 border-slate-950 text-slate-950 py-4 md:py-5 rounded-[1.2rem] md:rounded-[2rem] font-black text-[10px] uppercase tracking-widest hover:bg-slate-950 hover:text-white transition-all shadow-md active:scale-95">
+                            📄 Копіювати текст
+                        </button>
+                        <a href="https://notebooklm.google.com" target="_blank" class="bg-emerald-900 text-emerald-400 py-4 md:py-5 rounded-[1.2rem] md:rounded-[2rem] font-black text-[10px] uppercase tracking-widest text-center hover:bg-emerald-950 transition-all shadow-md flex items-center justify-center gap-2 border border-emerald-800">
+                            NotebookLM ↗
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
+    <!-- Підвал -->
+    <footer class="bg-emerald-950 text-white py-10 md:py-12">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
+            <div>
+                <div class="text-lg md:text-xl font-black tracking-tighter mb-2 italic uppercase">BIOLOGY <span class="text-emerald-400">SMART-HUB 2.0</span></div>
+                <p class="text-emerald-200/50 text-[8px] md:text-[10px] uppercase font-bold tracking-widest uppercase">ВСП "АГРАРНО-ЕКОНОМІЧНИЙ ФАХОВИЙ КОЛЕДЖ ПДАУ"</p>
+            </div>
+            <div class="flex flex-col items-center md:items-end gap-2">
+                <p class="text-[8px] md:text-[9px] font-black uppercase text-emerald-200/40 tracking-widest italic leading-relaxed text-center md:text-right">
+                    COPYRIGHT © 2025 | ВСП "АЕФК ПДАУ" |
+                </p>
+                <div class="flex gap-4 mt-2 font-bold text-[10px] uppercase tracking-widest">
+                    <a href="index.html" class="text-emerald-400 hover:text-white transition">Головна</a>
+                    <a href="resources.html" class="text-emerald-400 hover:text-white transition">Ресурси</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script>
         const promptTemplates = {
-            "1": "Привіт, NotebookLM! Я навчаюсь на ОПП «{OPP}». Проаналізуй Модуль 1 (Вступ до біології) та поясни, як властивості живого (метаболізм, саморегуляція, подразливість) безпосередньо впливають на ефективність роботи фахівця моєї галузі. Наведи 3 професійні кейси.",
-            "default": "Я студент ОПП «{OPP}». Будь ласка, розкрий основні тези теми: {MOD_NAME}. Поясни на прикладах з моєї галузі. Дай 3 короткі практичні кейси + 5 контрольних запитань для самоперевірки."
+            "1": "Привіт, NotebookLM! Я навчаюсь на ОПП «{OPP}». Проаналізуй Модуль 1 ({MOD_NAME}) та поясни, як властивості живого (метаболізм, саморегуляція, подразливість) безпосередньо впливають на ефективність роботи фахівця моєї галузі. Наведи 3 професійні кейси.",
+            "default": "Я студент ОПП «{OPP}». Будь ласка, розкрий основні тези теми: {MOD_NAME}. Поясни на прикладах, які актуальні для моєї майбутньої професії. Дай 3 практичні кейси + 5 запитань для самоперевірки."
         };
 
         function generateAIPrompt() {
@@ -107,20 +199,47 @@
             const template = promptTemplates[modId] || promptTemplates.default;
             cont.textContent = template.replace(/{OPP}/g, opp).replace(/{MOD_NAME}/g, modName);
             res.classList.remove('hidden');
+            
+            setTimeout(() => {
+                res.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
         }
 
         async function copyPromptText(btnEl) {
             const text = document.getElementById('prompt-content')?.innerText?.trim() || "";
             try {
-                await navigator.clipboard.writeText(text);
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(text);
+                } else {
+                    const textArea = document.createElement("textarea");
+                    textArea.value = text;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                }
+                
+                const originalText = btnEl.innerText;
                 btnEl.innerText = "СКОПІЙОВАНО!";
-                btnEl.classList.add('bg-emerald-600', 'text-white');
+                btnEl.classList.replace('text-slate-950', 'text-emerald-600');
+                
                 setTimeout(() => {
-                    btnEl.innerText = "КОПІЮВАТИ ТЕКСТ";
-                    btnEl.classList.remove('bg-emerald-600', 'text-white');
+                    btnEl.innerText = originalText;
+                    btnEl.classList.replace('text-emerald-600', 'text-slate-950');
                 }, 1500);
             } catch (err) {
-                console.error("Copy failed");
+                console.error("Copy failed", err);
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            menu.classList.toggle('open');
+            if (menu.classList.contains('open')) {
+                icon.style.transform = 'rotate(90deg)';
+            } else {
+                icon.style.transform = 'rotate(0deg)';
             }
         }
     </script>
