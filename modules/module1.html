@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Модуль 1: Вступ до біології. Властивості живого — Biology Smart-Hub 2.0</title>
+    <title>Модуль 1: Вступ до біології — Biology Smart-Hub 2.0</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
@@ -13,84 +13,88 @@
         .card-shadow { box-shadow: 0 10px 40px -15px rgba(0, 68, 34, 0.12); }
         .accent-emerald { background-color: #059669; }
         
-        /* Interactive Lines for Workbook */
         .bio-line { border-bottom: 2px solid #d1fae5; width: 100%; padding: 4px 8px; transition: all 0.3s; background: transparent; font-weight: 600; color: #064e3b; }
         .bio-line:focus { outline: none; border-color: #059669; background: #f0fdf4; }
         
         .bio-area { border: 1px solid #d1fae5; border-radius: 16px; width: 100%; padding: 14px; transition: all 0.3s; resize: none; background: #fafdfc; }
         .bio-area:focus { outline: none; border-color: #059669; background: white; box-shadow: 0 0 0 5px rgba(5, 150, 105, 0.08); }
 
-        /* Energy Status Buttons */
-        .energy-btn { border: 1px solid #d1fae5; padding: 12px; border-radius: 16px; font-size: 11px; font-weight: 800; transition: all 0.2s; background: white; color: #065f46; }
+        .energy-btn { border: 1px solid #d1fae5; padding: 10px; border-radius: 16px; font-size: 10px; font-weight: 800; transition: all 0.2s; background: white; color: #065f46; width: 100%; }
         .energy-btn.active { background: #059669; color: white; border-color: #059669; transform: scale(1.05); box-shadow: 0 5px 15px rgba(5, 150, 105, 0.2); }
 
-        /* Налаштування для читабельності */
-        .word-spacing-wide {
-            word-spacing: 0.12em;
+        .hero-title { letter-spacing: -0.015em; line-height: 1.2; }
+
+        #mobile-menu { transition: all 0.3s ease-in-out; max-height: 0; overflow: hidden; opacity: 0; }
+        #mobile-menu.open { max-height: 600px; opacity: 1; padding: 1rem 0; }
+
+        #sync-indicator { position: fixed; bottom: 20px; right: 20px; z-index: 100; display: none; }
+
+        /* Custom Modal Styles */
+        #confirm-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 44, 34, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
         }
 
-        .hero-title {
-            letter-spacing: -0.015em;
-            line-height: 1.2;
-        }
-
-        /* Mobile menu animation */
-        #mobile-menu {
-            transition: all 0.3s ease-in-out;
-            max-height: 0;
-            overflow: hidden;
-        }
-        #mobile-menu.open {
-            max-height: 500px;
-            padding: 1rem 0;
-        }
-
-        /* Print Settings */
         @media print {
-            nav, footer, .no-print, button, #theory-block { display: none !important; }
+            nav, footer, .no-print, button, #theory-block, #sync-indicator, #confirm-modal { display: none !important; }
             body { background: white; padding: 0; }
             .card-shadow { box-shadow: none !important; border: none !important; }
             #workbook { padding: 0 !important; margin: 0 !important; border: none !important; width: 100% !important; max-width: 100% !important; }
-            .bio-line { border-bottom: 1px solid #ccc !important; }
-            .bio-area { border: 1px solid #ccc !important; }
+            .bio-line { border-bottom: 1px solid #ccc !important; min-height: 1.5rem; }
+            .bio-area { border: 1px solid #ccc !important; min-height: 5rem; }
             .workbook-section { page-break-inside: avoid; margin-bottom: 2rem; }
-        }
-
-        @media (max-width: 640px) {
-            .hero-title {
-                letter-spacing: normal;
-                line-height: 1.3;
-                word-spacing: 0.05em;
-            }
+            input::placeholder, textarea::placeholder { color: transparent !important; }
         }
     </style>
 </head>
 <body class="bg-bio text-slate-800 flex flex-col min-h-screen">
 
+    <!-- Індикатор автозбереження -->
+    <div id="sync-indicator" class="bg-slate-800 text-white text-[9px] font-black px-4 py-2 rounded-full shadow-2xl flex items-center gap-2 no-print">
+        <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span> ЗБЕРЕЖЕНО ЛОКАЛЬНО
+    </div>
+
+    <!-- Модальне вікно підтвердження -->
+    <div id="confirm-modal">
+        <div class="bg-white rounded-[2.5rem] p-8 md:p-12 max-w-md w-full shadow-2xl text-center space-y-6">
+            <div class="w-20 h-20 bg-rose-100 text-rose-600 rounded-3xl flex items-center justify-center text-4xl mx-auto">⚠️</div>
+            <h3 class="text-2xl font-black text-emerald-950 leading-tight">Очистити зошит?</h3>
+            <p class="text-slate-500 font-semibold text-sm">Всі ваші відповіді будуть видалені без можливості відновлення. Ви впевнені?</p>
+            <div class="grid grid-cols-2 gap-4 pt-4">
+                <button onclick="closeModal()" class="py-4 rounded-2xl bg-slate-100 text-slate-600 font-black uppercase text-[10px] tracking-widest hover:bg-slate-200 transition">Скасувати</button>
+                <button onclick="confirmClear()" class="py-4 rounded-2xl bg-rose-600 text-white font-black uppercase text-[10px] tracking-widest hover:bg-rose-700 transition shadow-lg shadow-rose-200">Видалити все</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Навігація -->
-    <nav class="bg-white/95 backdrop-blur-md border-b border-emerald-100 p-4 sticky top-0 z-50 shadow-sm no-print">
+    <nav class="bg-white/95 backdrop-blur-md border-b border-emerald-100 p-3 md:p-4 sticky top-0 z-50 shadow-sm no-print">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <!-- Logo Block -->
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 accent-emerald rounded-xl flex items-center justify-center text-white font-black shadow-lg">🧬</div>
-                <div class="flex flex-col">
-                    <h1 class="font-black text-emerald-950 tracking-tighter leading-none text-base md:text-lg uppercase text-center">BIOLOGY <span class="text-emerald-500">SMART-HUB 2.0</span></h1>
-                    <p class="text-[7px] md:text-[8px] font-bold text-emerald-600 uppercase mt-1 tracking-wider leading-none text-center">POWERED BY ВСП "АЕФК ПДАУ"</p>
+            <div class="flex items-center gap-2 md:gap-3">
+                <div class="w-8 h-8 md:w-10 md:h-10 accent-emerald rounded-xl flex items-center justify-center text-white font-black shadow-lg">🧬</div>
+                <div class="flex flex-col text-left">
+                    <h1 class="font-black text-emerald-950 tracking-tighter leading-none text-sm md:text-lg uppercase text-center">BIOLOGY <span class="text-emerald-500">SMART-HUB 2.0</span></h1>
+                    <p class="text-[6px] md:text-[8px] font-bold text-emerald-600 uppercase mt-0.5 md:mt-1 tracking-wider leading-none text-center">POWERED BY ВСП "АЕФК ПДАУ"</p>
                 </div>
             </div>
 
-            <!-- Desktop Actions -->
             <div class="hidden lg:flex items-center gap-2">
                 <a href="../index.html" class="text-[10px] font-black uppercase tracking-widest text-emerald-800 hover:text-emerald-500 transition px-3">🏠 Головна</a>
                 <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2">
                     🖨️ ДРУК
                 </button>
-                <a href="../generator.html" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl shadow-emerald-200/50 flex items-center gap-2 active:scale-95">
+                <a href="../generator.html" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl shadow-emerald-200/50 flex items-center gap-2 active:scale-95 text-center">
                     <span class="text-lg">🤖</span> AI ГЕНЕРАТОР
                 </a>
             </div>
 
-            <!-- Mobile Toggle -->
             <button onclick="toggleMobileMenu()" class="lg:hidden flex items-center p-2 text-emerald-900 focus:outline-none">
                 <svg id="menu-icon" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16m-7 6h7"></path>
@@ -98,8 +102,7 @@
             </button>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="lg:hidden bg-white px-4 border-t border-emerald-50 overflow-hidden text-center">
+        <div id="mobile-menu" class="lg:hidden bg-white px-4 border-t border-emerald-50 overflow-hidden text-center text-center">
             <div class="flex flex-col gap-3 py-4 font-black text-[10px] tracking-widest uppercase">
                 <a href="../index.html" class="text-emerald-800 px-4 py-3 hover:bg-emerald-50 rounded-xl transition flex items-center justify-center gap-3">🏠 Головна</a>
                 <button onclick="window.print()" class="text-slate-700 px-4 py-3 border border-slate-100 rounded-xl flex items-center justify-center gap-3 uppercase">🖨️ Друк сторінки</button>
@@ -108,295 +111,288 @@
         </div>
     </nav>
 
-    <main class="max-w-5xl mx-auto px-6 py-12 md:py-20 space-y-12 md:space-y-16 flex-grow">
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 py-8 md:py-20 space-y-12 md:space-y-16 flex-grow">
         
         <!-- Hero Section -->
-        <header class="text-center space-y-6 no-print">
-            <div class="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em]">
+        <header class="text-center space-y-4 md:space-y-6 no-print text-center">
+            <div class="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em]">
                 🦾 Робочий простір
             </div>
-            <h2 class="text-2xl md:text-4xl font-extrabold text-emerald-950 hero-title">
-                Модуль 1. <span class="text-emerald-500 block mt-1">Вступ до біології. Властивості живого та методи дослідження</span>
+            <h2 class="text-xl md:text-4xl font-extrabold text-emerald-950 hero-title px-2">
+                Модуль 1. <span class="text-emerald-500 block mt-1 text-lg md:text-3xl">Вступ до біології. Властивості живого та методи дослідження</span>
             </h2>
-            <p class="text-slate-700 text-xs md:text-base font-semibold leading-relaxed max-w-3xl mx-auto italic px-4">
-                Опрацюйте теоретичні матеріали та виконайте завдання в інтерактивному зошиті для закріплення знань.
+            <p class="text-slate-700 text-xs md:text-base font-semibold leading-relaxed max-w-3xl mx-auto italic px-2">
+                Опрацюйте теоретичні матеріали та виконайте завдання в інтерактивному зошиті. Прогрес зберігається автоматично.
             </p>
         </header>
 
         <!-- БЛОК МАТЕРІАЛІВ -->
         <section id="theory-block" class="no-print">
-            <h2 class="text-xl md:text-2xl font-extrabold text-emerald-950 mb-8 flex items-center gap-3 tracking-normal">
-                <span class="w-2 h-6 accent-emerald rounded-full"></span>
+            <h2 class="text-lg md:text-2xl font-extrabold text-emerald-950 mb-6 md:mb-8 flex items-center gap-3 tracking-normal px-2 text-left">
+                <span class="w-1.5 md:w-2 h-6 accent-emerald rounded-full"></span>
                 База знань модуля
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                <!-- Картка: Опорний конспект -->
-                <a href="https://drive.google.com/file/d/1I8ewvgoovuACvPtDogWYOUP6O1C0ig1_/view?usp=drive_link" target="_blank" class="bg-white p-6 rounded-[2.5rem] border border-emerald-50 card-shadow flex flex-col items-center text-center hover:border-emerald-500 transition-colors group">
-                    <div class="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">📄</div>
-                    <h3 class="font-extrabold text-emerald-900 mb-2 uppercase text-[11px] md:text-xs tracking-widest leading-tight">Опорний конспект</h3>
-                    <p class="text-[11px] text-slate-500 font-bold">Відкрити PDF</p>
+                <a href="https://drive.google.com/file/d/1I8ewvgoovuACvPtDogWYOUP6O1C0ig1_/view?usp=drive_link" target="_blank" class="bg-white p-5 md:p-6 rounded-[2rem] border border-emerald-50 card-shadow flex flex-col items-center text-center hover:border-emerald-500 transition-colors group">
+                    <div class="w-12 h-12 md:w-14 md:h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-3 md:mb-4 group-hover:scale-110 transition-transform">📄</div>
+                    <h3 class="font-extrabold text-emerald-900 mb-1 md:mb-2 uppercase text-[10px] md:text-xs tracking-widest leading-tight text-center">Опорний конспект</h3>
+                    <p class="text-[10px] md:text-[11px] text-slate-500 font-bold text-center">Відкрити PDF</p>
                 </a>
-                <!-- Картка: Презентації -->
-                <a href="https://drive.google.com/drive/folders/19TdnzTHzD4TGdWxdXw_ZXwMfazK2HQqp?usp=drive_link" target="_blank" class="bg-white p-6 rounded-[2.5rem] border border-emerald-50 card-shadow flex flex-col items-center text-center hover:border-emerald-500 transition-colors group">
-                    <div class="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">🖼️</div>
-                    <h3 class="font-extrabold text-emerald-900 mb-2 uppercase text-[11px] md:text-xs tracking-widest leading-tight">Презентації</h3>
-                    <p class="text-[11px] text-slate-500 font-bold">Схеми та ілюстрації</p>
+                <a href="https://drive.google.com/drive/folders/19TdnzTHzD4TGdWxdXw_ZXwMfazK2HQqp?usp=drive_link" target="_blank" class="bg-white p-5 md:p-6 rounded-[2rem] border border-emerald-50 card-shadow flex flex-col items-center text-center hover:border-emerald-500 transition-colors group">
+                    <div class="w-12 h-12 md:w-14 md:h-14 bg-amber-100 rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-3 md:mb-4 group-hover:scale-110 transition-transform">🖼️</div>
+                    <h3 class="font-extrabold text-emerald-900 mb-1 md:mb-2 uppercase text-[10px] md:text-xs tracking-widest leading-tight text-center">Презентації</h3>
+                    <p class="text-[10px] md:text-[11px] text-slate-500 font-bold text-center">Схеми та ілюстрації</p>
                 </a>
-                <!-- Картка: ГЛОСАРІЙ -->
-                <a href="../glossary.html" class="bg-white p-6 rounded-[2.5rem] border border-emerald-50 card-shadow flex flex-col items-center text-center hover:border-emerald-500 transition-colors group">
-                    <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">📖</div>
-                    <h3 class="font-extrabold text-emerald-900 mb-2 uppercase text-[11px] md:text-xs tracking-widest leading-tight">Глосарій</h3>
-                    <p class="text-[11px] text-slate-500 font-bold">Центральний словник</p>
+                <a href="../glossary.html" class="bg-white p-5 md:p-6 rounded-[2rem] border border-emerald-50 card-shadow flex flex-col items-center text-center hover:border-emerald-500 transition-colors group">
+                    <div class="w-12 h-12 md:w-14 md:h-14 bg-blue-100 rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-3 md:mb-4 group-hover:scale-110 transition-transform">📖</div>
+                    <h3 class="font-extrabold text-emerald-900 mb-1 md:mb-2 uppercase text-[10px] md:text-xs tracking-widest leading-tight text-center">Глосарій</h3>
+                    <p class="text-[10px] md:text-[11px] text-slate-500 font-bold text-center">Центральний словник</p>
                 </a>
-                <!-- Картка: AI Тютор (ОСНОВНА) -->
-                <a href="https://notebooklm.google.com/notebook/2062d90b-1122-42e9-a4df-c00eba22a6d3" target="_blank" class="bg-emerald-900 p-6 rounded-[2.5rem] text-white card-shadow flex flex-col items-center text-center hover:bg-emerald-950 transition-colors group shadow-xl shadow-emerald-100 border-2 border-emerald-400/20">
-                    <div class="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">🤖</div>
-                    <h3 class="font-extrabold text-emerald-400 mb-2 uppercase text-[11px] md:text-xs tracking-widest leading-tight">AI Тютор</h3>
-                    <p class="text-[11px] text-emerald-200/60 font-bold italic">NotebookLM ↗</p>
+                <a href="https://notebooklm.google.com/notebook/2062d90b-1122-42e9-a4df-c00eba22a6d3" target="_blank" class="bg-emerald-900 p-5 md:p-6 rounded-[2rem] text-white card-shadow flex flex-col items-center text-center hover:bg-emerald-950 transition-colors group shadow-xl shadow-emerald-100 border-2 border-emerald-400/20">
+                    <div class="w-12 h-12 md:w-14 md:h-14 bg-white/10 rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-3 md:mb-4 group-hover:scale-110 transition-transform">🤖</div>
+                    <h3 class="font-extrabold text-emerald-400 mb-1 md:mb-2 uppercase text-[10px] md:text-xs tracking-widest leading-tight text-center">AI Тютор</h3>
+                    <p class="text-[10px] md:text-[11px] text-emerald-200/60 font-bold italic text-center">NotebookLM ↗</p>
                 </a>
             </div>
         </section>
 
         <!-- РОБОЧИЙ ЗОШИТ -->
-        <section id="workbook" class="bg-white rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-16 border-2 border-emerald-100 card-shadow">
+        <section id="workbook" class="bg-white rounded-[2rem] md:rounded-[4rem] p-6 sm:p-10 md:p-16 border-2 border-emerald-100 card-shadow">
             
-            <header class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-extrabold text-emerald-950 mb-2 uppercase text-center tracking-tighter leading-tight">Робочий Зошит</h2>
-                <div class="h-1.5 w-24 bg-emerald-500 mx-auto rounded-full mb-6"></div>
-                <p class="text-emerald-700 font-extrabold uppercase tracking-[0.2em] text-[10px] md:text-[11px] leading-relaxed text-center px-4">
+            <header class="text-center mb-10 md:mb-16">
+                <h2 class="text-2xl md:text-5xl font-extrabold text-emerald-950 mb-2 uppercase tracking-tighter leading-tight text-center">Робочий Зошит</h2>
+                <div class="h-1 w-20 md:h-1.5 md:w-24 bg-emerald-500 mx-auto rounded-full mb-4 md:mb-6"></div>
+                <p class="text-emerald-700 font-extrabold uppercase tracking-[0.2em] text-[8px] md:text-[11px] leading-relaxed px-2 text-center">
                     Модуль 1. Вступ до біології. Властивості живого та методи дослідження
                 </p>
             </header>
 
             <!-- Metadata -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-                <div><label class="text-[9px] font-black text-emerald-800 uppercase tracking-widest mb-1 block">Студент:</label><input type="text" class="bio-line"></div>
-                <div><label class="text-[9px] font-black text-emerald-800 uppercase tracking-widest mb-1 block">Група:</label><input type="text" class="bio-line"></div>
-                <div><label class="text-[9px] font-black text-emerald-800 uppercase tracking-widest mb-1 block">Дата:</label><input type="text" class="bio-line"></div>
-                <div><label class="text-[9px] font-black text-emerald-800 uppercase tracking-widest mb-1 block">ОПП:</label><input type="text" class="bio-line"></div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mb-10 md:mb-16">
+                <div class="space-y-1">
+                    <label class="text-[8px] md:text-[9px] font-black text-emerald-800 uppercase tracking-widest block text-left">Студент:</label>
+                    <input type="text" id="student_name" class="bio-line text-sm" placeholder="Прізвище Ім'я">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[8px] md:text-[9px] font-black text-emerald-800 uppercase tracking-widest block text-left">Група:</label>
+                    <input type="text" id="student_group" class="bio-line text-sm" placeholder="А-11">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[8px] md:text-[9px] font-black text-emerald-800 uppercase tracking-widest block text-left">Дата:</label>
+                    <input type="text" id="current_date" class="bio-line text-sm" placeholder="01.01.2025">
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[8px] md:text-[9px] font-black text-emerald-800 uppercase tracking-widest block text-left">ОПП:</label>
+                    <input type="text" id="student_opp" class="bio-line text-sm" placeholder="Агрономія">
+                </div>
             </div>
 
             <!-- Energy Check-in -->
-            <div class="workbook-section mb-16 bg-emerald-50/40 p-8 rounded-[2.5rem] border border-emerald-100/50 no-print">
-                <h3 class="font-black text-emerald-950 mb-6 flex items-center gap-3 text-base">🔋 Energy Check-in:</h3>
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    <button onclick="setEnergy(this)" class="energy-btn">😴 Sleep Mode</button>
-                    <button onclick="setEnergy(this)" class="energy-btn">😐 Eco Mode</button>
-                    <button onclick="setEnergy(this)" class="energy-btn">🙂 Normal</button>
-                    <button onclick="setEnergy(this)" class="energy-btn active">🚀 Turbo Mode</button>
+            <div class="workbook-section mb-10 md:mb-16 bg-emerald-50/40 p-5 md:p-8 rounded-[1.5rem] md:rounded-[2.5rem] border border-emerald-100/50 no-print">
+                <h3 class="font-black text-emerald-950 mb-4 md:mb-6 flex items-center gap-2 text-sm md:text-base text-left">🔋 Energy Check-in:</h3>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+                    <button onclick="setEnergy(this, 'sleep')" class="energy-btn" data-energy="sleep">😴 Sleep</button>
+                    <button onclick="setEnergy(this, 'eco')" class="energy-btn" data-energy="eco">😐 Eco</button>
+                    <button onclick="setEnergy(this, 'normal')" class="energy-btn" data-energy="normal">🙂 Normal</button>
+                    <button onclick="setEnergy(this, 'turbo')" class="energy-btn active" data-energy="turbo">🚀 Turbo</button>
                 </div>
             </div>
 
             <!-- 1. МОТИВАЦІЯ ТА ПРОФЕСІЯ -->
-            <div class="workbook-section mb-16 space-y-8">
-                <h3 class="text-xl font-extrabold text-emerald-900 uppercase tracking-tight flex items-center gap-4 border-l-8 border-emerald-500 pl-6">
+            <div class="workbook-section mb-10 md:mb-16 space-y-6 md:space-y-8">
+                <h3 class="text-lg md:text-xl font-extrabold text-emerald-900 uppercase tracking-tight flex items-center gap-3 md:gap-4 border-l-4 md:border-l-8 border-emerald-500 pl-4 md:pl-6 text-left">
                     1. МОТИВАЦІЯ ТА ПРОФЕСІЯ
                 </h3>
-                <p class="text-[11px] font-black text-slate-400 uppercase tracking-widest">Позначте компетенції, які ви плануєте розвинути (☐):</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <label class="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-transparent hover:border-emerald-100">
-                        <input type="checkbox" class="w-5 h-5 accent-emerald-600 rounded mt-0.5 shadow-sm">
-                        <span class="text-xs font-bold leading-snug text-slate-700">Розуміти живі системи як цілісні об’єкти та прогнозувати наслідки</span>
+                    <label class="flex items-start gap-3 p-3 md:p-4 bg-slate-50 rounded-xl md:rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-transparent hover:border-emerald-100 text-left">
+                        <input type="checkbox" id="comp_1" class="w-4 h-4 md:w-5 md:h-5 accent-emerald-600 rounded mt-0.5 flex-shrink-0">
+                        <span class="text-[11px] md:text-xs font-bold leading-snug text-slate-700">Розуміти живі системи як цілісні об’єкти</span>
                     </label>
-                    <label class="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-transparent hover:border-emerald-100">
-                        <input type="checkbox" class="w-5 h-5 accent-emerald-600 rounded mt-0.5 shadow-sm">
-                        <span class="text-xs font-bold leading-snug text-slate-700">Пояснювати процеси в організмах на основі наукових законів</span>
+                    <label class="flex items-start gap-3 p-3 md:p-4 bg-slate-50 rounded-xl md:rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-transparent hover:border-emerald-100 text-left">
+                        <input type="checkbox" id="comp_2" class="w-4 h-4 md:w-5 md:h-5 accent-emerald-600 rounded mt-0.5 flex-shrink-0">
+                        <span class="text-[11px] md:text-xs font-bold leading-snug text-slate-700">Пояснювати процеси на основі наукових законів</span>
                     </label>
-                    <label class="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-transparent hover:border-emerald-100">
-                        <input type="checkbox" class="w-5 h-5 accent-emerald-600 rounded mt-0.5 shadow-sm">
-                        <span class="text-xs font-bold leading-snug text-slate-700">Приймати обґрунтовані рішення щодо використання ресурсів</span>
+                    <label class="flex items-start gap-3 p-3 md:p-4 bg-slate-50 rounded-xl md:rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-transparent hover:border-emerald-100 text-left">
+                        <input type="checkbox" id="comp_3" class="w-4 h-4 md:w-5 md:h-5 accent-emerald-600 rounded mt-0.5 flex-shrink-0">
+                        <span class="text-[11px] md:text-xs font-bold leading-snug text-slate-700">Приймати обґрунтовані рішення щодо ресурсів</span>
                     </label>
-                    <label class="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-transparent hover:border-emerald-100">
-                        <input type="checkbox" class="w-5 h-5 accent-emerald-600 rounded mt-0.5 shadow-sm">
-                        <span class="text-xs font-bold leading-snug text-slate-700">Оцінювати вплив діяльності людини на довкілля та біобезпеку</span>
+                    <label class="flex items-start gap-3 p-3 md:p-4 bg-slate-50 rounded-xl md:rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-transparent hover:border-emerald-100 text-left">
+                        <input type="checkbox" id="comp_4" class="w-4 h-4 md:w-5 md:h-5 accent-emerald-600 rounded mt-0.5 flex-shrink-0">
+                        <span class="text-[11px] md:text-xs font-bold leading-snug text-slate-700">Застосовувати біологічні знання у задачах ОПП</span>
                     </label>
-                    <label class="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-transparent hover:border-emerald-100">
-                        <input type="checkbox" class="w-5 h-5 accent-emerald-600 rounded mt-0.5 shadow-sm">
-                        <span class="text-xs font-bold leading-snug text-slate-700">Працювати з даними, схемами, моделями та цифровими інструментами</span>
-                    </label>
-                    <label class="flex items-start gap-3 p-4 bg-slate-50 rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-transparent hover:border-emerald-100">
-                        <input type="checkbox" class="w-5 h-5 accent-emerald-600 rounded mt-0.5 shadow-sm">
-                        <span class="text-xs font-bold leading-snug text-slate-700">Застосовувати біологічні знання у виробничих задачах</span>
-                    </label>
-                </div>
-            </div>
-
-            <!-- 2. ГЛОСАРІЙ -->
-            <div class="workbook-section mb-16">
-                <h3 class="text-xl font-extrabold text-emerald-900 mb-6 uppercase tracking-tight italic">📚 2. КЛЮЧОВІ ТЕРМІНИ МОДУЛЯ</h3>
-                <div class="bg-slate-50 p-8 rounded-[2.5rem] border border-slate-200">
-                    <p class="text-[9px] font-black text-emerald-600 uppercase mb-4 tracking-[0.2em]">Основні поняття для вивчення:</p>
-                    <div class="flex flex-wrap gap-2 text-[10px] font-bold">
-                        <span class="bg-white border border-emerald-100 px-3 py-1.5 rounded-lg text-emerald-900 shadow-sm">Біологія</span>
-                        <span class="bg-white border border-emerald-100 px-3 py-1.5 rounded-lg text-emerald-900 shadow-sm">Метаболізм</span>
-                        <span class="bg-white border border-emerald-100 px-3 py-1.5 rounded-lg text-emerald-900 shadow-sm">Гомеостаз</span>
-                        <span class="bg-white border border-emerald-100 px-3 py-1.5 rounded-lg text-emerald-900 shadow-sm">Спадковість</span>
-                        <span class="bg-white border border-emerald-100 px-3 py-1.5 rounded-lg text-emerald-900 shadow-sm">Подразливість</span>
-                        <span class="bg-white border border-emerald-100 px-3 py-1.5 rounded-lg text-emerald-900 shadow-sm">Моніторинг</span>
-                        <span class="bg-white border border-emerald-100 px-3 py-1.5 rounded-lg text-emerald-900 shadow-sm">Експеримент</span>
-                    </div>
-                    <p class="mt-4 text-[10px] text-slate-400 font-semibold italic">* Повні визначення доступні в центральному глосарії.</p>
                 </div>
             </div>
 
             <!-- 3. ПРАКТИКУМ -->
-            <div class="workbook-section mb-16">
-                <h3 class="text-xl font-extrabold text-emerald-900 mb-6 uppercase tracking-tight flex items-center gap-4">🔬 3. ПРАКТИКУМ: РІВНІ ОРГАНІЗАЦІЇ</h3>
-                <div class="rounded-[2rem] border-2 border-emerald-50 overflow-hidden shadow-sm">
-                    <table class="w-full text-xs">
+            <div class="workbook-section mb-10 md:mb-16">
+                <h3 class="text-lg md:text-xl font-extrabold text-emerald-900 mb-4 md:mb-6 uppercase tracking-tight flex items-center gap-3 md:gap-4 px-1 text-left text-left">🔬 3. ПРАКТИКУМ: РІВНІ ОРГАНІЗАЦІЇ</h3>
+                <div class="rounded-xl md:rounded-[2rem] border border-emerald-50 overflow-x-auto shadow-sm">
+                    <table class="w-full text-[10px] md:text-xs min-w-[500px]">
                         <thead class="bg-emerald-600 text-white font-black">
                             <tr>
-                                <th class="p-5 text-left">Об'єкт / Процес</th>
-                                <th class="p-5 text-left">Рівень організації</th>
-                                <th class="p-5 text-left">Елементарна одиниця</th>
+                                <th class="p-4 text-left">Об'єкт / Процес</th>
+                                <th class="p-4 text-left">Рівень організації</th>
+                                <th class="p-4 text-left">Одиниця</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-emerald-50 font-semibold text-center xs:text-left">
+                        <tbody class="divide-y divide-emerald-50 font-semibold">
                             <tr>
-                                <td class="p-5 text-emerald-950 bg-slate-50/50 font-bold italic">🧬 Реплікація ДНК</td>
-                                <td class="p-5"><input type="text" class="bio-line" placeholder="..."></td>
-                                <td class="p-5"><input type="text" class="bio-line" placeholder="..."></td>
+                                <td class="p-4 text-emerald-950 bg-slate-50/50 font-bold italic text-left text-left">🧬 Реплікація ДНК</td>
+                                <td class="p-4"><input type="text" id="prac_1_1" class="bio-line" placeholder="..." aria-label="Рівень організації для реплікації ДНК"></td>
+                                <td class="p-4"><input type="text" id="prac_1_2" class="bio-line" placeholder="..." aria-label="Одиниця для реплікації ДНК"></td>
                             </tr>
                             <tr>
-                                <td class="p-5 text-emerald-950 bg-slate-50/50 font-bold italic">🌿 Транспірація у рослин</td>
-                                <td class="p-5"><input type="text" class="bio-line" placeholder="..."></td>
-                                <td class="p-5"><input type="text" class="bio-line" placeholder="..."></td>
-                            </tr>
-                            <tr>
-                                <td class="p-5 text-emerald-950 bg-slate-50/50 font-bold italic">💧 Евтрофікація водойм</td>
-                                <td class="p-5"><input type="text" class="bio-line" placeholder="..."></td>
-                                <td class="p-5"><input type="text" class="bio-line" placeholder="..."></td>
+                                <td class="p-4 text-emerald-950 bg-slate-50/50 font-bold italic text-left text-left">🌿 Транспірація рослин</td>
+                                <td class="p-4"><input type="text" id="prac_2_1" class="bio-line" placeholder="..." aria-label="Рівень організації для транспірації рослин"></td>
+                                <td class="p-4"><input type="text" id="prac_2_2" class="bio-line" placeholder="..." aria-label="Одиниця для транспірації рослин"></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- 4. РОБОТА З ШІ-ТЬЮТОРОМ -->
-            <div class="workbook-section mb-16 no-print">
-                <h3 class="text-xl font-extrabold text-emerald-900 mb-6 uppercase tracking-tight flex items-center gap-4 border-l-8 border-indigo-500 pl-6">
-                    🤖 4. РОБОТА З ШІ-ТЬЮТОРОМ
-                </h3>
-                <div class="bg-slate-900 p-8 rounded-[2.5rem] text-white space-y-6">
-                    <div class="p-4 bg-white/5 border border-white/10 rounded-2xl">
-                        <p class="text-[10px] uppercase font-black text-indigo-400 mb-2">Інструкція:</p>
-                        <p class="text-sm italic text-indigo-100">Використовуйте AI Генератор для створення професійного запиту та опрацюйте результати в NotebookLM.</p>
-                    </div>
-                    <div class="space-y-3">
-                        <p class="text-[10px] uppercase font-black text-emerald-400 tracking-widest leading-none mb-4">📝 Ваші нотатки та інсайти:</p>
-                        <textarea class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-xs h-32 focus:outline-none focus:border-emerald-500 transition-colors" placeholder="Запишіть ключові висновки після аналізу..."></textarea>
-                    </div>
-                </div>
-            </div>
-
             <!-- 5. КОНТРОЛЬНІ ПИТАННЯ -->
-            <div class="workbook-section mb-16 space-y-8">
-                <h3 class="text-xl font-extrabold text-emerald-900 uppercase tracking-tight">✅ 5. КОНТРОЛЬНІ ПИТАННЯ</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-black text-emerald-700 uppercase ml-2 tracking-wider">1. Що таке біологія? Галузі?</label>
-                        <textarea class="bio-area text-xs font-semibold" rows="3" placeholder="Введіть відповідь..."></textarea>
+            <div class="workbook-section mb-10 md:mb-16 space-y-6 md:space-y-8">
+                <h3 class="text-lg md:text-xl font-extrabold text-emerald-900 uppercase tracking-tight px-1 text-left text-left">✅ 5. КОНТРОЛЬНІ ПИТАННЯ</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                    <div class="space-y-2 text-left text-left">
+                        <label class="text-[9px] md:text-[10px] font-black text-emerald-700 uppercase ml-2 tracking-wider">1. Що таке біологія? Галузі?</label>
+                        <textarea id="q_1" class="bio-area text-[11px] md:text-xs font-semibold" rows="3"></textarea>
                     </div>
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-black text-emerald-700 uppercase ml-2 tracking-wider">2. 5 ознак живого? Ріст vs Розвиток?</label>
-                        <textarea class="bio-area text-xs font-semibold" rows="3" placeholder="Введіть відповідь..."></textarea>
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-black text-emerald-700 uppercase ml-2 tracking-wider">3. Експеримент vs Моніторинг?</label>
-                        <textarea class="bio-area text-xs font-semibold" rows="3" placeholder="Введіть відповідь..."></textarea>
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-[10px] font-black text-emerald-700 uppercase ml-2 tracking-wider">4. Збільшення мікроскопа? (Формула)</label>
-                        <textarea class="bio-area text-xs font-semibold" rows="3" placeholder="Введіть відповідь..."></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 5A. БІОЕТИКА -->
-            <div class="workbook-section mb-16 bg-rose-50 rounded-[2.5rem] p-10 border border-rose-100">
-                <h3 class="text-xl font-extrabold mb-6 uppercase tracking-tight text-rose-900 italic">⚖️ 5A. БІОЕТИКА</h3>
-                <p class="font-bold mb-8 text-slate-800 text-sm italic text-center leading-relaxed">"Чи етично використовувати тварин для тестування косметики, якщо це гарантує безпеку людини?"</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-2">
-                        <label class="text-[9px] font-black text-green-700 uppercase block ml-4 tracking-widest">👍 Аргументи ЗА</label>
-                        <textarea class="w-full bg-white border border-green-100 rounded-2xl p-5 text-[11px] shadow-sm font-semibold" rows="4"></textarea>
-                    </div>
-                    <div class="space-y-2">
-                        <label class="text-[9px] font-black text-rose-700 uppercase block ml-4 tracking-widest">👎 Аргументи ПРОТИ</label>
-                        <textarea class="w-full bg-white border border-rose-100 rounded-2xl p-5 text-[11px] shadow-sm font-semibold" rows="4"></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 6. INNOVATION CORNER -->
-            <div class="workbook-section mb-16">
-                <h3 class="text-xl font-extrabold text-emerald-950 mb-8 uppercase tracking-tight flex items-center gap-4">🚀 6. INNOVATION CORNER</h3>
-                <div class="bg-gradient-to-br from-emerald-600 to-green-900 p-10 rounded-[3rem] text-white shadow-xl">
-                    <p class="text-sm font-bold mb-6 italic leading-relaxed text-center px-4">Завдання: Запропонуйте ідею, як за допомогою моніторингу та ШІ запобігти зникненню рідкісної рослини.</p>
-                    <div class="space-y-4">
-                        <input type="text" class="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-xs placeholder:text-emerald-200 outline-none focus:border-emerald-400 font-bold" placeholder="Назва ідеї">
-                        <textarea class="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-xs placeholder:text-emerald-200 outline-none focus:border-emerald-400 font-semibold" rows="3" placeholder="Опис проекту та роль технологій..."></textarea>
+                    <div class="space-y-2 text-left text-left">
+                        <label class="text-[9px] md:text-[10px] font-black text-emerald-700 uppercase ml-2 tracking-wider">2. 5 ознак живого?</label>
+                        <textarea id="q_2" class="bio-area text-[11px] md:text-xs font-semibold" rows="3"></textarea>
                     </div>
                 </div>
             </div>
 
             <!-- 7. РЕФЛЕКСІЯ -->
-            <div class="pt-16 border-t-4 border-emerald-50 flex flex-wrap justify-between items-end gap-12">
-                <div class="flex-1 min-w-[320px] space-y-6">
-                    <h3 class="font-black text-emerald-900 uppercase text-[10px] tracking-[0.4em] ml-2">💭 7. РЕФЛЕКСІЯ</h3>
-                    <div class="grid grid-cols-1 gap-4">
-                        <textarea class="bio-area text-[11px]" placeholder="Що сьогодні було найважливішим?" rows="2"></textarea>
-                        <textarea class="bio-area text-[11px]" placeholder="Що залишилося незрозумілим?" rows="2"></textarea>
+            <div class="pt-10 md:pt-16 border-t-2 md:border-t-4 border-emerald-50 flex flex-col md:flex-row justify-between items-center md:items-end gap-8 text-center md:text-left">
+                <div class="flex-1 w-full space-y-4 md:space-y-6 text-center md:text-left">
+                    <h3 class="font-black text-emerald-900 uppercase text-[9px] md:text-[10px] tracking-[0.4em] text-center md:text-left">💭 7. РЕФЛЕКСІЯ</h3>
+                    <div class="grid grid-cols-1 gap-3 md:gap-4">
+                        <textarea id="ref_1" class="bio-area text-[10px] md:text-[11px]" placeholder="Найважливіше сьогодні?" rows="2"></textarea>
+                        <textarea id="ref_2" class="bio-area text-[10px] md:text-[11px]" placeholder="Залишилося незрозумілим?" rows="2"></textarea>
                     </div>
                 </div>
-                <div class="text-right flex flex-col items-end">
-                    <div class="text-7xl font-black text-emerald-600 mb-4 tracking-tighter">___ / 12</div>
-                    <div class="flex gap-2 justify-end mb-4 no-print">
-                        <div class="w-5 h-5 rounded border-2 border-emerald-100"></div>
-                        <div class="w-5 h-5 rounded border-2 border-emerald-100"></div>
-                        <div class="w-5 h-5 rounded border-2 border-emerald-100"></div>
-                        <div class="w-5 h-5 rounded border-2 border-emerald-100"></div>
-                        <div class="w-5 h-5 rounded border-2 border-emerald-100"></div>
-                    </div>
-                    <span class="text-[9px] font-black text-slate-400 uppercase tracking-[0.5em]">XP LEVEL TRACKER</span>
+                <div class="flex flex-col items-center md:items-end w-full md:w-auto">
+                    <div id="score_display" class="text-5xl md:text-7xl font-black text-emerald-600 mb-2 md:mb-4 tracking-tighter italic">0 / 12</div>
+                    <span class="text-[8px] md:text-[9px] font-black text-slate-400 uppercase tracking-[0.3em] md:tracking-[0.5em]">XP LEVEL TRACKER</span>
                 </div>
             </div>
 
         </section>
     </main>
 
-    <!-- Підвал (Footer) -->
-    <footer class="bg-emerald-950 text-white py-12 no-print">
-        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
-            <div>
-                <div class="text-xl md:text-2xl font-black tracking-tighter mb-2 italic uppercase leading-none">BIOLOGY <span class="text-emerald-400">SMART-HUB 2.0</span></div>
-                <p class="text-emerald-200/50 text-[9px] md:text-[11px] uppercase font-bold tracking-widest">ВСП "АГРАРНО-ЕКОНОМІЧНИЙ ФАХОВИЙ КОЛЕДЖ ПДАУ"</p>
+    <footer class="bg-emerald-950 text-white py-8 md:py-12 no-print">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="text-center md:text-left space-y-2">
+                <div class="text-lg md:text-2xl font-black tracking-tighter italic uppercase leading-none text-center">BIOLOGY <span class="text-emerald-400">SMART-HUB 2.0</span></div>
+                <p class="text-emerald-200/50 text-[8px] md:text-[11px] uppercase font-bold tracking-widest mt-1 text-center">ВСП "АЕФК ПДАУ" &bull; 2025</p>
             </div>
-            <div class="flex flex-col items-center md:items-end gap-2">
-                <p class="text-[9px] md:text-[10px] font-black uppercase text-emerald-200/40 tracking-widest italic leading-relaxed text-center md:text-right">
-                    COPYRIGHT © 2025 | ВСП "АЕФК ПДАУ"
-                </p>
-                <div class="flex gap-6 mt-2 font-bold text-[10px] uppercase tracking-widest">
-                    <a href="../index.html" class="text-emerald-400 hover:text-white transition">Головна</a>
-                    <a href="../generator.html" class="text-emerald-400 hover:text-white transition">AI Генератор</a>
-                </div>
+            <div class="flex flex-col md:flex-row items-center gap-4">
+                <button onclick="openClearModal()" class="text-[9px] font-black uppercase tracking-[0.2em] px-6 py-3 border border-rose-500/30 text-rose-400 rounded-xl hover:bg-rose-500/10 transition">
+                    🗑️ Очистити зошит
+                </button>
+                <p class="text-[8px] md:text-[10px] font-black uppercase text-emerald-200/40 tracking-widest italic">COPYRIGHT © 2025</p>
             </div>
         </div>
     </footer>
 
     <script>
-        function setEnergy(btn) {
-            document.querySelectorAll('.energy-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+        // Progress Saving Logic (localStorage)
+        const STORAGE_KEY = 'bio_smart_hub_module1_v1';
+        let saveTimeout;
+
+        function saveData() {
+            const data = {};
+            const inputs = document.querySelectorAll('input, textarea');
+            
+            inputs.forEach(el => {
+                if (el.id) {
+                    data[el.id] = el.type === 'checkbox' ? el.checked : el.value;
+                }
+            });
+
+            // Energy state
+            const activeEnergy = document.querySelector('.energy-btn.active');
+            if (activeEnergy) {
+                data['energy_state'] = activeEnergy.dataset.energy;
+            }
+
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            
+            // UI Feedback
+            const indicator = document.getElementById('sync-indicator');
+            indicator.style.display = 'flex';
+            clearTimeout(window.hideIndicator);
+            window.hideIndicator = setTimeout(() => {
+                indicator.style.display = 'none';
+            }, 2000);
         }
 
-        function toggleMobileMenu() {
+        function loadData() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (!saved) return;
+
+            const data = JSON.parse(saved);
+            Object.keys(data).forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (el.type === 'checkbox') {
+                        el.checked = data[id];
+                    } else {
+                        el.value = data[id];
+                    }
+                }
+            });
+
+            // Load Energy State
+            if (data['energy_state']) {
+                const btn = document.querySelector(`.energy-btn[data-energy="${data['energy_state']}"]`);
+                if (btn) {
+                    document.querySelectorAll('.energy-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                }
+            }
+        }
+
+        // Modal Logic
+        window.openClearModal = function() {
+            document.getElementById('confirm-modal').style.display = 'flex';
+        };
+
+        window.closeModal = function() {
+            document.getElementById('confirm-modal').style.display = 'none';
+        };
+
+        window.confirmClear = function() {
+            localStorage.removeItem(STORAGE_KEY);
+            location.reload();
+        };
+
+        // Global functions
+        window.setEnergy = function(btn, type) {
+            document.querySelectorAll('.energy-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            saveData();
+        };
+
+        window.toggleMobileMenu = function() {
             const menu = document.getElementById('mobile-menu');
             const icon = document.getElementById('menu-icon');
             menu.classList.toggle('open');
             icon.style.transform = menu.classList.contains('open') ? 'rotate(90deg)' : 'rotate(0deg)';
-        }
-    </script>
+        };
 
+        // Listen for all inputs
+        document.addEventListener('input', () => {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(saveData, 800); // Debounce save
+        });
+
+        // Initialize on load
+        window.onload = loadData;
+    </script>
 </body>
 </html>
