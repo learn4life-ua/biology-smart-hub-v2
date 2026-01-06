@@ -43,8 +43,8 @@
 
         /* Елементи списку */
         .glossary-item {
-            margin-bottom: 0.6rem;
-            border-radius: 1.25rem;
+            margin-bottom: 0.75rem;
+            border-radius: 1.5rem;
             overflow: hidden;
             transition: all 0.2s ease;
         }
@@ -52,9 +52,9 @@
             list-style: none;
             position: relative;
             cursor: pointer;
-            padding: 1.1rem 3.5rem 1.1rem 1.5rem;
-            font-weight: 700;
-            font-size: 0.9rem;
+            padding: 1.25rem 3.5rem 1.25rem 1.5rem;
+            font-weight: 800;
+            font-size: 0.95rem;
             background: white;
             color: #064e3b;
             border: 1px solid #ecfdf5;
@@ -76,13 +76,24 @@
         }
 
         .glossary-definition {
-            padding: 1.25rem 1.5rem;
+            padding: 1.5rem;
             background: #fafdfc;
             color: #334155;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             line-height: 1.6;
             border-left: 4px solid #059669;
             border-bottom: 1px solid #ecfdf5;
+            font-weight: 500;
+        }
+
+        /* Налаштування для читабельності */
+        .word-spacing-wide {
+            word-spacing: 0.12em;
+        }
+
+        .hero-title {
+            letter-spacing: -0.015em;
+            line-height: 1.15;
         }
 
         /* Мобільне меню */
@@ -95,35 +106,36 @@
             details { display: block !important; }
             summary::after { display: none; }
         }
+
+        @media (max-width: 640px) {
+            .hero-title {
+                letter-spacing: normal;
+                line-height: 1.25;
+                word-spacing: 0.05em;
+            }
+        }
     </style>
 </head>
 <body class="bg-bio text-slate-800 flex flex-col min-h-screen">
 
-    <!-- Навігація (Повністю уніфікована з Хабом) -->
+    <!-- Навігація -->
     <nav class="bg-white/95 backdrop-blur-md border-b border-emerald-100 p-4 sticky top-0 z-50 shadow-sm no-print">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <!-- Logo Block -->
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 accent-emerald rounded-xl flex items-center justify-center text-white font-black shadow-lg">🧬</div>
                 <div class="flex flex-col">
-                    <h1 class="font-black text-emerald-950 tracking-tighter leading-none text-lg uppercase">BIOLOGY <span class="text-emerald-500">SMART-HUB 2.0</span></h1>
-                    <p class="text-[8px] font-bold text-emerald-600 uppercase mt-1 tracking-wider leading-none">POWERED BY ВСП "АЕФК ПДАУ"</p>
+                    <h1 class="font-black text-emerald-950 tracking-tighter leading-none text-base md:text-lg uppercase">BIOLOGY <span class="text-emerald-500">SMART-HUB 2.0</span></h1>
+                    <p class="text-[7px] md:text-[8px] font-bold text-emerald-600 uppercase mt-1 tracking-wider leading-none text-center">POWERED BY ВСП "АЕФК ПДАУ"</p>
                 </div>
             </div>
 
-            <!-- Desktop Actions -->
-            <div class="hidden lg:flex items-center gap-2">
-                <a href="index.html" class="bg-white border border-emerald-200 hover:bg-emerald-50 text-emerald-900 px-4 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm">
-                    🏠 ГОЛОВНА
-                </a>
-                <a href="resources.html" class="bg-white border border-emerald-200 hover:bg-emerald-50 text-emerald-800 px-4 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm border-b-2 border-b-emerald-500">
-                    📚 РЕСУРСИ
-                </a>
-                <a href="support.html" class="bg-white border border-emerald-200 hover:bg-emerald-50 text-emerald-800 px-4 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 shadow-sm">
-                    💬 ПІДТРИМКА
-                </a>
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex items-center gap-6">
+                <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-emerald-800 hover:text-emerald-500 transition">🏠 Головна</a>
+                <a href="resources.html" class="text-[10px] font-black uppercase tracking-widest text-emerald-800 hover:text-emerald-500 transition">📚 Ресурси</a>
                 <a href="generator.html" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl shadow-emerald-200/50 flex items-center gap-2 active:scale-95">
-                    <span class="text-lg">🤖</span> AI ГЕНЕРАТОР
+                    <span>🤖</span> AI ГЕНЕРАТОР
                 </a>
             </div>
 
@@ -135,22 +147,27 @@
             </button>
         </div>
 
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="lg:hidden bg-white px-4 border-t border-emerald-50">
-            <div class="flex flex-col gap-3 py-4 font-black text-[10px] tracking-widest uppercase">
-                <a href="index.html" class="text-emerald-800 px-5 py-4 hover:bg-emerald-50 rounded-xl transition flex items-center gap-3">🏠 Головна</a>
-                <a href="resources.html" class="text-emerald-950 px-5 py-4 bg-emerald-50 rounded-xl transition flex items-center gap-3">📚 Ресурси</a>
-                <a href="generator.html" class="text-white px-5 py-5 bg-emerald-600 rounded-xl flex items-center gap-3 shadow-lg">🤖 AI Генератор</a>
+        <!-- Mobile Menu Drawer -->
+        <div id="mobile-menu" class="lg:hidden bg-white px-4 border-t border-emerald-50 text-center">
+            <div class="flex flex-col gap-2 py-4 font-black text-[10px] tracking-widest uppercase">
+                <a href="index.html" class="text-emerald-800 px-4 py-3 hover:bg-emerald-50 rounded-xl transition">🏠 Головна</a>
+                <a href="resources.html" class="text-emerald-800 px-4 py-3 hover:bg-emerald-50 rounded-xl transition">📚 Ресурси</a>
+                <a href="generator.html" class="text-white px-4 py-4 bg-emerald-600 rounded-xl flex items-center gap-3 shadow-lg mt-2 justify-center">🤖 AI Генератор</a>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-5xl mx-auto px-4 md:px-6 py-8 md:py-16 space-y-12 flex-grow">
+    <main class="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-24 space-y-12 md:space-y-16 flex-grow">
         
-        <header class="text-center space-y-4">
-            <div class="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em]">📖 Науковий Довідник</div>
-            <h2 class="text-3xl md:text-5xl font-black text-emerald-950 uppercase tracking-tighter leading-none">Глосарій термінів</h2>
-            <p class="text-slate-600 text-sm md:text-lg font-medium max-w-2xl mx-auto italic leading-relaxed text-center">
+        <!-- Hero Header -->
+        <header class="text-center space-y-6 md:space-y-8">
+            <div class="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em]">
+                📖 Науковий Довідник
+            </div>
+            <h2 class="text-4xl md:text-6xl font-extrabold text-emerald-950 hero-title word-spacing-wide">
+                Глосарій <span class="text-emerald-500">термінів</span>
+            </h2>
+            <p class="text-slate-700 text-sm md:text-lg font-semibold leading-relaxed max-w-2xl mx-auto italic px-4">
                 Систематизований перелік понять з детальним описом їхньої ролі в біологічних системах. Оберіть літеру для швидкої навігації.
             </p>
         </header>
@@ -169,21 +186,20 @@
 
     </main>
 
-    <!-- Підвал (Уніфікований з Хабом та Модулями) -->
+    <!-- Підвал -->
     <footer class="bg-emerald-950 text-white py-12 no-print">
         <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
             <div>
-                <div class="text-xl font-black tracking-tighter mb-2 italic">BIOLOGY <span class="text-emerald-400">SMART-HUB 2.0</span></div>
-                <p class="text-emerald-200/50 text-[10px] uppercase font-bold tracking-widest">ВСП "АГРАРНО-ЕКОНОМІЧНИЙ ФАХОВИЙ КОЛЕДЖ ПДАУ"</p>
+                <div class="text-xl md:text-2xl font-black tracking-tighter mb-2 italic uppercase leading-none">BIOLOGY <span class="text-emerald-400">SMART-HUB 2.0</span></div>
+                <p class="text-emerald-200/50 text-[9px] md:text-[11px] uppercase font-bold tracking-widest">ВСП "АГРАРНО-ЕКОНОМІЧНИЙ ФАХОВИЙ КОЛЕДЖ ПДАУ"</p>
             </div>
             <div class="flex flex-col items-center md:items-end gap-2">
-                <p class="text-[9px] font-black uppercase text-emerald-200/40 tracking-widest italic leading-relaxed text-center md:text-right">
-                    COPYRIGHT © 2025 | ВСП "АГРАРНО-ЕКОНОМІЧНИЙ ФАХОВИЙ КОЛЕДЖ ПДАУ"
+                <p class="text-[9px] md:text-[10px] font-black uppercase text-emerald-200/40 tracking-widest italic leading-relaxed text-center md:text-right">
+                    COPYRIGHT © 2025 | ВСП "АЕФК ПДАУ"
                 </p>
-                <div class="flex gap-4 mt-2">
-                    <a href="index.html" class="text-xs font-bold text-emerald-400 hover:text-white transition uppercase tracking-widest">Головна</a>
-                    <a href="resources.html" class="text-xs font-bold text-emerald-400 hover:text-white transition uppercase tracking-widest">Ресурси</a>
-                    <a href="generator.html" class="text-xs font-bold text-emerald-400 hover:text-white transition uppercase tracking-widest">AI Генератор</a>
+                <div class="flex gap-6 mt-2 font-bold text-[10px] uppercase tracking-widest">
+                    <a href="index.html" class="text-emerald-400 hover:text-white transition">Головна</a>
+                    <a href="resources.html" class="text-emerald-400 hover:text-white transition">Ресурси</a>
                 </div>
             </div>
         </div>
@@ -238,7 +254,7 @@
             ],
             "І": [
                 { t: "Інтерфаза", d: "Стадія клітинного циклу між двома поділами. В цей час клітина росте, накопичує енергію та подвоює кількість ДНК (реплікація)." },
-                { t: "Інфузорії", d: "Найбільш високоорганізовані одноклітинні твариноподібні органіми. Мають війки для руху та два типи ядер." }
+                { t: "Інфузорії", d: "Найбільш високоорганізовані одноклітинні твариноподібні організми. Мають війки для руху та два типи ядер." }
             ],
             "К": [
                 { t: "Клітинна теорія", d: "Фундаментальне наукове узагальнення, згідно з яким клітина є універсальною одиницею будови та розвитку всіх живих істот." },
@@ -264,7 +280,7 @@
             ],
             "П": [
                 { t: "Пагін", d: "Основний надземний вегетативний орган рослини, що складається зі стебла (вісь) та розташованих на ньому листків і бруньок." },
-                { t: "Продихи", d: "Утвори в епідермі, що складаються з двох замикаючих клітин та щілини. Регулюють газообмін та випаровування води." },
+                { t: "Продихи", d: "Утвори в епідермі, що складаються з двох замикальних клітин та щілини. Регулюють газообмін та випаровування води." },
                 { t: "Пластиди", d: "Спеціалізовані органели рослинних клітин: хлоропласти, хромопласти, лейкопласти." }
             ],
             "Р": [
@@ -322,7 +338,7 @@
                 
                 glossaryData[letter].forEach(item => {
                     html += `
-                        <details class="glossary-item group">
+                        <details class="glossary-item group shadow-sm">
                             <summary class="glossary-term transition hover:bg-emerald-50">${item.t}</summary>
                             <div class="glossary-definition shadow-inner">${item.d}</div>
                         </details>
