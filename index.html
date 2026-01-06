@@ -38,18 +38,18 @@
             padding: 1.5rem 0;
         }
 
-        /* Виправлення зливання літер та слів */
+        /* Налаштування інтервалів для кращої читабельності */
         .word-spacing-wide {
             word-spacing: 0.12em;
         }
 
-        .readable-title {
+        .hero-title {
             letter-spacing: -0.015em;
             line-height: 1.2;
         }
 
         @media (max-width: 640px) {
-            .readable-title {
+            .hero-title {
                 letter-spacing: normal;
                 line-height: 1.3;
                 word-spacing: 0.05em;
@@ -59,7 +59,7 @@
 </head>
 <body class="bg-bio text-slate-900 flex flex-col min-h-screen">
 
-    <!-- Навігація (Уніфікована: лого з щільним трекінгом) -->
+    <!-- Навігація -->
     <nav class="bg-white/95 backdrop-blur-md border-b border-emerald-100 p-4 sticky top-0 z-50 shadow-sm no-print">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <!-- Logo Block -->
@@ -98,21 +98,23 @@
         </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-16 space-y-12 md:space-y-16 flex-grow">
+    <main class="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-24 space-y-16 md:space-y-24 flex-grow text-center">
         
-        <!-- Welcome Section -->
-        <section class="text-center space-y-4 md:space-y-6">
-            <div class="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] mb-2">
+        <!-- Hero Section (Кнопки прибрано для чистоти інтерфейсу) -->
+        <header id="top" class="space-y-6 md:space-y-8 max-w-4xl mx-auto">
+            <div class="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em]">
                 🌿 Ласкаво просимо
             </div>
-            <h2 class="text-3xl md:text-5xl font-black text-emerald-950 readable-title px-2 uppercase tracking-tight word-spacing-wide">Ваш інтерактивний шлях <br> у світ біології</h2>
-            <p class="text-slate-700 max-w-2xl mx-auto text-xs md:text-base font-semibold leading-relaxed text-center">
-                Оберіть навчальний модуль, опрацюйте теоретичні матеріали та заповніть інтерактивний робочий зошит для закріплення знань. Усі розділи наразі відкрито для вивчення.
+            <h2 class="text-3xl md:text-5xl font-extrabold text-emerald-950 hero-title word-spacing-wide">
+                Ваш інтерактивний шлях <br> у світ біології
+            </h2>
+            <p class="text-slate-700 text-sm md:text-lg font-semibold leading-relaxed max-w-3xl mx-auto italic px-4">
+                Обирайте будь-який навчальний модуль, занурюйтесь у теоретичні матеріали та закріплюйте навички в інтерактивному робочому зошиті. Усі розділи нашого хабу вже повністю відкрито для вашого навчання.
             </p>
-        </section>
+        </header>
 
-        <!-- Modules Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 pb-10">
+        <!-- Grid модулів -->
+        <div id="modules" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 pb-10 text-left">
             
             <!-- Модуль 1 -->
             <a href="modules/module1.html" class="module-card p-6 md:p-8 rounded-[2.5rem] card-shadow flex flex-col group relative overflow-hidden">
@@ -120,9 +122,9 @@
                 <div class="relative z-10 flex flex-col h-full">
                     <div class="w-12 h-12 md:w-14 md:h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-6 shadow-sm group-hover:rotate-6 transition-transform">🔬</div>
                     <span class="text-[9px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest block mb-2">Тема 1</span>
-                    <h3 class="text-sm md:text-base font-black text-emerald-950 leading-snug mb-4 tracking-normal uppercase word-spacing-wide">Вступ до біології. Властивості живого та методи дослідження</h3>
+                    <h3 class="text-base md:text-lg font-extrabold text-emerald-950 leading-snug mb-4 tracking-normal word-spacing-wide">Вступ до біології. Властивості живого та методи дослідження</h3>
                     <div class="flex items-center justify-between mt-auto pt-6 border-t border-emerald-100">
-                        <span class="text-[9px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Відкрито</span>
+                        <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Відкрито</span>
                         <span class="w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center text-white text-[10px] shadow-md">🔓</span>
                     </div>
                 </div>
@@ -134,9 +136,9 @@
                 <div class="relative z-10 flex flex-col h-full">
                     <div class="w-12 h-12 md:w-14 md:h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-6 shadow-sm group-hover:rotate-6 transition-transform">🦠</div>
                     <span class="text-[9px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest block mb-2">Тема 2</span>
-                    <h3 class="text-sm md:text-base font-black text-emerald-950 leading-snug mb-4 tracking-normal uppercase word-spacing-wide">Клітина — структурно-функціональна одиниця живого. Поділ клітин</h3>
+                    <h3 class="text-base md:text-lg font-extrabold text-emerald-950 leading-snug mb-4 tracking-normal word-spacing-wide">Клітина — структурно-функціональна одиниця живого. Поділ клітин</h3>
                     <div class="flex items-center justify-between mt-auto pt-6 border-t border-emerald-100">
-                        <span class="text-[9px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Відкрито</span>
+                        <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Відкрито</span>
                         <span class="w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center text-white text-[10px] shadow-md">🔓</span>
                     </div>
                 </div>
@@ -148,15 +150,15 @@
                 <div class="relative z-10 flex flex-col h-full">
                     <div class="w-12 h-12 md:w-14 md:h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-6 shadow-sm group-hover:rotate-6 transition-transform">🧪</div>
                     <span class="text-[9px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest block mb-2">Тема 3</span>
-                    <h3 class="text-sm md:text-base font-black text-emerald-950 leading-snug mb-4 tracking-normal uppercase word-spacing-wide">Хімічний склад клітини. Фотосинтез і клітинне дихання</h3>
+                    <h3 class="text-base md:text-lg font-extrabold text-emerald-950 leading-snug mb-4 tracking-normal word-spacing-wide">Хімічний склад клітини. Фотосинтез і клітинне дихання</h3>
                     <div class="flex items-center justify-between mt-auto pt-6 border-t border-emerald-100">
-                        <span class="text-[9px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Відкрито</span>
+                        <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Відкрито</span>
                         <span class="w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center text-white text-[10px] shadow-md">🔓</span>
                     </div>
                 </div>
             </a>
 
-            <!-- Скрипт для решти тем -->
+            <!-- Динамічна генерація тем 4-10 -->
             <script>
                 const themes = [
                     { id: 4, icon: "🌊", title: "Одноклітинні організми та перехід до багатоклітинності" },
@@ -175,9 +177,9 @@
                             <div class="relative z-10 flex flex-col h-full">
                                 <div class="w-12 h-12 md:w-14 md:h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-6 shadow-sm group-hover:rotate-6 transition-transform">${theme.icon}</div>
                                 <span class="text-[9px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest block mb-2">Тема ${theme.id}</span>
-                                <h3 class="text-sm md:text-base font-black text-emerald-950 leading-snug mb-4 tracking-normal uppercase word-spacing-wide">${theme.title}</h3>
+                                <h3 class="text-base md:text-lg font-extrabold text-emerald-950 leading-snug mb-4 tracking-normal word-spacing-wide">${theme.title}</h3>
                                 <div class="flex items-center justify-between mt-auto pt-6 border-t border-emerald-100">
-                                    <span class="text-[9px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Відкрито</span>
+                                    <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Відкрито</span>
                                     <span class="w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center text-white text-[10px] shadow-md">🔓</span>
                                 </div>
                             </div>
@@ -188,7 +190,7 @@
         </div>
     </main>
 
-    <!-- Підвал (Уніфікований) -->
+    <!-- Підвал -->
     <footer class="bg-emerald-950 text-white py-12">
         <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
             <div>
@@ -212,11 +214,7 @@
             const menu = document.getElementById('mobile-menu');
             const icon = document.getElementById('menu-icon');
             menu.classList.toggle('open');
-            if (menu.classList.contains('open')) {
-                icon.style.transform = 'rotate(90deg)';
-            } else {
-                icon.style.transform = 'rotate(0deg)';
-            }
+            icon.style.transform = menu.classList.contains('open') ? 'rotate(90deg)' : 'rotate(0deg)';
         }
     </script>
 
