@@ -1,632 +1,440 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Модуль 1: Вступ до біології — Biology Smart-Hub 2.0</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Модуль 1: Вступ до біології — Biology Smart-Hub 2.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --bg-soft: #fdfcfb; 
+            --text-main: #2d3748;
+            --accent: #059669;
+            --border-color: #e2e8f0;
+        }
 
-  <script src="https://cdn.tailwindcss.com"></script>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            scroll-behavior: smooth; 
+            overflow-x: hidden;
+            background-color: var(--bg-soft);
+            color: var(--text-main);
+            line-height: 1.7; /* Покращений інтервал для комфорту очей */
+        }
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
+        .card-shadow { box-shadow: 0 10px 30px -10px rgba(0, 68, 34, 0.06); }
+        
+        /* Стилі для полів вводу */
+        .bio-line { 
+            border-bottom: 2px solid #cbd5e1; 
+            width: 100%; 
+            padding: 10px 12px; 
+            transition: all 0.3s ease; 
+            background: transparent; 
+            font-weight: 500; 
+            color: #1a202c;
+            border-radius: 8px 8px 0 0;
+        }
+        .bio-line:focus { 
+            outline: none; 
+            border-color: var(--accent); 
+            background: #f0fdf4; 
+        }
+        
+        .bio-area { 
+            border: 1px solid var(--border-color); 
+            border-radius: 20px; 
+            width: 100%; 
+            padding: 18px; 
+            transition: all 0.3s ease; 
+            resize: none; 
+            background: #ffffff;
+            font-size: 15px;
+            color: var(--text-main);
+        }
+        .bio-area:focus { 
+            outline: none; 
+            border-color: var(--accent); 
+            box-shadow: 0 0 0 5px rgba(5, 150, 105, 0.05);
+        }
 
-    /*
-      ✅ ЩО ЗМІНЕНО (коротко):
-      1) Введено дизайн-токени (CSS variables) для стабільної, м’якшої гами.
-      2) Знижено «кислотність» зеленого на великих площах, більше нейтральних фонів.
-      3) Покращено читабельність на телефоні: text-align у body/контейнерах, line-height, tap targets.
-      4) Додано :focus-visible, збільшено контраст у формах.
-      5) Підчищено дублікати text-center/text-left у класах — менше хаосу.
-      6) Таблиця: sticky header + комфортна прокрутка на мобільному.
-      7) Додано safe-area padding для iOS.
-    */
+        /* Кнопки енергії */
+        .energy-btn { 
+            border: 1px solid var(--border-color); 
+            padding: 14px 10px; 
+            border-radius: 16px; 
+            font-size: 11px; 
+            font-weight: 700; 
+            transition: all 0.2s; 
+            background: white; 
+            color: #4a5568; 
+            width: 100%;
+        }
+        .energy-btn.active { 
+            background: var(--accent); 
+            color: white; 
+            border-color: var(--accent); 
+            box-shadow: 0 8px 20px -5px rgba(5, 150, 105, 0.3);
+        }
 
-    :root {
-      /* Base */
-      --bg: #f7faf8;          /* ваш базовий mint-white */
-      --surface: #ffffff;
-      --surface-2: #fbfdfc;
-      --text: #0f172a;        /* slate-900 */
-      --muted: #475569;       /* slate-600 */
-      --muted-2: #94a3b8;     /* slate-400 */
+        #mobile-menu { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); max-height: 0; opacity: 0; overflow: hidden; }
+        #mobile-menu.open { max-height: 600px; opacity: 1; padding: 1.5rem 0; }
 
-      /* Brand emerald (трохи м’якше в тінях/фокусах) */
-      --brand: #059669;
-      --brand-2: #047857;
-      --brand-ink: #064e3b;
-      --brand-soft: rgba(5, 150, 105, 0.10);
-      --brand-soft-2: rgba(5, 150, 105, 0.06);
+        #sync-indicator { position: fixed; bottom: 24px; right: 24px; z-index: 100; display: none; }
 
-      /* Borders */
-      --border: #e5efe9;      /* м’який зелено-сірий */
-      --border-2: #d7efe4;
+        #confirm-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
 
-      /* Accents */
-      --amber-soft: rgba(245, 158, 11, 0.10);
-      --rose-soft: rgba(244, 63, 94, 0.10);
-      --indigo-soft: rgba(99, 102, 241, 0.10);
+        @media print {
+            nav, footer, .no-print, button, #theory-block, #sync-indicator, #confirm-modal { display: none !important; }
+            body { background: white; padding: 0; }
+            #workbook { border: none !important; box-shadow: none !important; padding: 0 !important; }
+            .bio-line { border-bottom: 1px solid #ddd !important; }
+        }
 
-      /* Shadow */
-      --shadow: 0 12px 44px -18px rgba(2, 44, 34, 0.18);
-      --shadow-soft: 0 10px 28px -18px rgba(2, 44, 34, 0.14);
-
-      /* Radius */
-      --r-xl: 24px;
-      --r-2xl: 32px;
-      --r-3xl: 48px;
-    }
-
-    html, body { height: 100%; }
-    body {
-      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      scroll-behavior: smooth;
-      overflow-x: hidden;
-      background: var(--bg);
-      color: var(--text);
-      -webkit-text-size-adjust: 100%;
-      text-rendering: optimizeLegibility;
-    }
-
-    /* Стабільні тіні/поверхні */
-    .card-shadow { box-shadow: var(--shadow); }
-    .card-shadow-soft { box-shadow: var(--shadow-soft); }
-    .bg-bio { background-color: var(--bg); }
-    .accent-emerald { background-color: var(--brand); }
-
-    /* Inputs: комфорт + контраст */
-    .bio-line {
-      border-bottom: 2px solid var(--border-2);
-      width: 100%;
-      padding: 8px 10px;
-      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-      background: transparent;
-      font-weight: 650;
-      color: var(--brand-ink);
-    }
-    .bio-line::placeholder { color: rgba(6, 78, 59, 0.45); font-weight: 600; }
-    .bio-line:focus { outline: none; }
-    .bio-line:focus-visible {
-      border-color: var(--brand);
-      background: rgba(240, 253, 244, 0.70);
-      box-shadow: 0 6px 18px -12px rgba(5, 150, 105, 0.45);
-    }
-
-    .bio-area {
-      border: 1px solid var(--border-2);
-      border-radius: 18px;
-      width: 100%;
-      padding: 14px;
-      transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-      resize: vertical; /* ✅ на мобільному краще, ніж none */
-      background: var(--surface-2);
-      min-height: 84px;
-    }
-    .bio-area:focus { outline: none; }
-    .bio-area:focus-visible {
-      border-color: var(--brand);
-      background: var(--surface);
-      box-shadow: 0 0 0 5px var(--brand-soft);
-    }
-
-    /* Energy buttons: читабельніше і менше «кричить» */
-    .energy-btn {
-      border: 1px solid var(--border-2);
-      padding: 12px 10px;
-      border-radius: 16px;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
-      background: var(--surface);
-      color: var(--brand-ink);
-      width: 100%;
-      text-align: center;
-      text-transform: uppercase;
-    }
-    .energy-btn:active { transform: scale(0.99); }
-    .energy-btn.active {
-      background: var(--brand);
-      color: #fff;
-      border-color: var(--brand);
-      box-shadow: 0 10px 22px -14px rgba(5, 150, 105, 0.65);
-    }
-    .energy-btn:focus-visible { outline: none; box-shadow: 0 0 0 5px var(--brand-soft); }
-
-    /* Mobile menu */
-    #mobile-menu { transition: max-height 0.25s ease, opacity 0.25s ease, padding 0.25s ease; max-height: 0; opacity: 0; overflow: hidden; }
-    #mobile-menu.open { max-height: 520px; opacity: 1; padding: 0.75rem 0; }
-
-    /* Saved indicator */
-    #sync-indicator { position: fixed; bottom: max(16px, env(safe-area-inset-bottom)); right: 16px; z-index: 100; display: none; }
-
-    /* Modal */
-    #confirm-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(2, 44, 34, 0.76);
-      backdrop-filter: blur(10px);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-      padding: 1.25rem;
-    }
-
-    /* Таблиця: комфортний горизонтальний скрол на моб */
-    .table-wrap { -webkit-overflow-scrolling: touch; }
-    .table-wrap thead th { position: sticky; top: 0; z-index: 5; }
-
-    /* Друк */
-    @media print {
-      nav, footer, .no-print, button, #theory-block, #sync-indicator, #confirm-modal { display: none !important; }
-      body { background: #fff !important; padding: 0; }
-      .card-shadow, .card-shadow-soft { box-shadow: none !important; border: none !important; }
-      #workbook { padding: 0 !important; margin: 0 !important; border: none !important; width: 100% !important; max-width: 100% !important; }
-      .bio-line { border-bottom: 1px solid #bbb !important; min-height: 1.5rem; }
-      .bio-area { border: 1px solid #bbb !important; min-height: 5rem; }
-      .workbook-section { page-break-inside: avoid; margin-bottom: 2rem; }
-      input::placeholder, textarea::placeholder { color: transparent !important; }
-    }
-
-    /* Мобільна читабельність: не все по центру */
-    @media (max-width: 640px) {
-      .hero-title { line-height: 1.15; }
-    }
-  </style>
+        .fade-in { animation: fadeIn 0.6s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
+<body class="selection:bg-emerald-100">
 
-<body class="bg-bio flex flex-col min-h-screen">
-
-  <!-- Saved indicator -->
-  <div id="sync-indicator" class="bg-slate-900 text-white text-[10px] font-black px-5 py-2.5 rounded-full shadow-2xl flex items-center gap-2 no-print">
-    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span> ЗБЕРЕЖЕНО
-  </div>
-
-  <!-- Confirm modal -->
-  <div id="confirm-modal">
-    <div class="bg-white rounded-[2.25rem] p-7 md:p-10 max-w-sm w-full shadow-2xl text-center space-y-6">
-      <div class="w-20 h-20" style="background: var(--rose-soft); color: #e11d48; border-radius: 24px; display:flex; align-items:center; justify-content:center; font-size: 40px; margin: 0 auto;">🗑️</div>
-      <h3 class="text-2xl font-black" style="color: var(--brand-ink);">Очистити дані?</h3>
-      <p class="text-slate-500 font-semibold text-sm leading-relaxed">Усі ваші записи в цьому модулі будуть видалені безповоротно.</p>
-      <div class="grid grid-cols-2 gap-4 pt-2">
-        <button onclick="closeModal()" class="py-4 rounded-2xl bg-slate-100 text-slate-700 font-black uppercase text-[10px] tracking-widest hover:bg-slate-200 transition">Назад</button>
-        <button onclick="confirmClear()" class="py-4 rounded-2xl bg-rose-600 text-white font-black uppercase text-[10px] tracking-widest hover:bg-rose-700 transition shadow-xl shadow-rose-200">Видалити</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- NAV -->
-  <nav class="bg-white/90 backdrop-blur-md border-b p-3 md:p-4 sticky top-0 z-50 shadow-sm no-print" style="border-color: var(--border);">
-    <div class="max-w-7xl mx-auto flex justify-between items-center">
-
-      <a href="../index.html" class="flex items-center gap-2 md:gap-3 hover:opacity-90 transition-opacity">
-        <div class="w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center text-white font-black shadow-lg" style="background: var(--brand);">🧬</div>
-        <div class="flex flex-col">
-          <h1 class="font-black tracking-tighter leading-none text-sm md:text-lg uppercase" style="color: var(--brand-ink);">
-            BIOLOGY <span style="color: var(--brand);">SMART-HUB 2.0</span>
-          </h1>
-          <p class="text-[7px] md:text-[9px] font-bold uppercase mt-1 tracking-wider leading-none" style="color: rgba(5, 150, 105, 0.85);">ВСП "АЕФК ПДАУ"</p>
-        </div>
-      </a>
-
-      <div class="hidden lg:flex items-center gap-4">
-        <a href="../index.html" class="text-[10px] font-black uppercase tracking-widest hover:opacity-80 transition px-3" style="color: var(--brand-ink);">🏠 Головна</a>
-        <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-5 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all">🖨️ Друк</button>
-        <a href="../generator.html" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl flex items-center gap-2 active:scale-95">
-          🤖 AI Генератор
-        </a>
-      </div>
-
-      <button onclick="toggleMobileMenu()" class="lg:hidden flex items-center p-2" style="color: var(--brand-ink);" aria-label="Відкрити меню">
-        <svg id="menu-icon" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16m-7 6h7"></path>
-        </svg>
-      </button>
+    <!-- Індикатор збереження -->
+    <div id="sync-indicator" class="bg-slate-900 text-white text-[10px] font-bold px-6 py-3 rounded-2xl shadow-2xl flex items-center gap-3 no-print">
+        <span class="w-2 h-2 bg-emerald-400 rounded-full animate-ping"></span> ЗБЕРЕЖЕНО
     </div>
 
-    <div id="mobile-menu" class="lg:hidden bg-white px-4 border-t overflow-hidden" style="border-color: var(--border);">
-      <div class="flex flex-col gap-3 py-4 font-black text-[10px] tracking-widest uppercase">
-        <a href="../index.html" class="px-4 py-3 rounded-xl transition" style="color: var(--brand-ink); background: rgba(5,150,105,0.04);">🏠 Головна</a>
-        <button onclick="window.print()" class="text-slate-700 px-4 py-3 border rounded-xl" style="border-color: var(--border);">🖨️ Друк</button>
-        <a href="../generator.html" class="text-white px-4 py-4 rounded-xl shadow-lg" style="background: var(--brand);">🤖 AI Генератор</a>
-      </div>
+    <!-- Модалка видалення -->
+    <div id="confirm-modal">
+        <div class="bg-white rounded-[2.5rem] p-10 max-w-sm w-full shadow-2xl text-center space-y-6">
+            <div class="w-20 h-20 bg-rose-50 text-rose-500 rounded-3xl flex items-center justify-center text-4xl mx-auto">🗑️</div>
+            <h3 class="text-2xl font-extrabold text-slate-900 leading-tight">Очистити дані?</h3>
+            <p class="text-slate-500 font-medium">Ваші записи в цьому модулі будуть видалені безповоротно.</p>
+            <div class="grid grid-cols-2 gap-4 pt-4">
+                <button onclick="closeModal()" class="py-4 rounded-2xl bg-slate-50 text-slate-600 font-bold uppercase text-[10px] tracking-widest hover:bg-slate-100 transition text-center">Назад</button>
+                <button onclick="confirmClear()" class="py-4 rounded-2xl bg-rose-600 text-white font-bold uppercase text-[10px] tracking-widest hover:bg-rose-700 transition shadow-lg shadow-rose-200 text-center">Видалити</button>
+            </div>
+        </div>
     </div>
-  </nav>
 
-  <main class="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16 space-y-12 md:space-y-16 flex-grow">
+    <!-- Навігація -->
+    <nav class="bg-white/90 backdrop-blur-lg border-b border-slate-100 p-4 sticky top-0 z-50 shadow-sm no-print">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-3 hover:opacity-80 transition-all group text-left">
+                <div class="w-10 h-10 bg-emerald-600 rounded-2xl flex items-center justify-center text-white font-black shadow-lg group-hover:rotate-6 transition-transform text-xl">🧬</div>
+                <div class="flex flex-col text-left">
+                    <h1 class="font-extrabold text-slate-900 tracking-tighter leading-none text-base md:text-lg uppercase">BIOLOGY <span class="text-emerald-500">SMART-HUB 2.0</span></h1>
+                    <p class="text-[7px] md:text-[9px] font-bold text-slate-400 uppercase mt-1 tracking-widest">ВСП "АЕФК ПДАУ"</p>
+                </div>
+            </a>
 
-    <!-- HERO -->
-    <header class="text-center space-y-4 md:space-y-6 no-print">
-      <div class="inline-block px-4 py-1.5 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em]" style="background: var(--brand-soft); color: var(--brand-ink);">
-        🦾 Робочий простір
-      </div>
-      <h2 class="text-2xl md:text-5xl font-extrabold hero-title" style="color: var(--brand-ink);">
-        Модуль 1.
-        <span class="block mt-2 text-xl md:text-3xl italic font-black" style="color: var(--brand);">
-          Вступ до біології. Властивості живого та методи дослідження
-        </span>
-      </h2>
-      <p class="text-slate-600 text-xs md:text-base font-semibold leading-relaxed max-w-3xl mx-auto italic px-2">
-        Опрацюйте теоретичні матеріали та заповніть зошит. Збережіть чи роздрукуйте свій зошит за допомогою кнопки друку.
-      </p>
-    </header>
+            <div class="hidden lg:flex items-center gap-6">
+                <a href="../index.html" class="text-[10px] font-bold uppercase tracking-widest text-slate-600 hover:text-emerald-600 transition">🏠 Головна</a>
+                <button onclick="window.print()" class="text-slate-600 px-5 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-slate-50 transition">🖨️ Друк</button>
+                <a href="../generator.html" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-2xl text-[10px] font-bold uppercase tracking-widest transition-all shadow-md active:scale-95 flex items-center gap-2">🤖 AI ГЕНЕРАТОР</a>
+            </div>
 
-    <!-- THEORY BLOCK -->
-    <section id="theory-block" class="no-print">
-      <h2 class="text-lg md:text-2xl font-extrabold mb-6 md:mb-8 flex items-center gap-3 text-left" style="color: var(--brand-ink);">
-        <span class="w-1.5 md:w-2 h-7 rounded-full" style="background: var(--brand);"></span>
-        База знань модуля
-      </h2>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-
-        <a href="https://drive.google.com/file/d/1I8ewvgoovuACvPtDogWYOUP6O1C0ig1_/view?usp=drive_link" target="_blank"
-           class="bg-white p-4 rounded-[1.5rem] md:rounded-[2rem] border card-shadow-soft flex sm:flex-col items-center gap-4 sm:gap-0 sm:text-center hover:shadow-md transition-all group"
-           style="border-color: var(--border);">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center text-xl md:mb-4 group-hover:scale-110 transition-transform"
-               style="background: rgba(5,150,105,0.06);">📄</div>
-          <div class="flex-1">
-            <h3 class="font-extrabold uppercase text-[10px] md:text-xs tracking-wider text-left sm:text-center" style="color: var(--brand-ink);">Опорний конспект</h3>
-            <p class="text-[9px] font-black uppercase mt-1 text-left sm:text-center" style="color: var(--muted-2);">Відкрити PDF</p>
-          </div>
-        </a>
-
-        <a href="https://drive.google.com/drive/folders/19TdnzTHzD4TGdWxdXw_ZXwMfazK2HQqp?usp=drive_link" target="_blank"
-           class="bg-white p-4 rounded-[1.5rem] md:rounded-[2rem] border card-shadow-soft flex sm:flex-col items-center gap-4 sm:gap-0 sm:text-center hover:shadow-md transition-all group"
-           style="border-color: var(--border);">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center text-xl md:mb-4 group-hover:scale-110 transition-transform"
-               style="background: var(--amber-soft);">🖼️</div>
-          <div class="flex-1">
-            <h3 class="font-extrabold uppercase text-[10px] md:text-xs tracking-wider text-left sm:text-center" style="color: var(--brand-ink);">Презентації</h3>
-            <p class="text-[9px] font-black uppercase mt-1 text-left sm:text-center" style="color: var(--muted-2);">до тем модуля</p>
-          </div>
-        </a>
-
-        <a href="../glossary.html"
-           class="bg-white p-4 rounded-[1.5rem] md:rounded-[2rem] border card-shadow-soft flex sm:flex-col items-center gap-4 sm:gap-0 sm:text-center hover:shadow-md transition-all group"
-           style="border-color: var(--border);">
-          <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center text-xl md:mb-4 group-hover:scale-110 transition-transform"
-               style="background: rgba(59,130,246,0.08);">📖</div>
-          <div class="flex-1">
-            <h3 class="font-extrabold uppercase text-[10px] md:text-xs tracking-wider text-left sm:text-center" style="color: var(--brand-ink);">Глосарій</h3>
-            <p class="text-[9px] font-black uppercase mt-1 text-left sm:text-center" style="color: var(--muted-2);">Словник термінів</p>
-          </div>
-        </a>
-
-        <a href="https://notebooklm.google.com/notebook/2062d90b-1122-42e9-a4df-c00eba22a6d3" target="_blank"
-           class="p-4 rounded-[1.5rem] md:rounded-[2rem] border card-shadow-soft flex sm:flex-col items-center gap-4 sm:gap-0 sm:text-center hover:shadow-md transition-all group"
-           style="border-color: rgba(99,102,241,0.18); background: rgba(99,102,241,0.06);">
-          <div class="w-10 h-10 md:w-12 md:h-12 bg-white rounded-2xl flex items-center justify-center text-xl md:mb-4 group-hover:scale-110 transition-transform shadow-sm">🎓</div>
-          <div class="flex-1">
-            <h3 class="font-extrabold uppercase text-[10px] md:text-xs tracking-wider text-left sm:text-center" style="color: #312e81;">AI Тютор</h3>
-            <p class="text-[9px] font-black uppercase mt-1 text-left sm:text-center" style="color: rgba(99,102,241,0.75);">NotebookLM ↗</p>
-          </div>
-        </a>
-
-      </div>
-    </section>
-
-    <!-- WORKBOOK -->
-    <section id="workbook" class="bg-white rounded-[2rem] md:rounded-[4rem] p-5 sm:p-10 md:p-14 border-2 card-shadow overflow-hidden"
-             style="border-color: rgba(5,150,105,0.20);">
-
-      <header class="text-center mb-10 md:mb-14">
-        <h2 class="text-3xl md:text-6xl font-black mb-3 uppercase tracking-tighter" style="color: var(--brand-ink);">Робочий зошит</h2>
-        <div class="h-1.5 w-24 mx-auto rounded-full mb-6" style="background: var(--brand);"></div>
-        <p class="font-bold uppercase tracking-[0.2em] text-[8px] md:text-[11px] px-4" style="color: rgba(5,150,105,0.88);">
-          Модуль 1. Вступ до біології. Властивості живого та методи дослідження
-        </p>
-      </header>
-
-      <!-- Student info -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12 md:mb-14 text-left">
-        <div class="space-y-2">
-          <label class="text-[10px] font-black uppercase tracking-widest block" style="color: rgba(6,78,59,0.85);">Студент:</label>
-          <input type="text" id="student_name" class="bio-line text-sm" placeholder="Прізвище Ім'я" />
+            <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-slate-900">
+                <svg id="menu-icon" class="w-6 h-6 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
         </div>
-        <div class="space-y-2">
-          <label class="text-[10px] font-black uppercase tracking-widest block" style="color: rgba(6,78,59,0.85);">Група:</label>
-          <input type="text" id="student_group" class="bio-line text-sm" />
+        <div id="mobile-menu" class="lg:hidden bg-white px-4 text-center">
+            <div class="flex flex-col gap-3 py-4 font-bold text-[10px] tracking-widest uppercase text-center">
+                <a href="../index.html" class="text-slate-700 py-3 hover:bg-slate-50 rounded-xl">🏠 Головна</a>
+                <button onclick="window.print()" class="text-slate-700 py-3 border border-slate-100 rounded-xl">🖨️ Друк</button>
+                <a href="../generator.html" class="text-white py-4 bg-emerald-600 rounded-xl shadow-md">🤖 AI Генератор</a>
+            </div>
         </div>
-        <div class="space-y-2">
-          <label class="text-[10px] font-black uppercase tracking-widest block" style="color: rgba(6,78,59,0.85);">Дата:</label>
-          <input type="text" id="current_date" class="bio-line text-sm" placeholder="ДД.ММ.РРРР" />
-        </div>
-        <div class="space-y-2">
-          <label class="text-[10px] font-black uppercase tracking-widest block" style="color: rgba(6,78,59,0.85);">ОПП:</label>
-          <input type="text" id="student_opp" class="bio-line text-sm" />
-        </div>
-      </div>
+    </nav>
 
-      <!-- Energy -->
-      <div class="mb-12 md:mb-14 p-5 md:p-7 rounded-[2rem] border no-print text-left"
-           style="background: var(--brand-soft-2); border-color: rgba(5,150,105,0.16);">
-        <h3 class="font-black mb-5 flex items-center gap-2 text-sm" style="color: var(--brand-ink);">🔋 Стан енергії сьогодні:</h3>
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <button onclick="setEnergy(this, 'sleep')" class="energy-btn" data-energy="sleep">😴 Sleep Mode</button>
-          <button onclick="setEnergy(this, 'eco')" class="energy-btn" data-energy="eco">😐 Eco Mode</button>
-          <button onclick="setEnergy(this, 'normal')" class="energy-btn" data-energy="normal">🙂 Normal</button>
-          <button onclick="setEnergy(this, 'turbo')" class="energy-btn active" data-energy="turbo">🚀 Turbo Mode</button>
-        </div>
-      </div>
-
-      <!-- Section 1 -->
-      <div class="workbook-section mb-12 md:mb-14 space-y-6 text-left">
-        <h3 class="text-xl md:text-2xl font-black uppercase tracking-tight flex items-center gap-4 border-l-8 pl-6" style="border-color: var(--brand); color: var(--brand-ink);">
-          1. Компетенції та мета навчання
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <label class="flex items-start gap-4 p-3 md:p-4 rounded-2xl cursor-pointer transition border"
-                 style="background: rgba(15,23,42,0.02); border-color: rgba(5,150,105,0.12);">
-            <input type="checkbox" id="comp_1" class="w-4 h-4 rounded mt-0.5 flex-shrink-0" style="accent-color: var(--brand);" />
-            <span class="text-xs md:text-[13px] font-bold leading-relaxed" style="color: rgba(15,23,42,0.78);">
-              Знати предмет і завдання біології, рівні організації живої матерії та методи біологічних досліджень
-            </span>
-          </label>
-
-          <label class="flex items-start gap-4 p-3 md:p-4 rounded-2xl cursor-pointer transition border"
-                 style="background: rgba(15,23,42,0.02); border-color: rgba(5,150,105,0.12);">
-            <input type="checkbox" id="comp_2" class="w-4 h-4 rounded mt-0.5 flex-shrink-0" style="accent-color: var(--brand);" />
-            <span class="text-xs md:text-[13px] font-bold leading-relaxed" style="color: rgba(15,23,42,0.78);">
-              Розуміти живі системи як цілісні об’єкти та прогнозувати наслідки зовнішніх впливів на них
-            </span>
-          </label>
-        </div>
-      </div>
-
-      <!-- Section 2 -->
-      <div class="workbook-section mb-12 md:mb-14 text-left">
-        <h3 class="text-xl md:text-2xl font-black mb-6 uppercase tracking-tight flex items-center gap-4 border-l-8 pl-6"
-            style="border-color: #f59e0b; color: var(--brand-ink);">
-          2. Ключові терміни та поняття модуля
-        </h3>
-
-        <div class="p-6 md:p-8 rounded-[2rem] border" style="background: var(--amber-soft); border-color: rgba(245,158,11,0.18);">
-          <div class="flex flex-wrap gap-2 md:gap-3 mb-6">
-            <!-- Ваш список термінів залишено без змін (тільки трішки м’якіше по кольорах) -->
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(245,158,11,0.30); color: #92400e;">Біологія</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(245,158,11,0.30); color: #92400e;">Ботаніка</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(245,158,11,0.30); color: #92400e;">Зоологія</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(245,158,11,0.30); color: #92400e;">Мікологія</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(245,158,11,0.30); color: #92400e;">Вірусологія</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(245,158,11,0.30); color: #92400e;">Цитологія</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(245,158,11,0.30); color: #92400e;">Генетика</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(245,158,11,0.30); color: #92400e;">Екологія</span>
-
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(59,130,246,0.22); color: #1e40af;">Молекулярний рівень</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(59,130,246,0.22); color: #1e40af;">Клітинний рівень</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(59,130,246,0.22); color: #1e40af;">Популяційно-видовий рівень</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(59,130,246,0.22); color: #1e40af;">Біогеоценотичний рівень</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(59,130,246,0.22); color: #1e40af;">Біосферний рівень</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(59,130,246,0.22); color: #1e40af;">Екосистема</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(59,130,246,0.22); color: #1e40af;">Біогеоценоз</span>
-
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(5,150,105,0.22); color: #065f46;">Експериментальний метод</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(5,150,105,0.22); color: #065f46;">Моніторинг</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(5,150,105,0.22); color: #065f46;">Моделювання</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(5,150,105,0.22); color: #065f46;">Мікроскоп</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(5,150,105,0.22); color: #065f46;">Науковий факт</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(5,150,105,0.22); color: #065f46;">Гіпотеза</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(5,150,105,0.22); color: #065f46;">Науковий закон</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(5,150,105,0.22); color: #065f46;">Наукова теорія</span>
-
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(244,63,94,0.22); color: #9f1239;">Відкрита система</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(244,63,94,0.22); color: #9f1239;">Обмін речовин</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(244,63,94,0.22); color: #9f1239;">Саморегуляція</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(244,63,94,0.22); color: #9f1239;">Подразливість</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(244,63,94,0.22); color: #9f1239;">Ріст</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(244,63,94,0.22); color: #9f1239;">Розвиток</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(244,63,94,0.22); color: #9f1239;">Розмноження</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(244,63,94,0.22); color: #9f1239;">Спадковість</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(244,63,94,0.22); color: #9f1239;">Мінливість</span>
-            <span class="px-4 py-2 bg-white border rounded-full text-[10px] font-bold uppercase shadow-sm" style="border-color: rgba(244,63,94,0.22); color: #9f1239;">Рух</span>
-          </div>
-
-          <p class="text-[11px] md:text-sm font-semibold flex items-center gap-2 italic" style="color: #7c2d12;">
-            💡 Використовуйте <a href="../glossary.html" class="underline font-black" style="color: var(--brand);">Глосарій</a> для перегляду всіх термінів модуля.
-          </p>
-        </div>
-      </div>
-
-      <!-- Section 3: Table -->
-      <div class="workbook-section mb-12 md:mb-14 text-left">
-        <h3 class="text-xl md:text-2xl font-black mb-6 uppercase tracking-tight flex items-center gap-4 border-l-8 pl-6"
-            style="border-color: var(--brand); color: var(--brand-ink);">🔬 3. Практикум: Рівні організації живої матерії</h3>
-
-        <div class="rounded-3xl border overflow-x-auto table-wrap card-shadow-soft" style="border-color: rgba(5,150,105,0.14);">
-          <table class="w-full text-xs md:text-sm min-w-[720px]">
-            <thead class="font-black">
-              <tr style="background: var(--brand); color: #fff;">
-                <th class="p-4 text-left uppercase tracking-widest text-[10px]">Об'єкт / Процес</th>
-                <th class="p-4 text-left uppercase tracking-widest text-[10px]">Рівень організації</th>
-                <th class="p-4 text-left uppercase tracking-widest text-[10px]">Елементарна одиниця</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y font-semibold italic" style="color: rgba(15,23,42,0.78);">
-              <tr>
-                <td class="p-4" style="background: rgba(15,23,42,0.02);">🧬 Реплікація ДНК</td>
-                <td class="p-4"><input type="text" id="prac_1_1" class="bio-line" placeholder="..." /></td>
-                <td class="p-4"><input type="text" id="prac_1_2" class="bio-line" placeholder="..." /></td>
-              </tr>
-              <tr>
-                <td class="p-4" style="background: rgba(15,23,42,0.02);">🌿 Транспірація у рослин</td>
-                <td class="p-4"><input type="text" id="prac_2_1" class="bio-line" placeholder="..." /></td>
-                <td class="p-4"><input type="text" id="prac_2_2" class="bio-line" placeholder="..." /></td>
-              </tr>
-              <tr>
-                <td class="p-4" style="background: rgba(15,23,42,0.02);">💧 Евтрофікація водойм</td>
-                <td class="p-4"><input type="text" id="prac_3_1" class="bio-line" placeholder="..." /></td>
-                <td class="p-4"><input type="text" id="prac_3_2" class="bio-line" placeholder="..." /></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- Section 4: NotebookLM -->
-      <div class="workbook-section mb-12 md:mb-14 no-print text-left">
-        <h3 class="text-xl md:text-2xl font-black mb-6 uppercase tracking-tight flex items-center gap-4 border-l-8 pl-6"
-            style="border-color: #6366f1; color: var(--brand-ink);">🎓 4. Робота з AI-Тютором (NotebookLM)</h3>
-
-        <div class="p-6 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] border space-y-6"
-             style="background: rgba(99,102,241,0.06); border-color: rgba(99,102,241,0.18); color: #0b132a;">
-          <div class="p-4 bg-white border rounded-2xl" style="border-color: rgba(99,102,241,0.18);">
-            <p class="text-[10px] uppercase font-black mb-1.5" style="color: rgba(99,102,241,0.85);">Інструкція:</p>
-            <p class="text-sm md:text-base italic leading-relaxed" style="color: rgba(49,46,129,0.78);">
-              Використовуйте "AI Генератор" для створення запиту. Проаналізуйте відповідь тютора та запишіть тези:
+    <main class="w-full max-w-5xl mx-auto px-5 py-10 md:py-20 space-y-16">
+        
+        <header class="text-center space-y-6 no-print fade-in text-center">
+            <div class="inline-block px-5 py-2 bg-emerald-50 text-emerald-700 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em]">🦾 Робочий простір</div>
+            <h2 class="text-3xl md:text-5xl font-extrabold text-slate-900 leading-tight text-center">
+                Модуль 1. <span class="text-emerald-600 block mt-2 text-2xl md:text-4xl italic font-black">Вступ до біології. Властивості живого та методи дослідження</span>
+            </h2>
+            <p class="text-slate-500 text-sm md:text-lg font-medium leading-relaxed max-w-2xl mx-auto italic text-center">
+                Опрацюйте матеріали та заповніть зошит. Система автоматично зберігає ваші відповіді кожні кілька секунд.
             </p>
-          </div>
-          <textarea id="ai_notes" class="w-full bg-white border rounded-3xl p-5 text-sm md:text-base h-36 md:h-48 focus:outline-none transition-colors shadow-sm leading-relaxed"
-                    style="border-color: rgba(99,102,241,0.20);"
-                    placeholder="Ваші нотатки з пояснення тютора..."></textarea>
+        </header>
+
+        <!-- БАЗА ЗНАНЬ -->
+        <section id="theory-block" class="no-print fade-in" style="animation-delay: 0.1s;">
+            <h2 class="text-lg md:text-xl font-extrabold text-slate-800 mb-8 flex items-center gap-3 text-left">
+                <span class="w-2 h-7 bg-emerald-500 rounded-full"></span> База знань модуля
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+                <a href="https://drive.google.com/file/d/1I8ewvgoovuACvPtDogWYOUP6O1C0ig1_/view?usp=drive_link" target="_blank" class="bg-white p-6 rounded-[2rem] border border-slate-100 card-shadow hover:border-emerald-500 transition-all group">
+                    <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform mx-auto">📄</div>
+                    <h3 class="font-bold text-slate-800 uppercase text-[10px] tracking-widest">Конспект</h3>
+                    <p class="text-[9px] text-slate-400 mt-1 uppercase font-bold">Відкрити PDF</p>
+                </a>
+                <a href="https://drive.google.com/drive/folders/19TdnzTHzD4TGdWxdXw_ZXwMfazK2HQqp?usp=drive_link" target="_blank" class="bg-white p-6 rounded-[2rem] border border-slate-100 card-shadow hover:border-emerald-500 transition-all group">
+                    <div class="w-14 h-14 bg-amber-50 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform mx-auto">🖼️</div>
+                    <h3 class="font-bold text-slate-800 uppercase text-[10px] tracking-widest">Презентація</h3>
+                    <p class="text-[9px] text-slate-400 mt-1 uppercase font-bold">Візуальні матеріали</p>
+                </a>
+                <a href="../glossary.html" class="bg-white p-6 rounded-[2rem] border border-slate-100 card-shadow hover:border-emerald-500 transition-all group text-center">
+                    <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform mx-auto">📖</div>
+                    <h3 class="font-bold text-slate-800 uppercase text-[10px] tracking-widest">Глосарій</h3>
+                    <p class="text-[9px] text-slate-400 mt-1 uppercase font-bold">Словник термінів</p>
+                </a>
+                <a href="https://notebooklm.google.com" target="_blank" class="bg-emerald-900 p-6 rounded-[2rem] text-white shadow-xl shadow-emerald-100 hover:bg-emerald-950 transition-all group text-center">
+                    <div class="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform mx-auto">🎓</div>
+                    <h3 class="font-bold text-emerald-400 uppercase text-[10px] tracking-widest">AI Тютор</h3>
+                    <p class="text-[9px] text-emerald-200/50 mt-1 uppercase font-bold">NotebookLM ↗</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- РОБОЧИЙ ЗОШИТ -->
+        <section id="workbook" class="bg-white rounded-[2.5rem] md:rounded-[4rem] p-6 sm:p-12 md:p-20 border border-slate-100 card-shadow fade-in text-center" style="animation-delay: 0.2s;">
+            
+            <header class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-black text-slate-900 mb-4 uppercase tracking-tighter text-center">Робочий Зошит</h2>
+                <div class="h-1.5 w-20 bg-emerald-500 mx-auto rounded-full mb-6 text-center"></div>
+                <p class="text-slate-400 font-bold uppercase tracking-widest text-[9px] md:text-[11px] px-4 text-center">Модуль 1. Вступ до біології. Властивості живого та методи дослідження</p>
+            </header>
+
+            <!-- Поля студента -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 text-left">
+                <div class="space-y-2 text-left"><label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Студент:</label><input type="text" id="student_name" class="bio-line text-sm text-left" placeholder="Прізвище Ім'я"></div>
+                <div class="space-y-2 text-left"><label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Група:</label><input type="text" id="student_group" class="bio-line text-sm text-left"></div>
+                <div class="space-y-2 text-left"><label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Дата:</label><input type="text" id="current_date" class="bio-line text-sm text-left" placeholder="ДД.ММ.РРРР"></div>
+                <div class="space-y-2 text-left"><label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">ОПП:</label><input type="text" id="student_opp" class="bio-line text-sm text-left"></div>
+            </div>
+
+            <!-- РОЗДІЛ 1: КОМПЕТЕНЦІЇ ТА МЕТА -->
+            <div class="workbook-section mb-16 space-y-8 text-left">
+                <h3 class="text-xl md:text-2xl font-extrabold text-slate-900 border-l-8 border-emerald-500 pl-6 uppercase tracking-tighter text-left">1. Компетенції та мета навчання</h3>
+                <div class="bg-emerald-50/30 p-6 md:p-10 rounded-[2.5rem] border border-emerald-100/50 space-y-6">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Позначте компетенції, які ви плануєте розвинути (☐):</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="flex items-start gap-4 p-5 bg-white rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-slate-100"><input type="checkbox" id="comp_1" class="w-5 h-5 accent-emerald-600 rounded-lg mt-0.5 flex-shrink-0"><span class="text-xs md:text-sm font-semibold text-slate-700 leading-relaxed text-left">Знати предмет і завдання біології, рівні організації живої матерії та методи біологічних досліджень</span></label>
+                        <label class="flex items-start gap-4 p-5 bg-white rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-slate-100"><input type="checkbox" id="comp_2" class="w-5 h-5 accent-emerald-600 rounded-lg mt-0.5 flex-shrink-0"><span class="text-xs md:text-sm font-semibold text-slate-700 leading-relaxed text-left">Розуміти живі системи як цілісні об’єкти та прогнозувати наслідки зовнішніх впливів на них</span></label>
+                        <label class="flex items-start gap-4 p-5 bg-white rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-slate-100"><input type="checkbox" id="comp_3" class="w-5 h-5 accent-emerald-600 rounded-lg mt-0.5 flex-shrink-0"><span class="text-xs md:text-sm font-semibold text-slate-700 leading-relaxed text-left">Пояснювати біологічні процеси на основі наукових законів та результатів експериментальних даних</span></label>
+                        <label class="flex items-start gap-4 p-5 bg-white rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-slate-100"><input type="checkbox" id="comp_4" class="w-5 h-5 accent-emerald-600 rounded-lg mt-0.5 flex-shrink-0"><span class="text-xs md:text-sm font-semibold text-slate-700 leading-relaxed text-left">Приймати обґрунтовані рішення щодо раціонального використання ресурсів у майбутній професійній діяльності</span></label>
+                        <label class="flex items-start gap-4 p-5 bg-white rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-slate-100"><input type="checkbox" id="comp_5" class="w-5 h-5 accent-emerald-600 rounded-lg mt-0.5 flex-shrink-0"><span class="text-xs md:text-sm font-semibold text-slate-700 leading-relaxed text-left">Застосовувати цифрові інструменти та технології ШІ для пошуку й аналізу біологічної інформації</span></label>
+                        <label class="flex items-start gap-4 p-5 bg-white rounded-2xl cursor-pointer hover:bg-emerald-50 transition border border-slate-100"><input type="checkbox" id="comp_6" class="w-5 h-5 accent-emerald-600 rounded-lg mt-0.5 flex-shrink-0"><span class="text-xs md:text-sm font-semibold text-slate-700 leading-relaxed text-left">Усвідомлювати етичні аспекти біологічних досліджень та відповідальність за збереження біорізноманіття</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ЕНЕРГІЯ -->
+            <div class="mb-16 bg-slate-50/50 p-6 md:p-10 rounded-[2.5rem] border border-slate-100 no-print text-left">
+                <h3 class="font-bold text-slate-700 mb-6 flex items-center gap-2 text-sm text-left">🔋 Рівень енергії сьогодні:</h3>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 text-center">
+                    <button onclick="setEnergy(this, 'sleep')" class="energy-btn" data-energy="sleep">😴 Sleep Mode</button>
+                    <button onclick="setEnergy(this, 'eco')" class="energy-btn" data-energy="eco">😐 Eco Mode</button>
+                    <button onclick="setEnergy(this, 'normal')" class="energy-btn" data-energy="normal">🙂 Normal</button>
+                    <button onclick="setEnergy(this, 'turbo')" class="energy-btn active" data-energy="turbo">🚀 Turbo Mode</button>
+                </div>
+            </div>
+
+            <!-- РОЗДІЛ 2: ТЕРМІНИ -->
+            <div class="workbook-section mb-16 text-left">
+                <h3 class="text-xl md:text-2xl font-extrabold text-slate-900 mb-8 border-l-8 border-amber-500 pl-6 uppercase tracking-tighter text-left">2. Ключові терміни та поняття модуля</h3>
+                <div class="bg-amber-50/30 p-8 rounded-[2.5rem] border border-amber-100/50 text-left">
+                    <div class="flex flex-wrap gap-3 mb-8 text-left">
+                        <span class="px-4 py-2 bg-white border border-amber-200 rounded-xl text-[10px] font-bold text-amber-800 uppercase shadow-sm">Біологія</span>
+                        <span class="px-4 py-2 bg-white border border-amber-200 rounded-xl text-[10px] font-bold text-amber-800 uppercase shadow-sm">Ботаніка</span>
+                        <span class="px-4 py-2 bg-white border border-amber-200 rounded-xl text-[10px] font-bold text-amber-800 uppercase shadow-sm">Цитологія</span>
+                        <span class="px-4 py-2 bg-white border border-amber-200 rounded-xl text-[10px] font-bold text-amber-800 uppercase shadow-sm">Генетика</span>
+                        <span class="px-4 py-2 bg-white border border-blue-200 rounded-xl text-[10px] font-bold text-blue-800 uppercase shadow-sm">Клітинний рівень</span>
+                        <span class="px-4 py-2 bg-white border border-blue-200 rounded-xl text-[10px] font-bold text-blue-800 uppercase shadow-sm">Біосферний рівень</span>
+                        <span class="px-4 py-2 bg-white border border-emerald-200 rounded-xl text-[10px] font-bold text-emerald-800 uppercase shadow-sm">Моніторинг</span>
+                        <span class="px-4 py-2 bg-white border border-emerald-200 rounded-xl text-[10px] font-bold text-emerald-800 uppercase shadow-sm">Експеримент</span>
+                        <span class="px-4 py-2 bg-white border border-rose-200 rounded-xl text-[10px] font-bold text-rose-800 uppercase shadow-sm">Обмін речовин</span>
+                        <span class="px-4 py-2 bg-white border border-rose-200 rounded-xl text-[10px] font-bold text-rose-800 uppercase shadow-sm">Саморегуляція</span>
+                        <span class="px-4 py-2 bg-white border border-rose-200 rounded-xl text-[10px] font-bold text-rose-800 uppercase shadow-sm">Мінливість</span>
+                        <span class="px-4 py-2 bg-white border border-rose-200 rounded-xl text-[10px] font-bold text-rose-800 uppercase shadow-sm">Спадковість</span>
+                    </div>
+                    <p class="text-[11px] md:text-sm font-bold text-amber-900/60 italic border-t border-amber-100 pt-6 text-left">💡 Використовуйте <a href="../glossary.html" class="text-emerald-600 underline hover:text-emerald-700 transition">Глосарій</a> для перегляду визначень термінів.</p>
+                </div>
+            </div>
+
+            <!-- РОЗДІЛ 3: ПРАКТИКУМ -->
+            <div class="workbook-section mb-16 text-left">
+                <h3 class="text-xl md:text-2xl font-extrabold text-slate-900 mb-4 border-l-8 border-emerald-500 pl-6 uppercase tracking-tighter text-left">🔬 3. Практикум: Рівні організації живої матерії</h3>
+                
+                <div class="md:hidden flex items-center gap-2 mb-4 px-4 py-2 bg-slate-50 border border-slate-100 rounded-xl text-slate-400">
+                    <span class="text-lg">↔️</span>
+                    <span class="text-[10px] font-bold uppercase tracking-widest italic text-left">Гортайте таблицю вбік</span>
+                </div>
+
+                <div class="rounded-3xl border border-slate-100 overflow-x-auto shadow-sm text-left">
+                    <table class="w-full text-sm min-w-[700px] text-left">
+                        <thead class="bg-slate-900 text-white font-bold uppercase text-[10px] tracking-widest text-center">
+                            <tr><th class="p-5 text-left">Об'єкт / Процес</th><th class="p-5 text-left">Рівень організації</th><th class="p-5 text-left">Елементарна одиниця</th></tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 font-semibold text-slate-700 text-left">
+                            <tr><td class="p-5 bg-slate-50/50 text-left">🧬 Реплікація ДНК</td><td class="p-5 text-left"><input type="text" id="p1" class="bio-line text-left" placeholder="..."></td><td class="p-5 text-left"><input type="text" id="p2" class="bio-line text-left" placeholder="..."></td></tr>
+                            <tr><td class="p-5 bg-slate-50/50 text-left">🌿 Транспірація у рослин</td><td class="p-5 text-left"><input type="text" id="p3" class="bio-line text-left" placeholder="..."></td><td class="p-5 text-left"><input type="text" id="p4" class="bio-line text-left" placeholder="..."></td></tr>
+                            <tr><td class="p-5 bg-slate-50/50 text-left text-left">💧 Евтрофікація водойм</td><td class="p-5 text-left"><input type="text" id="p5" class="bio-line text-left" placeholder="..."></td><td class="p-5 text-left"><input type="text" id="p6" class="bio-line text-left" placeholder="..."></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- РОЗДІЛ 4: AI ТЮТОР -->
+            <div class="workbook-section mb-16 no-print text-left">
+                <h3 class="text-xl md:text-2xl font-extrabold text-slate-900 mb-8 border-l-8 border-indigo-500 pl-6 uppercase tracking-tighter text-left">🎓 4. Робота з AI-Тютором (NotebookLM)</h3>
+                <div class="bg-slate-900 p-8 md:p-12 rounded-[3rem] text-white space-y-8 text-left">
+                    <div class="p-6 bg-white/5 border border-white/10 rounded-2xl text-left">
+                        <p class="text-[10px] uppercase font-bold text-indigo-400 mb-2 text-left">Інструкція:</p>
+                        <p class="text-sm md:text-base italic text-indigo-100 font-medium text-left">Використовуйте "AI Генератор" для створення запиту. Проаналізуйте отриману відповідь у NotebookLM та запишіть тези:</p>
+                    </div>
+                    <textarea id="ai_notes" class="w-full bg-white/5 border border-white/10 rounded-3xl p-6 text-sm md:text-base h-44 md:h-56 focus:outline-none focus:border-emerald-500 transition-colors text-left" placeholder="Ваші нотатки..."></textarea>
+                </div>
+            </div>
+
+            <!-- РОЗДІЛ 5: КОНТРОЛЬ (8 ПИТАНЬ) -->
+            <div class="workbook-section mb-16 space-y-10 text-left">
+                <h3 class="text-xl md:text-2xl font-extrabold text-slate-900 border-l-8 border-emerald-500 pl-6 uppercase tracking-tighter text-left">✅ 5. Контрольні питання для самоперевірки</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
+                    <div class="space-y-3 text-left"><label class="text-[10px] font-bold text-emerald-700 uppercase ml-2 tracking-widest text-left">1. Що вивчає біологія та назвіть її головні галузі?</label><textarea id="q1" class="bio-area text-left" rows="3"></textarea></div>
+                    <div class="space-y-3 text-left"><label class="text-[10px] font-bold text-emerald-700 uppercase ml-2 tracking-widest text-left">2. Назвіть ознаки живого. Різниця ріст/розвиток?</label><textarea id="q2" class="bio-area text-left" rows="3"></textarea></div>
+                    <div class="space-y-3 text-left"><label class="text-[10px] font-bold text-emerald-700 uppercase ml-2 tracking-widest text-left">3. Порівняйте методи: експеримент та моніторинг?</label><textarea id="q3" class="bio-area text-left" rows="3"></textarea></div>
+                    <div class="space-y-3 text-left"><label class="text-[10px] font-bold text-emerald-700 uppercase ml-2 tracking-widest text-left">4. Будова мікроскопа та як розрахувати збільшення?</label><textarea id="q4" class="bio-area text-left" rows="3"></textarea></div>
+                    <div class="space-y-3 text-left"><label class="text-[10px] font-bold text-emerald-700 uppercase ml-2 tracking-widest text-left">5. Охарактеризуйте рівні організації життя?</label><textarea id="q5" class="bio-area text-left" rows="3"></textarea></div>
+                    <div class="space-y-3 text-left"><label class="text-[10px] font-bold text-emerald-700 uppercase ml-2 tracking-widest text-left">6. Поясніть поняття «відкрита система»?</label><textarea id="q6" class="bio-area text-left" rows="3"></textarea></div>
+                    <div class="space-y-3 text-left"><label class="text-[10px] font-bold text-emerald-700 uppercase ml-2 tracking-widest text-left">7. Різниця між фактом, гіпотезою та теорією?</label><textarea id="q7" class="bio-area text-left" rows="3"></textarea></div>
+                    <div class="space-y-3 text-left"><label class="text-[10px] font-bold text-emerald-700 uppercase ml-2 tracking-widest text-left">8. Значення саморегуляції та подразливості?</label><textarea id="q8" class="bio-area text-left" rows="3"></textarea></div>
+                </div>
+            </div>
+
+            <!-- РОЗДІЛ 6: БІОЕТИКА -->
+            <div class="workbook-section mb-16 bg-rose-50/50 rounded-[3rem] p-8 md:p-14 border border-rose-100 text-left">
+                <h3 class="text-xl md:text-2xl font-black mb-8 uppercase text-rose-950 italic text-left text-left">⚖️ 6. Дискусійний майданчик: Біоетика</h3>
+                <p class="font-bold mb-10 text-slate-800 text-sm md:text-base italic leading-relaxed text-center px-4">"Використання тварин для тестування косметики: Етично чи ні?"</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                    <div class="space-y-3 text-left"><label class="text-[9px] font-bold text-green-700 uppercase block ml-4 tracking-widest text-left">👍 Аргументи ЗА</label><textarea id="eth1" class="bio-area shadow-sm text-left" rows="4"></textarea></div>
+                    <div class="space-y-3 text-left"><label class="text-[9px] font-bold text-rose-700 uppercase block ml-4 tracking-widest text-left text-left">👎 Аргументи ПРОТИ</label><textarea id="eth2" class="bio-area shadow-sm text-left" rows="4"></textarea></div>
+                </div>
+            </div>
+
+            <!-- РОЗДІЛ 7: ІННОВАЦІЇ -->
+            <div class="workbook-section mb-16 text-left">
+                <h3 class="text-xl md:text-2xl font-extrabold text-slate-900 mb-8 border-l-8 border-emerald-500 pl-6 uppercase tracking-tighter text-left">🚀 7. Innovation Corner: Ваша ідея</h3>
+                <div class="bg-gradient-to-br from-emerald-600 to-emerald-900 p-8 md:p-16 rounded-[3rem] text-white shadow-xl shadow-emerald-100 text-center text-center">
+                    <p class="text-sm md:text-base font-bold mb-8 italic leading-relaxed text-center">Завдання: Запропонуйте ідею з ШІ для збереження рідкісної рослини вашого регіону:</p>
+                    <div class="space-y-5 text-left text-left">
+                        <input type="text" id="inn1" class="w-full bg-white/10 border border-white/20 rounded-2xl p-5 text-base font-bold placeholder:text-emerald-200 focus:outline-none focus:border-white transition text-left" placeholder="Назва ідеї">
+                        <textarea id="inn2" class="w-full bg-white/10 border border-white/20 rounded-2xl p-5 text-base h-36 font-medium placeholder:text-emerald-200 focus:outline-none focus:border-white leading-relaxed text-left" placeholder="Опис проєкту..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- РЕФЛЕКСІЯ ТА ОЦІНКА -->
+            <div class="pt-16 border-t-4 border-slate-50 flex flex-col md:flex-row justify-between items-center gap-12 text-center text-center">
+                <div class="flex-1 w-full space-y-8 text-center md:text-left">
+                    <h3 class="font-bold text-slate-400 uppercase text-[10px] tracking-[0.5em] text-center md:text-left">💭 8. Рефлексія та Оцінка</h3>
+                    <div class="grid grid-cols-1 gap-4 text-center">
+                        <textarea id="ref1" class="bio-area text-sm font-bold text-left" placeholder="Що сьогодні було найважливішим?" rows="2"></textarea>
+                        <textarea id="ref2" class="bio-area text-sm font-bold text-left" placeholder="Що залишилося незрозумілим?" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center md:items-end w-full md:w-auto text-center">
+                    <div class="flex items-baseline gap-2 text-center">
+                        <input type="text" id="score" class="w-20 text-6xl md:text-8xl font-black text-emerald-600 bg-transparent border-b-4 border-emerald-100 text-center focus:outline-none text-center" placeholder="__">
+                        <span class="text-3xl md:text-5xl font-black text-emerald-200 text-center">/ 12</span>
+                    </div>
+                    <span class="text-[9px] md:text-[11px] font-bold text-slate-300 uppercase tracking-[0.4em] mt-4 text-center">ОЦІНКА ВИКЛАДАЧА</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-emerald-950 text-white py-16 no-print text-center">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-10">
+            <div class="text-center md:text-left space-y-2">
+                <div class="text-2xl md:text-3xl font-black tracking-tighter italic uppercase leading-none">BIOLOGY <span class="text-emerald-400">SMART-HUB 2.0</span></div>
+                <p class="text-emerald-200/40 text-[10px] md:text-[11px] uppercase font-bold tracking-widest text-center">ВСП "АЕФК ПДАУ" &bull; 2025</p>
+            </div>
+            <div class="flex flex-col md:flex-row items-center gap-6">
+                <button onclick="openClearModal()" class="text-[10px] font-bold uppercase tracking-widest px-8 py-4 border border-rose-500/20 text-rose-400 rounded-2xl hover:bg-rose-500/10 transition text-center text-center">🗑️ Очистити зошит</button>
+                <p class="text-[10px] font-bold uppercase text-emerald-200/20 tracking-widest text-center">COPYRIGHT © 2025</p>
+            </div>
         </div>
-      </div>
+    </footer>
 
-      <!-- Section 5 -->
-      <div class="workbook-section mb-12 md:mb-14 space-y-8 text-left">
-        <h3 class="text-xl md:text-2xl font-black uppercase tracking-tight border-l-8 pl-6" style="border-color: var(--brand); color: var(--brand-ink);">
-          ✅ 5. Контрольні питання для самоперевірки
-        </h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div class="space-y-2"><label class="text-[10px] font-black uppercase ml-2 tracking-widest" style="color: rgba(5,150,105,0.88);">1. Що вивчає біологія та назвіть її головні галузі?</label><textarea id="q_1" class="bio-area text-sm font-semibold leading-relaxed" rows="3"></textarea></div>
-          <div class="space-y-2"><label class="text-[10px] font-black uppercase ml-2 tracking-widest" style="color: rgba(5,150,105,0.88);">2. Назвіть 5 ознак живого. У чому різниця між ростом та розвитком?</label><textarea id="q_2" class="bio-area text-sm font-semibold leading-relaxed" rows="3"></textarea></div>
-          <div class="space-y-2"><label class="text-[10px] font-black uppercase ml-2 tracking-widest" style="color: rgba(5,150,105,0.88);">3. Порівняйте методи: експеримент та моніторинг. Коли доцільно застосовувати кожен?</label><textarea id="q_3" class="bio-area text-sm font-semibold leading-relaxed" rows="3"></textarea></div>
-          <div class="space-y-2"><label class="text-[10px] font-black uppercase ml-2 tracking-widest" style="color: rgba(5,150,105,0.88);">4. З яких частин складається мікроскоп? Як розрахувати його збільшення?</label><textarea id="q_4" class="bio-area text-sm font-semibold leading-relaxed" rows="3"></textarea></div>
-          <div class="space-y-2"><label class="text-[10px] font-black uppercase ml-2 tracking-widest" style="color: rgba(5,150,105,0.88);">5. Охарактеризуйте рівні організації життя. Який є елементарним?</label><textarea id="q_5" class="bio-area text-sm font-semibold leading-relaxed" rows="3"></textarea></div>
-          <div class="space-y-2"><label class="text-[10px] font-black uppercase ml-2 tracking-widest" style="color: rgba(5,150,105,0.88);">6. Поясніть поняття «відкрита система». Чому організм не може бути ізольованим?</label><textarea id="q_6" class="bio-area text-sm font-semibold leading-relaxed" rows="3"></textarea></div>
-          <div class="space-y-2"><label class="text-[10px] font-black uppercase ml-2 tracking-widest" style="color: rgba(5,150,105,0.88);">7. У чому різниця між науковим фактом, гіпотезою та теорією?</label><textarea id="q_7" class="bio-area text-sm font-semibold leading-relaxed" rows="3"></textarea></div>
-          <div class="space-y-2"><label class="text-[10px] font-black uppercase ml-2 tracking-widest" style="color: rgba(5,150,105,0.88);">8. Поясніть значення саморегуляції та подразливості для виживання?</label><textarea id="q_8" class="bio-area text-sm font-semibold leading-relaxed" rows="3"></textarea></div>
-        </div>
-      </div>
+    <script>
+        const STORAGE_KEY = 'bio_hub_module1_v3'; 
+        let saveTimeout;
 
-      <!-- Section 6 -->
-      <div class="workbook-section mb-12 md:mb-14 rounded-[2.5rem] md:rounded-[3.5rem] p-6 md:p-10 border text-left"
-           style="background: var(--rose-soft); border-color: rgba(244,63,94,0.18);">
-        <h3 class="text-xl md:text-2xl font-black mb-6 uppercase tracking-tight italic" style="color: #881337;">⚖️ 6. Дискусійний майданчик: Біоетика</h3>
-        <p class="font-bold mb-8 text-sm md:text-base italic leading-relaxed text-center px-4" style="color: rgba(15,23,42,0.82);">
-          "Чи етично використовувати тварин для тестування косметики, якщо це гарантує безпеку людини?"
-        </p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="space-y-2"><label class="text-[10px] font-black uppercase block ml-4 tracking-widest" style="color: #166534;">👍 Аргументи ЗА</label><textarea id="eth_pro" class="w-full bg-white border rounded-3xl p-5 text-sm shadow-sm font-semibold leading-relaxed" style="border-color: rgba(22,101,52,0.18);" rows="4"></textarea></div>
-          <div class="space-y-2"><label class="text-[10px] font-black uppercase block ml-4 tracking-widest" style="color: #9f1239;">👎 Аргументи ПРОТИ</label><textarea id="eth_contra" class="w-full bg-white border rounded-3xl p-5 text-sm shadow-sm font-semibold leading-relaxed" style="border-color: rgba(159,18,57,0.18);" rows="4"></textarea></div>
-        </div>
-      </div>
+        function saveData() {
+            const data = {};
+            document.querySelectorAll('input, textarea').forEach(el => {
+                if (el.id) data[el.id] = el.type === 'checkbox' ? el.checked : el.value;
+            });
+            const activeEnergy = document.querySelector('.energy-btn.active');
+            if (activeEnergy) data['energy_state'] = activeEnergy.dataset.energy;
 
-      <!-- Section 7 -->
-      <div class="workbook-section mb-12 md:mb-14 text-left">
-        <h3 class="text-xl md:text-2xl font-black mb-6 uppercase tracking-tight" style="color: var(--brand-ink);">🚀 7. Innovation Corner: Ваша ідея</h3>
-        <div class="p-6 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] text-white shadow-xl"
-             style="background: linear-gradient(135deg, #059669, #064e3b); box-shadow: 0 18px 40px -24px rgba(5,150,105,0.65);">
-          <p class="text-sm md:text-base font-bold mb-6 italic leading-relaxed text-center px-4">
-            Завдання: Запропонуйте інноваційну ідею з використанням ШІ для збереження рідкісної рослини вашого регіону.
-          </p>
-          <div class="space-y-4">
-            <input type="text" id="inn_title" class="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-sm md:text-base font-bold placeholder:text-emerald-200 focus:outline-none focus:border-emerald-300" placeholder="Назва вашої ідеї" />
-            <textarea id="inn_desc" class="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-sm md:text-base h-28 md:h-36 font-semibold placeholder:text-emerald-200 focus:outline-none focus:border-emerald-300 leading-relaxed" placeholder="Опис проєкту..."></textarea>
-          </div>
-        </div>
-      </div>
-
-      <!-- Reflection + teacher score -->
-      <div class="pt-12 md:pt-14 border-t-4 flex flex-col md:flex-row justify-between items-center md:items-end gap-10"
-           style="border-color: rgba(5,150,105,0.08);">
-        <div class="flex-1 w-full space-y-6">
-          <h3 class="font-black uppercase text-[10px] tracking-[0.5em] text-center md:text-left" style="color: rgba(6,78,59,0.75);">💭 8. Рефлексія за підсумками модуля</h3>
-          <div class="grid grid-cols-1 gap-4">
-            <textarea id="ref_1" class="bio-area text-xs md:text-sm font-bold" placeholder="Що сьогодні було найважливішим?" rows="2"></textarea>
-            <textarea id="ref_2" class="bio-area text-xs md:text-sm font-bold" placeholder="Які аспекти залишилися незрозумілими?" rows="2"></textarea>
-          </div>
-        </div>
-
-        <div class="flex flex-col items-center md:items-end w-full md:w-auto space-y-2">
-          <div class="flex items-baseline gap-2">
-            <input type="text" id="manual_score" class="w-16 text-5xl md:text-7xl font-black bg-transparent border-b-4 text-center focus:outline-none" style="color: var(--brand); border-color: rgba(5,150,105,0.14);" placeholder="__" />
-            <span class="text-3xl md:text-5xl font-black" style="color: rgba(5,150,105,0.18);">/ 12</span>
-          </div>
-          <span class="text-[9px] md:text-[11px] font-black uppercase tracking-[0.4em]" style="color: rgba(148,163,184,0.95);">ОЦІНКА ВИКЛАДАЧА</span>
-        </div>
-      </div>
-
-    </section>
-
-  </main>
-
-  <footer class="py-12 md:py-16 no-print" style="background: #052e2a; color: #fff;">
-    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-10">
-      <div class="text-center md:text-left space-y-2">
-        <div class="text-xl md:text-3xl font-black tracking-tighter italic uppercase leading-none">BIOLOGY <span style="color: #34d399;">SMART-HUB 2.0</span></div>
-        <p class="text-[10px] md:text-[12px] uppercase font-bold tracking-widest mt-1" style="color: rgba(167,243,208,0.55);">ВСП "АЕФК ПДАУ" • 2025</p>
-      </div>
-      <div class="flex flex-col md:flex-row items-center gap-6">
-        <button onclick="openClearModal()" class="text-[10px] font-black uppercase tracking-[0.3em] px-8 py-4 border rounded-2xl hover:bg-white/5 transition" style="border-color: rgba(244,63,94,0.26); color: rgba(251,113,133,0.95);">🗑️ Очистити зошит</button>
-        <p class="text-[10px] md:text-[11px] font-black uppercase tracking-widest italic" style="color: rgba(167,243,208,0.35);">COPYRIGHT © 2025</p>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    const STORAGE_KEY = 'bio_hub_module1_v2';
-    let saveTimeout;
-
-    function saveData() {
-      const data = {};
-      document.querySelectorAll('input, textarea').forEach(el => {
-        if (el.id) data[el.id] = el.type === 'checkbox' ? el.checked : el.value;
-      });
-      const activeEnergy = document.querySelector('.energy-btn.active');
-      if (activeEnergy) data['energy_state'] = activeEnergy.dataset.energy;
-
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-
-      const indicator = document.getElementById('sync-indicator');
-      indicator.style.display = 'flex';
-      clearTimeout(window.hideIndicator);
-      window.hideIndicator = setTimeout(() => { indicator.style.display = 'none'; }, 1600);
-    }
-
-    function loadData() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (!saved) return;
-      const data = JSON.parse(saved);
-      Object.keys(data).forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-          if (el.type === 'checkbox') el.checked = data[id];
-          else el.value = data[id];
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            
+            const indicator = document.getElementById('sync-indicator');
+            indicator.style.display = 'flex';
+            clearTimeout(window.hideIndicator);
+            window.hideIndicator = setTimeout(() => { indicator.style.display = 'none'; }, 2000);
         }
-      });
-      if (data['energy_state']) {
-        const btn = document.querySelector(`.energy-btn[data-energy="${data['energy_state']}"]`);
-        if (btn) {
-          document.querySelectorAll('.energy-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
+
+        function loadData() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (!saved) return;
+            const data = JSON.parse(saved);
+            Object.keys(data).forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (el.type === 'checkbox') el.checked = data[id];
+                    else el.value = data[id];
+                }
+            });
+            if (data['energy_state']) {
+                const btn = document.querySelector(`.energy-btn[data-energy="${data['energy_state']}"]`);
+                if (btn) {
+                    document.querySelectorAll('.energy-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                }
+            }
         }
-      }
-    }
 
-    window.openClearModal = () => document.getElementById('confirm-modal').style.display = 'flex';
-    window.closeModal = () => document.getElementById('confirm-modal').style.display = 'none';
-    window.confirmClear = () => { localStorage.removeItem(STORAGE_KEY); location.reload(); };
+        window.openClearModal = () => document.getElementById('confirm-modal').style.display = 'flex';
+        window.closeModal = () => document.getElementById('confirm-modal').style.display = 'none';
+        window.confirmClear = () => { localStorage.removeItem(STORAGE_KEY); location.reload(); };
 
-    window.setEnergy = (btn) => {
-      document.querySelectorAll('.energy-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      saveData();
-    };
+        window.setEnergy = (btn, type) => {
+            document.querySelectorAll('.energy-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            saveData();
+        };
 
-    window.toggleMobileMenu = () => {
-      const menu = document.getElementById('mobile-menu');
-      const icon = document.getElementById('menu-icon');
-      const open = menu.classList.toggle('open');
-      icon.style.transform = open ? 'rotate(90deg)' : 'rotate(0deg)';
-    };
+        window.toggleMobileMenu = () => {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            menu.classList.toggle('open');
+            icon.style.transform = menu.classList.contains('open') ? 'rotate(90deg)' : 'rotate(0deg)';
+        };
 
-    document.addEventListener('input', () => {
-      clearTimeout(saveTimeout);
-      saveTimeout = setTimeout(saveData, 650);
-    });
+        document.addEventListener('input', () => {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(saveData, 800);
+        });
 
-    window.onload = loadData;
-  </script>
+        window.onload = loadData;
+    </script>
 </body>
 </html>
