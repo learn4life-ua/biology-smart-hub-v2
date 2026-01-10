@@ -292,8 +292,8 @@
                 
                 <div class="rounded-3xl border border-slate-100 overflow-x-auto shadow-sm table-scroll text-left">
                     <table class="w-full text-sm min-w-[700px] text-left">
-                        <thead class="bg-slate-900 text-white font-bold uppercase text-[10px] tracking-widest text-center">
-                            <tr><th class="p-5 text-left">Об'єкт / Процес</th><th class="p-5 text-left">Рівень організації</th><th class="p-5 text-left">Елементарна одиниця</th></tr>
+                        <thead class="bg-slate-900 text-white font-bold uppercase text-[10px] tracking-widest text-center text-center">
+                            <tr><th class="p-5 text-left text-left">Об'єкт / Процес</th><th class="p-5 text-left text-left">Рівень організації</th><th class="p-5 text-left text-left">Елементарна одиниця</th></tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 font-semibold text-slate-700 text-left">
                             <tr><td class="p-5 bg-slate-50/50 text-left">🧬 Реплікація ДНК</td><td class="p-5 text-left"><input type="text" id="p1" class="bio-line text-left" placeholder="..."></td><td class="p-5 text-left"><input type="text" id="p2" class="bio-line text-left" placeholder="..."></td></tr>
@@ -311,7 +311,7 @@
 
             <div class="workbook-section mb-16 no-print text-left">
                 <h3 class="text-xl md:text-2xl font-extrabold text-slate-900 mb-8 border-l-8 border-indigo-500 pl-6 uppercase tracking-tighter text-left">🎓 4. Робота з AI-Тютором (NotebookLM)</h3>
-                <div class="bg-slate-900 p-8 md:p-12 rounded-[3rem] text-white space-y-8 text-left">
+                <div class="bg-slate-900 p-8 md:p-12 rounded-[3rem] text-white shadow-xl shadow-indigo-100/10 space-y-8 text-left">
                     <div class="p-6 bg-white/5 border border-white/10 rounded-2xl text-left">
                         <p class="text-[10px] uppercase font-bold text-indigo-400 mb-2 text-left">Інструкція:</p>
                         <p class="text-sm md:text-base italic text-indigo-100 font-medium leading-relaxed text-left">Використовуйте "AI Генератор" для створення запиту. Проаналізуйте отриману відповідь у NotebookLM та запишіть тези:</p>
@@ -335,53 +335,53 @@
             </div>
 
             <div class="workbook-section mb-16 bg-rose-50/50 rounded-[3rem] p-8 md:p-14 border border-rose-100 text-left text-left">
-                <h3 class="text-xl md:text-2xl font-black mb-8 uppercase text-rose-950 italic text-left text-left">⚖️ 6. Дискусійний майданчик: Біоетика</h3>
-                <p class="font-bold mb-10 text-slate-800 text-sm md:text-base italic leading-relaxed text-center px-4 text-center">"Використання тварин для тестування косметики: Етично чи ні?"</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-                    <div class="space-y-3 text-left text-left"><label class="text-[9px] font-bold text-green-700 uppercase block ml-4 tracking-widest text-left">👍 Аргументи ЗА</label><textarea id="eth1" class="bio-area shadow-sm text-left" rows="4"></textarea></div>
-                    <div class="space-y-3 text-left text-left"><label class="text-[9px] font-bold text-rose-700 uppercase block ml-4 tracking-widest text-left">👎 Аргументи ПРОТИ</label><textarea id="eth2" class="bio-area shadow-sm text-left" rows="4"></textarea></div>
+                <h3 class="text-xl md:text-2xl font-black mb-8 uppercase text-rose-950 italic text-left text-left text-left">⚖️ 6. Дискусійний майданчик: Біоетика</h3>
+                <p class="font-bold mb-10 text-slate-800 text-sm md:text-base italic leading-relaxed text-center px-4 text-center text-center text-center">"Використання тварин для тестування косметики: Етично чи ні?"</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left text-left text-left">
+                    <div class="space-y-3 text-left text-left"><label class="text-[9px] font-bold text-green-700 uppercase block ml-4 tracking-widest text-left text-left text-left">👍 Аргументи ЗА</label><textarea id="eth1" class="bio-area shadow-sm text-left" rows="4"></textarea></div>
+                    <div class="space-y-3 text-left text-left"><label class="text-[9px] font-bold text-rose-700 uppercase block ml-4 tracking-widest text-left text-left text-left">👎 Аргументи ПРОТИ</label><textarea id="eth2" class="bio-area shadow-sm text-left" rows="4"></textarea></div>
                 </div>
             </div>
 
-            <div class="workbook-section mb-16 text-left text-left">
-                <h3 class="text-xl md:text-2xl font-extrabold text-slate-900 mb-8 border-l-8 border-emerald-500 pl-6 uppercase tracking-tighter text-left text-left">🚀 7. Innovation Corner: Ваша ідея</h3>
-                <div class="bg-gradient-to-br from-emerald-600 to-emerald-900 p-8 md:p-16 rounded-[3rem] text-white shadow-xl shadow-emerald-100 text-center text-center">
-                    <p class="text-sm md:text-base font-bold mb-8 italic leading-relaxed text-center text-center">Завдання: Запропонуйте ідею з ШІ для збереження рідкісної рослини вашого регіону:</p>
-                    <div class="space-y-5 text-left">
-                        <input type="text" id="inn1" class="w-full bg-white/10 border border-white/20 rounded-2xl p-5 text-base font-bold placeholder:text-emerald-200 focus:outline-none focus:border-white transition text-left" placeholder="Назва ідеї">
-                        <textarea id="inn2" class="w-full bg-white/10 border border-white/20 rounded-2xl p-5 text-base h-36 font-medium placeholder:text-emerald-200 focus:outline-none focus:border-white leading-relaxed text-left" placeholder="Опис проєкту..."></textarea>
+            <div class="workbook-section mb-16 text-left text-left text-left text-left">
+                <h3 class="text-xl md:text-2xl font-extrabold text-slate-900 mb-8 border-l-8 border-emerald-500 pl-6 uppercase tracking-tighter text-left text-left text-left text-left">🚀 7. Innovation Corner: Ваша ідея</h3>
+                <div class="bg-gradient-to-br from-emerald-600 to-emerald-900 p-8 md:p-16 rounded-[3rem] text-white shadow-xl shadow-emerald-100/20 text-center text-center text-center text-center">
+                    <p class="text-sm md:text-base font-bold mb-8 italic leading-relaxed text-center text-center text-center text-center">Завдання: Запропонуйте ідею з ШІ для збереження рідкісної рослини вашого регіону:</p>
+                    <div class="space-y-5 text-left text-left text-left text-left">
+                        <input type="text" id="inn1" class="w-full bg-white/10 border border-white/20 rounded-2xl p-5 text-base font-bold placeholder:text-emerald-200 focus:outline-none focus:border-white transition text-left text-left text-left text-left" placeholder="Назва ідеї">
+                        <textarea id="inn2" class="w-full bg-white/10 border border-white/20 rounded-2xl p-5 text-base h-36 font-medium placeholder:text-emerald-200 focus:outline-none focus:border-white leading-relaxed text-left text-left text-left text-left" placeholder="Опис проєкту..."></textarea>
                     </div>
                 </div>
             </div>
 
-            <div class="pt-16 border-t-4 border-slate-50 flex flex-col md:flex-row justify-between items-center gap-12 text-center text-center">
-                <div class="flex-1 w-full space-y-8 text-center text-center">
-                    <h3 class="font-bold text-slate-400 uppercase text-[10px] tracking-[0.5em] text-center md:text-left text-center">💭 8. Рефлексія та Оцінка</h3>
-                    <div class="grid grid-cols-1 gap-4 text-center text-center">
-                        <textarea id="ref1" class="bio-area text-sm font-bold text-left" placeholder="Що сьогодні було найважливішим?" rows="2"></textarea>
-                        <textarea id="ref2" class="bio-area text-sm font-bold text-left" placeholder="Що залишилося незрозумілим?" rows="2"></textarea>
+            <div class="pt-16 border-t-4 border-slate-50 flex flex-col md:flex-row justify-between items-center gap-12 text-center text-center text-center text-center">
+                <div class="flex-1 w-full space-y-8 text-center text-center text-center text-center">
+                    <h3 class="font-bold text-slate-400 uppercase text-[10px] tracking-[0.5em] text-center md:text-left text-center text-center text-center text-center">💭 8. Рефлексія та Оцінка</h3>
+                    <div class="grid grid-cols-1 gap-4 text-center text-center text-center text-center text-center">
+                        <textarea id="ref1" class="bio-area text-sm font-bold text-left text-left text-left text-left" placeholder="Що сьогодні було найважливіним?" rows="2"></textarea>
+                        <textarea id="ref2" class="bio-area text-sm font-bold text-left text-left text-left text-left" placeholder="Що залишилося незрозумілим?" rows="2"></textarea>
                     </div>
                 </div>
-                <div class="flex flex-col items-center md:items-end w-full md:w-auto text-center text-center">
-                    <div class="flex items-baseline gap-2 text-center text-center">
-                        <span id="score" class="inline-block w-24 text-6xl md:text-8xl font-black text-emerald-600 border-b-4 border-emerald-100 text-center select-none cursor-default pointer-events-none text-center">__</span>
-                        <span class="text-3xl md:text-5xl font-black text-emerald-200 text-center text-center">/ 12</span>
+                <div class="flex flex-col items-center md:items-end w-full md:w-auto text-center text-center text-center text-center text-center">
+                    <div class="flex items-baseline gap-2 text-center text-center text-center text-center text-center text-center">
+                        <span id="score" class="inline-block w-24 text-6xl md:text-8xl font-black text-emerald-600 border-b-4 border-emerald-100 text-center select-none cursor-default pointer-events-none text-center text-center text-center text-center text-center text-center">__</span>
+                        <span class="text-3xl md:text-5xl font-black text-emerald-200 text-center text-center text-center text-center text-center text-center text-center">/ 12</span>
                     </div>
-                    <span class="text-[9px] md:text-[11px] font-bold text-slate-300 uppercase tracking-[0.4em] mt-4 text-center text-center text-center">ОЦІНКА ВИКЛАДАЧА</span>
+                    <span class="text-[9px] md:text-[11px] font-bold text-slate-300 uppercase tracking-[0.4em] mt-4 text-center text-center text-center text-center text-center text-center text-center">ОЦІНКА ВИКЛАДАЧА</span>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-emerald-950 text-white py-12 no-print text-center text-center text-center">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-10 text-center text-center">
-            <div class="text-center md:text-left space-y-2 text-center text-center text-center">
-                <div class="text-2xl md:text-3xl font-black tracking-tighter italic uppercase leading-none text-center text-center text-center">BIOLOGY <span class="text-emerald-400">SMART-HUB 2.0</span></div>
-                <p class="text-emerald-200/40 text-[10px] md:text-[11px] uppercase font-bold tracking-widest text-center text-center text-center">ВСП "АЕФК ПДАУ" &bull; 2025</p>
+    <footer class="bg-emerald-950 text-white py-12 no-print text-center text-center text-center text-center text-center">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-10 text-center text-center text-center text-center text-center">
+            <div class="text-center md:text-left space-y-2 text-center text-center text-center text-center text-center text-center">
+                <div class="text-2xl md:text-3xl font-black tracking-tighter italic uppercase leading-none text-center text-center text-center text-center text-center text-center">BIOLOGY <span class="text-emerald-400">SMART-HUB 2.0</span></div>
+                <p class="text-emerald-200/40 text-[10px] md:text-[11px] uppercase font-bold tracking-widest text-center text-center text-center text-center text-center text-center">ВСП "АЕФК ПДАУ" &bull; 2025</p>
             </div>
-            <div class="flex flex-col md:flex-row items-center gap-6 text-center text-center text-center">
-                <button type="button" onclick="openClearModal()" class="text-[10px] font-bold uppercase tracking-widest px-8 py-4 border border-rose-500/20 text-rose-400 rounded-2xl hover:bg-rose-500/10 transition text-center text-center text-center">🗑️ Очистити зошит</button>
-                <p class="text-[10px] font-bold uppercase text-emerald-200/40 tracking-widest italic text-center text-center text-center">COPYRIGHT © 2025</p>
+            <div class="flex flex-col md:flex-row items-center gap-6 text-center text-center text-center text-center text-center text-center text-center">
+                <button type="button" onclick="openClearModal()" class="text-[10px] font-bold uppercase tracking-widest px-8 py-4 border border-rose-500/20 text-rose-400 rounded-2xl hover:bg-rose-500/10 transition text-center text-center text-center text-center text-center text-center text-center">🗑️ Очистити зошит</button>
+                <p class="text-[10px] font-bold uppercase text-emerald-200/40 tracking-widest italic text-center text-center text-center text-center text-center text-center text-center">COPYRIGHT © 2025</p>
             </div>
         </div>
     </footer>
@@ -390,6 +390,7 @@
         const STORAGE_KEY = 'bio_hub_module1_v8'; 
         let saveTimeout;
         let lastFocusEl = null;
+        let isClearing = false;
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
@@ -400,10 +401,11 @@
             }
         });
 
-        // Замінено beforeunload на pagehide для кращої підтримки мобільних та Safari
-        window.addEventListener('pagehide', () => {
+        function handlePageHide() {
+            if (isClearing) return;
             saveData();
-        });
+        }
+        window.addEventListener('pagehide', handlePageHide);
 
         window.openClearModal = function() { 
             const modal = document.getElementById('confirm-modal');
@@ -414,7 +416,6 @@
             document.body.style.overflow = 'hidden';
             
             const backBtn = modal.querySelector('[data-role="modal-cancel"]');
-            // Удосконалена логіка фокусування
             if (backBtn) {
                 backBtn.focus();
             } else {
@@ -435,9 +436,15 @@
         };
         
         window.confirmClear = function() { 
+            isClearing = true;
+
             try { 
+                // 1) Видаляємо головний ключ цього модуля
+                localStorage.removeItem(STORAGE_KEY);
+
+                // 2) Чистимо всі можливі старі версії чи формати за префіксом
                 Object.keys(localStorage).forEach(key => {
-                    if (key.startsWith('bio_hub_module1_')) {
+                    if (key.startsWith('bio_hub_module1')) {
                         localStorage.removeItem(key);
                     }
                 });
@@ -464,6 +471,7 @@
         };
 
         function saveData() {
+            if (isClearing) return;
             const workbookEl = document.getElementById('workbook');
             if (!workbookEl) return;
 
@@ -532,7 +540,6 @@
             const modal = document.getElementById('confirm-modal');
             if (modal) {
                 modal.addEventListener('click', (e) => {
-                    // Перевірка об'єкта e.target без прив'язки до id для стабільності
                     if (e.target === modal) window.closeModal();
                 });
 
