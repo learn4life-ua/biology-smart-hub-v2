@@ -25,7 +25,6 @@
             box-shadow: 0 25px 50px -20px rgba(0, 68, 34, 0.25);
         }
 
-        /* Анімація мобільного меню */
         #mobile-menu {
             transition: all 0.4s ease-in-out;
             max-height: 0;
@@ -38,7 +37,6 @@
             padding: 1.5rem 0;
         }
 
-        /* Налаштування інтервалів для кращої читабельності */
         .word-spacing-wide {
             word-spacing: 0.12em;
         }
@@ -60,9 +58,8 @@
 <body class="bg-bio text-slate-900 flex flex-col min-h-screen">
 
     <!-- Навігація -->
-    <nav class="bg-white/95 backdrop-blur-md border-b border-emerald-100 p-4 sticky top-0 z-50 shadow-sm no-print">
+    <nav class="bg-white/95 backdrop-blur-md border-b border-emerald-100 p-4 sticky top-0 z-50 shadow-sm">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <!-- Logo Block -->
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 accent-emerald rounded-xl flex items-center justify-center text-white font-black shadow-lg">🧬</div>
                 <div class="flex flex-col">
@@ -71,7 +68,6 @@
                 </div>
             </div>
 
-            <!-- Desktop Menu -->
             <div class="hidden lg:flex items-center gap-6">
                 <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-emerald-950 border-b-2 border-emerald-500 transition">🏠 Головна</a>
                 <a href="resources.html" class="text-[10px] font-black uppercase tracking-widest text-emerald-800 hover:text-emerald-500 transition">📚 Ресурси</a>
@@ -80,7 +76,6 @@
                 </a>
             </div>
 
-            <!-- Mobile Toggle -->
             <button onclick="toggleMobileMenu()" class="lg:hidden flex items-center p-2 text-emerald-900 focus:outline-none">
                 <svg id="menu-icon" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16m-7 6h7"></path>
@@ -88,7 +83,6 @@
             </button>
         </div>
 
-        <!-- Mobile Menu Drawer -->
         <div id="mobile-menu" class="lg:hidden bg-white px-4 border-t border-emerald-50">
             <div class="flex flex-col gap-2 py-4 font-black text-[10px] tracking-widest uppercase text-center">
                 <a href="index.html" class="text-emerald-950 px-4 py-3 bg-emerald-50 rounded-xl transition">🏠 Головна</a>
@@ -100,21 +94,19 @@
 
     <main class="max-w-6xl mx-auto px-4 md:px-6 py-12 md:py-24 space-y-16 md:space-y-24 flex-grow text-center">
         
-        <!-- Hero Section -->
         <header id="top" class="space-y-6 md:space-y-8 max-w-4xl mx-auto">
             <div class="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em]">
                 🌿 Ласкаво просимо
             </div>
-            <!-- Оновлено: прибрано uppercase, додано колірний акцент -->
             <h2 class="text-4xl md:text-6xl font-extrabold text-emerald-950 hero-title word-spacing-wide">
                 Ваш інтерактивний шлях <br> у <span class="text-emerald-500">світ біології</span>
             </h2>
             <p class="text-slate-700 text-sm md:text-lg font-semibold leading-relaxed max-w-3xl mx-auto italic px-4">
-                Обирайте будь-який навчальний модуль, занурюйтесь у теоретичні матеріали та закріплюйте навички в інтерактивному робочому зошиті. Усі розділи нашого хабу вже повністю відкрито для вашого навчання.
+                Обирайте будь-який навчальний модуль, занурюйтесь у теоретичні матеріали та закріплюйте навички в інтерактивному робочому зошиті.
             </p>
         </header>
 
-        <!-- Grid модулів -->
+        <!-- Grid модулів (Всі 10 тем) -->
         <div id="modules" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 pb-10 text-left">
             
             <!-- Модуль 1 -->
@@ -159,35 +151,104 @@
                 </div>
             </a>
 
-            <!-- Динамічна генерація тем 4-10 -->
-            <script>
-                const themes = [
-                    { id: 4, icon: "🌊", title: "Одноклітинні організми та перехід до багатоклітинності" },
-                    { id: 5, icon: "🌿", title: "Рослина як цілісний організм. Тканини рослин" },
-                    { id: 6, icon: "🥕", title: "Корінь — вегетативний орган рослини. Будова і видозміни" },
-                    { id: 7, icon: "🌳", title: "Пагін: будова, розвиток і видозміни" },
-                    { id: 8, icon: "🍃", title: "Листок. Транспорт речовин і рухи рослин" },
-                    { id: 9, icon: "🌸", title: "Генеративні органи рослин: квітка, насінина, плід" },
-                    { id: 10, icon: "🌱", title: "Розмноження рослин: статеве, нестатеве і вегетативне" }
-                ];
+            <!-- Модуль 4 -->
+            <a href="modules/module4.html" class="module-card p-6 md:p-8 rounded-[2.5rem] card-shadow flex flex-col group relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                <div class="relative z-10 flex flex-col h-full">
+                    <div class="w-12 h-12 md:w-14 md:h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-6 shadow-sm group-hover:rotate-6 transition-transform">🌊</div>
+                    <span class="text-[9px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest block mb-2">Тема 4</span>
+                    <h3 class="text-base md:text-lg font-extrabold text-emerald-950 leading-snug mb-4 tracking-normal word-spacing-wide">Одноклітинні організми та перехід до багатоклітинності</h3>
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-emerald-100">
+                        <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Відкрито</span>
+                        <span class="w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center text-white text-[10px] shadow-md">🔓</span>
+                    </div>
+                </div>
+            </a>
 
-                themes.forEach(theme => {
-                    document.write(`
-                        <a href="#" class="module-card p-6 md:p-8 rounded-[2.5rem] card-shadow flex flex-col group relative overflow-hidden">
-                            <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
-                            <div class="relative z-10 flex flex-col h-full">
-                                <div class="w-12 h-12 md:w-14 md:h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-6 shadow-sm group-hover:rotate-6 transition-transform">${theme.icon}</div>
-                                <span class="text-[9px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest block mb-2">Тема ${theme.id}</span>
-                                <h3 class="text-base md:text-lg font-extrabold text-emerald-950 leading-snug mb-4 tracking-normal word-spacing-wide">${theme.title}</h3>
-                                <div class="flex items-center justify-between mt-auto pt-6 border-t border-emerald-100">
-                                    <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Відкрито</span>
-                                    <span class="w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center text-white text-[10px] shadow-md">🔓</span>
-                                </div>
-                            </div>
-                        </a>
-                    `);
-                });
-            </script>
+            <!-- Модуль 5 -->
+            <a href="modules/module5.html" class="module-card p-6 md:p-8 rounded-[2.5rem] card-shadow flex flex-col group relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                <div class="relative z-10 flex flex-col h-full">
+                    <div class="w-12 h-12 md:w-14 md:h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-6 shadow-sm group-hover:rotate-6 transition-transform">🌿</div>
+                    <span class="text-[9px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest block mb-2">Тема 5</span>
+                    <h3 class="text-base md:text-lg font-extrabold text-emerald-950 leading-snug mb-4 tracking-normal word-spacing-wide">Рослина як цілісний організм. Тканини рослин</h3>
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-emerald-100">
+                        <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Відкрито</span>
+                        <span class="w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center text-white text-[10px] shadow-md">🔓</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Модуль 6 -->
+            <a href="modules/module6.html" class="module-card p-6 md:p-8 rounded-[2.5rem] card-shadow flex flex-col group relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                <div class="relative z-10 flex flex-col h-full">
+                    <div class="w-12 h-12 md:w-14 md:h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-6 shadow-sm group-hover:rotate-6 transition-transform">🥕</div>
+                    <span class="text-[9px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest block mb-2">Тема 6</span>
+                    <h3 class="text-base md:text-lg font-extrabold text-emerald-950 leading-snug mb-4 tracking-normal word-spacing-wide">Корінь — вегетативний орган рослини. Будова і видозміни</h3>
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-emerald-100">
+                        <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Відкрито</span>
+                        <span class="w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center text-white text-[10px] shadow-md">🔓</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Модуль 7 -->
+            <a href="modules/module7.html" class="module-card p-6 md:p-8 rounded-[2.5rem] card-shadow flex flex-col group relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                <div class="relative z-10 flex flex-col h-full">
+                    <div class="w-12 h-12 md:w-14 md:h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-6 shadow-sm group-hover:rotate-6 transition-transform">🌳</div>
+                    <span class="text-[9px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest block mb-2">Тема 7</span>
+                    <h3 class="text-base md:text-lg font-extrabold text-emerald-950 leading-snug mb-4 tracking-normal word-spacing-wide">Пагін: будова, розвиток і видозміни</h3>
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-emerald-100">
+                        <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Відкрито</span>
+                        <span class="w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center text-white text-[10px] shadow-md">🔓</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Модуль 8 -->
+            <a href="modules/module8.html" class="module-card p-6 md:p-8 rounded-[2.5rem] card-shadow flex flex-col group relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                <div class="relative z-10 flex flex-col h-full">
+                    <div class="w-12 h-12 md:w-14 md:h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-6 shadow-sm group-hover:rotate-6 transition-transform">🍃</div>
+                    <span class="text-[9px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest block mb-2">Тема 8</span>
+                    <h3 class="text-base md:text-lg font-extrabold text-emerald-950 leading-snug mb-4 tracking-normal word-spacing-wide">Листок. Транспорт речовин і рухи рослин</h3>
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-emerald-100">
+                        <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Відкрито</span>
+                        <span class="w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center text-white text-[10px] shadow-md">🔓</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Модуль 9 -->
+            <a href="modules/module9.html" class="module-card p-6 md:p-8 rounded-[2.5rem] card-shadow flex flex-col group relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                <div class="relative z-10 flex flex-col h-full">
+                    <div class="w-12 h-12 md:w-14 md:h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-6 shadow-sm group-hover:rotate-6 transition-transform">🌸</div>
+                    <span class="text-[9px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest block mb-2">Тема 9</span>
+                    <h3 class="text-base md:text-lg font-extrabold text-emerald-950 leading-snug mb-4 tracking-normal word-spacing-wide">Генеративні органи рослин: квітка, насінина, плід</h3>
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-emerald-100">
+                        <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Відкрито</span>
+                        <span class="w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center text-white text-[10px] shadow-md">🔓</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Модуль 10 -->
+            <a href="modules/module10.html" class="module-card p-6 md:p-8 rounded-[2.5rem] card-shadow flex flex-col group relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
+                <div class="relative z-10 flex flex-col h-full">
+                    <div class="w-12 h-12 md:w-14 md:h-14 bg-emerald-100 rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-6 shadow-sm group-hover:rotate-6 transition-transform">🌱</div>
+                    <span class="text-[9px] md:text-[10px] font-black text-emerald-600 uppercase tracking-widest block mb-2">Тема 10</span>
+                    <h3 class="text-base md:text-lg font-extrabold text-emerald-950 leading-snug mb-4 tracking-normal word-spacing-wide">Розмноження рослин: статеве, нестатеве і вегетативне</h3>
+                    <div class="flex items-center justify-between mt-auto pt-6 border-t border-emerald-100">
+                        <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest italic">Відкрито</span>
+                        <span class="w-7 h-7 bg-emerald-500 rounded-full flex items-center justify-center text-white text-[10px] shadow-md">🔓</span>
+                    </div>
+                </div>
+            </a>
+
         </div>
     </main>
 
