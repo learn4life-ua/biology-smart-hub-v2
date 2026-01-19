@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Робочі зошити — Biology Smart-Hub 2.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
+        
+        body { font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
+        .bg-bio { background-color: #f7faf8; }
+        .card-shadow { box-shadow: 0 10px 40px -15px rgba(0, 68, 34, 0.12); }
+        .accent-emerald { background-color: #059669; }
+        
+        #mobile-menu {
+            transition: all 0.4s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #mobile-menu.open {
+            max-height: 500px;
+            opacity: 1;
+            padding: 1.5rem 0;
+        }
+
+        .hero-title {
+            letter-spacing: -0.015em;
+            line-height: 1.15;
+        }
+
+        /* Стилізація скроллбару для таблиці на мобільних */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #10b981;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-bio text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Навігація -->
+    <nav class="bg-white/95 backdrop-blur-md border-b border-emerald-100 p-4 sticky top-0 z-50 shadow-sm no-print">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity group">
+                <div class="w-10 h-10 accent-emerald rounded-xl flex items-center justify-center text-white font-black shadow-lg group-hover:scale-105 transition-transform">🧬</div>
+                <div class="flex flex-col">
+                    <h1 class="font-black text-emerald-950 tracking-tighter leading-none text-base md:text-lg uppercase">BIOLOGY <span class="text-emerald-500">SMART-HUB 2.0</span></h1>
+                    <p class="text-[7px] md:text-[8px] font-bold text-emerald-600 uppercase mt-1 tracking-wider leading-none text-center">ВСП "АЕФК ПДАУ"</p>
+                </div>
+            </a>
+
+            <!-- Десктопне меню -->
+            <div class="hidden lg:flex items-center gap-8">
+                <a href="index.html" class="text-[10px] font-black uppercase tracking-widest text-emerald-800 hover:text-emerald-500 transition">🏠 Головна</a>
+                <a href="resources.html" class="text-[10px] font-black uppercase tracking-widest text-emerald-800 hover:text-emerald-500 transition">📚 Ресурси</a>
+                <a href="generator.html" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all shadow-xl shadow-emerald-200/50 flex items-center gap-2 active:scale-95">
+                    <span>🤖</span> AI ГЕНЕРАТОР
+                </a>
+            </div>
+
+            <!-- Бургер кнопка -->
+            <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-emerald-900 focus:outline-none">
+                <svg id="menu-icon" class="w-6 h-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Мобільне меню -->
+        <div id="mobile-menu" class="lg:hidden bg-white px-4 border-t border-emerald-50">
+            <div class="flex flex-col gap-2 py-4 font-black text-[10px] tracking-widest uppercase text-center">
+                <a href="index.html" class="text-emerald-800 px-4 py-3 hover:bg-emerald-50 rounded-xl transition">🏠 Головна</a>
+                <a href="resources.html" class="text-emerald-800 px-4 py-3 hover:bg-emerald-50 rounded-xl transition">📚 Ресурси</a>
+                <a href="generator.html" class="text-white px-4 py-4 bg-emerald-600 rounded-xl flex items-center gap-3 shadow-lg mt-2 justify-center">🤖 AI ГЕНЕРАТОР</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 md:px-6 py-12 md:py-20 flex-grow">
+        
+        <header class="text-center mb-16 space-y-6">
+            <div class="inline-block px-4 py-1.5 bg-emerald-100 text-emerald-700 rounded-full text-[10px] font-black uppercase tracking-widest">
+                📑 Навчальні матеріали
+            </div>
+            <h2 class="text-4xl md:text-5xl font-extrabold text-emerald-950 hero-title tracking-tight">
+                Робочі <span class="text-emerald-500">зошити</span> та матеріали
+            </h2>
+            <p class="text-slate-600 text-sm md:text-lg font-medium max-w-3xl mx-auto leading-relaxed">
+                Оберіть зручний формат роботи: цифровий для інтерактивного заповнення та збереження в PDF або друкований для класичного конспектування.
+            </p>
+        </header>
+
+        <!-- Таблиця модулів -->
+        <div class="bg-white rounded-[2.5rem] border border-emerald-100 shadow-xl card-shadow overflow-hidden">
+            <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full border-collapse text-left min-w-[700px]">
+                    <thead class="bg-emerald-50 border-b border-emerald-100">
+                        <tr>
+                            <th class="p-6 text-[10px] font-black text-emerald-800 uppercase tracking-widest">№ Модуля</th>
+                            <th class="p-6 text-[10px] font-black text-emerald-800 uppercase tracking-widest">Назва навчального модуля</th>
+                            <th class="p-6 text-[10px] font-black text-emerald-800 uppercase tracking-widest text-center">Цифровий формат</th>
+                            <th class="p-6 text-[10px] font-black text-emerald-800 uppercase tracking-widest text-center">Друкований формат</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-emerald-50">
+                        <tr class="hover:bg-emerald-50/30 transition-colors group">
+                            <td class="p-6 font-black text-emerald-600">01</td>
+                            <td class="p-6"><h4 class="font-bold text-emerald-950 text-sm md:text-base leading-tight">Вступ до біології. Властивості живого та методи дослідження</h4></td>
+                            <td class="p-6 text-center"><a href="modules/module1.html" class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-wider transition-all">💻 Відкрити</a></td>
+                            <td class="p-6 text-center"><a href="#" class="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-600 font-bold text-[10px] uppercase tracking-wider transition-colors">📥 Скачати</a></td>
+                        </tr>
+                        <tr class="hover:bg-emerald-50/30 transition-colors group">
+                            <td class="p-6 font-black text-emerald-600">02</td>
+                            <td class="p-6"><h4 class="font-bold text-emerald-950 text-sm md:text-base leading-tight">Клітина — структурно-функціональна одиниця живого. Поділ клітин</h4></td>
+                            <td class="p-6 text-center"><a href="modules/module2.html" class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-wider transition-all">💻 Відкрити</a></td>
+                            <td class="p-6 text-center"><a href="#" class="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-600 font-bold text-[10px] uppercase tracking-wider transition-colors">📥 Скачати</a></td>
+                        </tr>
+                        <tr class="hover:bg-emerald-50/30 transition-colors group">
+                            <td class="p-6 font-black text-emerald-600">03</td>
+                            <td class="p-6"><h4 class="font-bold text-emerald-950 text-sm md:text-base leading-tight">Хімічний склад клітини. Фотосинтез і клітинне дихання</h4></td>
+                            <td class="p-6 text-center"><a href="modules/module3.html" class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-wider transition-all">💻 Відкрити</a></td>
+                            <td class="p-6 text-center"><a href="#" class="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-600 font-bold text-[10px] uppercase tracking-wider transition-colors">📥 Скачати</a></td>
+                        </tr>
+                        <tr class="hover:bg-emerald-50/30 transition-colors group">
+                            <td class="p-6 font-black text-emerald-600">04</td>
+                            <td class="p-6"><h4 class="font-bold text-emerald-950 text-sm md:text-base leading-tight">Одноклітинні організми та перехід до багатоклітинності</h4></td>
+                            <td class="p-6 text-center"><a href="modules/module4.html" class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-wider transition-all">💻 Відкрити</a></td>
+                            <td class="p-6 text-center"><a href="#" class="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-600 font-bold text-[10px] uppercase tracking-wider transition-colors">📥 Скачати</a></td>
+                        </tr>
+                        <tr class="hover:bg-emerald-50/30 transition-colors group">
+                            <td class="p-6 font-black text-emerald-600">05</td>
+                            <td class="p-6"><h4 class="font-bold text-emerald-950 text-sm md:text-base leading-tight">Рослина як цілісний організм. Тканини рослин</h4></td>
+                            <td class="p-6 text-center"><a href="modules/module5.html" class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-wider transition-all">💻 Відкрити</a></td>
+                            <td class="p-6 text-center"><a href="#" class="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-600 font-bold text-[10px] uppercase tracking-wider transition-colors">📥 Скачати</a></td>
+                        </tr>
+                        <tr class="hover:bg-emerald-50/30 transition-colors group">
+                            <td class="p-6 font-black text-emerald-600">06</td>
+                            <td class="p-6"><h4 class="font-bold text-emerald-950 text-sm md:text-base leading-tight">Корінь — вегетативний орган рослини. Будова і видозміни</h4></td>
+                            <td class="p-6 text-center"><a href="modules/module6.html" class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-wider transition-all">💻 Відкрити</a></td>
+                            <td class="p-6 text-center"><a href="#" class="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-600 font-bold text-[10px] uppercase tracking-wider transition-colors">📥 Скачати</a></td>
+                        </tr>
+                        <tr class="hover:bg-emerald-50/30 transition-colors group">
+                            <td class="p-6 font-black text-emerald-600">07</td>
+                            <td class="p-6"><h4 class="font-bold text-emerald-950 text-sm md:text-base leading-tight">Пагін: будова, розвиток і видозміни</h4></td>
+                            <td class="p-6 text-center"><a href="modules/module7.html" class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-wider transition-all">💻 Відкрити</a></td>
+                            <td class="p-6 text-center"><a href="#" class="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-600 font-bold text-[10px] uppercase tracking-wider transition-colors">📥 Скачати</a></td>
+                        </tr>
+                        <tr class="hover:bg-emerald-50/30 transition-colors group">
+                            <td class="p-6 font-black text-emerald-600">08</td>
+                            <td class="p-6"><h4 class="font-bold text-emerald-950 text-sm md:text-base leading-tight">Листок. Транспорт речовин і рухи рослин</h4></td>
+                            <td class="p-6 text-center"><a href="modules/module8.html" class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-wider transition-all">💻 Відкрити</a></td>
+                            <td class="p-6 text-center"><a href="#" class="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-600 font-bold text-[10px] uppercase tracking-wider transition-colors">📥 Скачати</a></td>
+                        </tr>
+                        <tr class="hover:bg-emerald-50/30 transition-colors group">
+                            <td class="p-6 font-black text-emerald-600">09</td>
+                            <td class="p-6"><h4 class="font-bold text-emerald-950 text-sm md:text-base leading-tight">Генеративні органи рослин: квітка, насінина, плід. Запилення і запліднення</h4></td>
+                            <td class="p-6 text-center"><a href="modules/module9.html" class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-wider transition-all">💻 Відкрити</a></td>
+                            <td class="p-6 text-center"><a href="#" class="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-600 font-bold text-[10px] uppercase tracking-wider transition-colors">📥 Скачати</a></td>
+                        </tr>
+                        <tr class="hover:bg-emerald-50/30 transition-colors group">
+                            <td class="p-6 font-black text-emerald-600">10</td>
+                            <td class="p-6"><h4 class="font-bold text-emerald-950 text-sm md:text-base leading-tight">Розмноження рослин: статеве, нестатеве і вегетативне</h4></td>
+                            <td class="p-6 text-center"><a href="modules/module10.html" class="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white px-4 py-2 rounded-lg font-bold text-[10px] uppercase tracking-wider transition-all">💻 Відкрити</a></td>
+                            <td class="p-6 text-center"><a href="#" class="inline-flex items-center gap-2 text-slate-400 hover:text-emerald-600 font-bold text-[10px] uppercase tracking-wider transition-colors">📥 Скачати</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="mt-8 text-center text-slate-400 text-[10px] uppercase font-bold tracking-widest italic no-print">
+            * Ви можете роздрукувати будь-яку сторінку цифрового формату за допомогою комбінації клавіш Ctrl + P
+        </div>
+
+    </main>
+
+    <!-- Підвал -->
+    <footer class="bg-emerald-950 text-white py-12 mt-auto no-print">
+        <div class="max-w-6xl mx-auto px-6 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex flex-col">
+                <div class="text-xl font-black italic uppercase leading-none mb-2 tracking-tighter">BIOLOGY <span class="text-emerald-400">SMART-HUB 2.0</span></div>
+                <p class="text-emerald-200/50 text-[10px] uppercase font-bold tracking-widest leading-none text-center md:text-left mb-4 md:mb-0">ВСП "АЕФК ПДАУ"</p>
+            </div>
+            <div class="flex flex-col items-center md:items-end gap-4">
+                <p class="text-emerald-200/30 text-[9px] uppercase font-black tracking-widest italic leading-relaxed text-center md:text-right">
+                    COPYRIGHT © 2025 | ВСП "АЕФК ПДАУ"
+                </p>
+                <div class="flex gap-6 font-bold text-[10px] uppercase tracking-widest">
+                    <a href="index.html" class="text-emerald-400 hover:text-white transition">Головна</a>
+                    <a href="resources.html" class="text-emerald-400 hover:text-white transition">Ресурси</a>
+                    <a href="generator.html" class="text-emerald-400 hover:text-white transition">AI Генератор</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            menu.classList.toggle('open');
+            if(icon) {
+                icon.style.transform = menu.classList.contains('open') ? 'rotate(90deg)' : 'rotate(0deg)';
+            }
+        }
+    </script>
+</body>
+</html>
